@@ -3,6 +3,12 @@ import logo from './logo.svg';
 import './App.css';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextField from 'material-ui/TextField';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
+
+const style = {
+  marginRight: 20,
+};
 
 class App extends Component {
   render() {
@@ -14,8 +20,21 @@ class App extends Component {
         </header>
           <MuiThemeProvider>
             <TextField
-              hintText="Hint Text"
+              type="number"
+              hintText="$ How much?"
             />
+            <TextField
+              type="text"
+              floatingLabelText="Add a note"
+            />
+            <div>
+              <FloatingActionButton 
+                style={style}
+                onClick={()=>alert('Test')}
+                >
+                <ContentAdd />
+              </FloatingActionButton>
+            </div>
           </MuiThemeProvider>
       </div>
     );
