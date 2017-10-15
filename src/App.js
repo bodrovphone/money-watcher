@@ -6,34 +6,59 @@ import TextField from 'material-ui/TextField';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
-const style = {
-  marginRight: 20,
-};
-
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.registerTransaction = this.registerTransaction.bind(this);
+    this.state = {
+      sum: '',
+      note: '',
+      transactions: []
+    };
+  }
+
+  registerTransaction() {
+    const currentTransaction = {
+      key: Math.random(),
+      sum: this.state.sum, 
+      note: this.state.note};
+
+    this.setState({
+      sum: '',
+      note: '',
+      transactions: [...this.state.transactions, currentTransaction]
+    });
+  }
+
   render() {
+    console.log(this.state);
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
+          <img src={ logo } className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
           <MuiThemeProvider>
-            <TextField
-              type="number"
-              hintText="$ How much?"
-            />
-            <TextField
-              type="text"
-              floatingLabelText="Add a note"
-            />
             <div>
-              <FloatingActionButton 
-                style={style}
-                onClick={()=>alert('Test')}
-                >
-                <ContentAdd />
-              </FloatingActionButton>
+              <TextField
+                type="number"
+                hintText="$ How much?"
+                value={ this.state.sum }
+                onChange={event => this.setState({sum: Number(event.target.value)})}
+              />
+              <TextField
+                type="text"
+                floatingLabelText="Add a note"
+                value={ this.state.note }
+                onChange={ event => this.setState({note: event.target.value })}
+              />
+              <div>
+                <FloatingActionButton 
+                  onClick={ ()=> this.registerTransaction() }
+                  >
+                  <ContentAdd />
+                </FloatingActionButton>
+              </div>
             </div>
           </MuiThemeProvider>
       </div>
