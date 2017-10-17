@@ -5,6 +5,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextField from 'material-ui/TextField';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
+import TransactionsDisplay from './components/TransactionsDisplay';
 
 class App extends Component {
   constructor(props) {
@@ -46,6 +47,7 @@ class App extends Component {
                 value={ this.state.sum }
                 onChange={event => this.setState({sum: Number(event.target.value)})}
               />
+              <br/>
               <TextField
                 type="text"
                 floatingLabelText="Add a note"
@@ -61,6 +63,7 @@ class App extends Component {
               </div>
             </div>
           </MuiThemeProvider>
+          <TransactionsDisplay transactions={this.state.transactions}/>
       </div>
     );
   }
