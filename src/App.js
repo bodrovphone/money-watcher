@@ -45,7 +45,7 @@ class App extends Component {
                 type="number"
                 hintText="$ How much?"
                 value={ this.state.sum }
-                onChange={event => this.setState({sum: Number(event.target.value)})}
+                onChange={event => this.setState({sum: event.target.value})}
               />
               <br/>
               <TextField
