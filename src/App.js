@@ -6,6 +6,8 @@ import TextField from 'material-ui/TextField';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import TransactionsDisplay from './components/TransactionsDisplay';
+import { connect } from 'react-redux';
+import { addTransaction } from '../actions';
 
 class App extends Component {
   constructor(props) {
@@ -69,4 +71,10 @@ class App extends Component {
   }
 }
 
-export default App;
+function mapStateToProps(state) {
+    return {
+        transactions: state
+    }
+}
+
+export default connect(mapStateToProps, { addTransaction })(App);
