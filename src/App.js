@@ -7,7 +7,7 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import TransactionsDisplay from './components/TransactionsDisplay';
 import { connect } from 'react-redux';
-import { addTransaction } from '../actions';
+import { addTransaction } from './actions';
 
 class App extends Component {
   constructor(props) {
@@ -15,26 +15,15 @@ class App extends Component {
     this.registerTransaction = this.registerTransaction.bind(this);
     this.state = {
       sum: '',
-      note: '',
-      transactions: []
+      note: ''
     };
   }
 
   registerTransaction() {
-    const currentTransaction = {
-      key: Math.random(),
-      sum: this.state.sum, 
-      note: this.state.note};
-
-    this.setState({
-      sum: '',
-      note: '',
-      transactions: [...this.state.transactions, currentTransaction]
-    });
+    addTransaction(this.state.sum, this.state.note);
   }
 
   render() {
-    console.log(this.state);
     return (
       <div className="App">
         <header className="App-header">
@@ -65,7 +54,7 @@ class App extends Component {
               </div>
             </div>
           </MuiThemeProvider>
-          <TransactionsDisplay transactions={this.state.transactions}/>
+          <TransactionsDisplay transactions={this.props.transactions}/>
       </div>
     );
   }
