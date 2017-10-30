@@ -2,7 +2,6 @@ import React from 'react';
 import {List, ListItem} from 'material-ui/List';
 import AccountBalanceWallet from 'material-ui/svg-icons/action/account-balance-wallet';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { connect } from 'react-redux';
 
 const TransactionsDisplay = (props) => {
     return (
@@ -22,10 +21,4 @@ const TransactionsDisplay = (props) => {
     )
 }
 
-function mapStateToProps(state) {
-    return {
-        transactions: state
-    }
-}
-
-export default connect(mapStateToProps)(TransactionsDisplay);
+export default TransactionsDisplay;

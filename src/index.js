@@ -4,10 +4,10 @@ import './index.css';
 import App from './App';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import reducer from './reducers/index';
+import transactions from './reducers';
 import registerServiceWorker from './registerServiceWorker';
 
-const store = createStore(reducer);
+let store = createStore(transactions);
 
 ReactDOM.render(
     <Provider store={ store }>
