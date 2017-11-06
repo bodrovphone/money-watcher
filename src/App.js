@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux'
 import logo from './logo.svg';
 import './App.css';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -20,7 +21,7 @@ class App extends Component {
   }
 
   registerTransaction() {
-    addTransaction(this.state.sum, this.state.note);
+    this.props.addTransaction({sum: this.state.sum, note: this.state.note});
   }
 
   render() {
@@ -67,4 +68,11 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { addTransaction })(App);
+function mapDispatchToProps(dispatch) {
+  return {
+    addTransaction: bindActionCreators(addTransaction, dispatch)
+  }
+}
+
+
+export default connect( mapStateToProps, mapDispatchToProps )(App);

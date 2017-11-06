@@ -1,10 +1,9 @@
 import { ADD_TRS } from '../constants';
 
-export const addTransaction = (sum, note) => {
+export const addTransaction = (newTrs) => {
     const action = {
         type: ADD_TRS,
-        sum,
-        note
+        payload: newTrs
     }
     console.log('action in addTransaction', action);
     return action;

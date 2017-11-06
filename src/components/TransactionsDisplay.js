@@ -11,7 +11,7 @@ const TransactionsDisplay = (props) => {
                 {
                     props.transactions.map(
                         (item, index) => {
-                      return  <ListItem key={item.key} primaryText={item.sum} rightIcon={<AccountBalanceWallet />} /> 
+                      return  <ListItem key={index} primaryText={item.sum} rightIcon={<AccountBalanceWallet  />} /> 
                         }
                     )
                 }
