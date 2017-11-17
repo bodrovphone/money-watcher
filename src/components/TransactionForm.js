@@ -1,38 +1,31 @@
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux'
-import logo from './logo.svg';
-import './App.css';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextField from 'material-ui/TextField';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
-import TransactionsDisplay from './components/TransactionsDisplay';
+
 import { connect } from 'react-redux';
-import { addTransaction } from './actions';
+import { bindActionCreators } from 'redux'
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.registerTransaction = this.registerTransaction.bind(this);
-    this.state = {
-      sum: '',
-      note: ''
-    };
-  }
+import { addTransaction } from '../actions';
 
-  registerTransaction() {
-    this.props.addTransaction({sum: this.state.sum, note: this.state.note});
-  }
+class TransactionForm extends Component {
+    constructor(props) {
+        super(props);
+        this.registerTransaction = this.registerTransaction.bind(this);
+        this.state = {
+          sum: '',
+          note: ''
+        };
+    }
 
-  render() {
-    console.log(this.props)
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={ logo } className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-          <MuiThemeProvider>
+    registerTransaction() {
+        this.props.addTransaction({sum: this.state.sum, note: this.state.note});
+    }
+
+    render() {
+        return (
+            <MuiThemeProvider>
             <div>
               <TextField
                 type="number"
@@ -56,11 +49,10 @@ class App extends Component {
               </div>
             </div>
           </MuiThemeProvider>
-          <TransactionsDisplay transactions={this.props.transactions}/>
-      </div>
-    );
-  }
+            );
+    }
 }
+
 
 function mapStateToProps(state) {
     return {
@@ -75,4 +67,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 
-export default connect( mapStateToProps, mapDispatchToProps )(App);
+export default connect( mapStateToProps, mapDispatchToProps )(TransactionForm);

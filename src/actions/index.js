@@ -1,4 +1,4 @@
-import { ADD_TRS } from '../constants';
+import { ADD_TRS } from '../constants/constants';
 
 export const addTransaction = (newTrs) => {
     const action = {

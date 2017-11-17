@@ -1,4 +1,4 @@
-import { ADD_TRS } from '../constants';
+import { ADD_TRS } from '../constants/constants';
 
 const transactions = ( state = [], action ) => {
     let transactions = null;
