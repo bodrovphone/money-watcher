@@ -7,12 +7,8 @@ import { connect } from 'react-redux';
 import TransactionForm from '../components/TransactionForm';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
-    console.log(this.props)
+    console.log('this.props: ',this.props)
     return (
       <div className="App">
           <Header />
