@@ -13,6 +13,7 @@ class TransactionForm extends Component {
     constructor(props) {
         super(props);
         this.registerTransaction = this.registerTransaction.bind(this);
+        this.handleEnterPress = this.handleEnterPress.bind(this);
         this.state = {
           sum: '',
           note: ''
@@ -21,6 +22,18 @@ class TransactionForm extends Component {
 
     registerTransaction() {
         this.props.addTransaction({sum: this.state.sum, note: this.state.note});
+        this.inputSum.value = '';
+        this.inputNote.value = '';
+        this.setState({
+          sum: '',
+          note: ''
+        });
+    }
+
+    handleEnterPress(e) {
+     if (e.key === 'Enter' && this.state.sum) {
+        this.registerTransaction();
+      }
     }
 
     render() {
@@ -31,14 +44,20 @@ class TransactionForm extends Component {
                 type="number"
                 hintText="$ How much?"
                 value={ this.state.sum }
-                onChange={event => this.setState({sum: event.target.value})}
+                id="sum-input"
+                ref={el => this.inputSum = el}
+                onChange={event => this.setState({sum: event.target.value })}
+                onKeyPress={(e) => this.handleEnterPress(e)}
               />
               <br/>
               <TextField
                 type="text"
                 floatingLabelText="Add a note"
                 value={ this.state.note }
+                id="sum-note"
+                ref={el => this.inputNote = el}
                 onChange={ event => this.setState({note: event.target.value })}
+                onKeyPress={(e) => this.handleEnterPress(e)}
               />
               <div>
                 <FloatingActionButton 
