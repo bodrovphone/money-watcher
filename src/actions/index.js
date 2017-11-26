@@ -5,6 +5,5 @@ export const addTransaction = (newTrs) => {
         type: ADD_TRS,
         payload: newTrs
     }
-    console.log('action in addTransaction', action);
     return action;
 }

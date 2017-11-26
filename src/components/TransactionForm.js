@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextField from 'material-ui/TextField';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
@@ -8,6 +9,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 
 import { addTransaction } from '../actions';
+
+import firebase from '../containers/firebase';
 
 class TransactionForm extends Component {
     constructor(props) {
@@ -21,7 +24,15 @@ class TransactionForm extends Component {
     }
 
     registerTransaction() {
-        this.props.addTransaction({sum: this.state.sum, note: this.state.note});
+        const currentTrs = {
+            sum: this.state.sum,
+            note: this.state.note
+        };
+        //pushing transaction to firebase here:
+        const trsRef = firebase.database().ref('transactions');
+        trsRef.push(currentTrs);
+
+        this.props.addTransaction(currentTrs);
         this.inputSum.value = '';
         this.inputNote.value = '';
         this.setState({
