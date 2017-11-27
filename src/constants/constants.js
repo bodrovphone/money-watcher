@@ -1,1 +1,4 @@
 export const ADD_TRS = 'ADD_TRS';
+export const TRS_HAS_ERRORED = 'TRS_HAS_ERRORED';
+export const TRS_IS_LOADING = 'TRS_IS_LOADING';
+export const TRS_FETCH_DATA_SUCCESS = 'TRS_FETCH_DATA_SUCCESS';
