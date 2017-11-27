@@ -13,6 +13,7 @@ export const trsIsLoading = (bool) => {
         type: TRS_IS_LOADING,
         payload: bool
     }
+    return action;
 }
 
 export const trsHasErrored = (bool) => {
@@ -20,6 +21,7 @@ export const trsHasErrored = (bool) => {
         type: TRS_HAS_ERRORED,
         payload: bool
     }
+    return action;
 }
 
 export const trsFecthDataSuccess = (transactions) => {
@@ -27,4 +29,5 @@ export const trsFecthDataSuccess = (transactions) => {
         type: TRS_FETCH_DATA_SUCCESS,
         payload: transactions
     }
+    return action;
 }

@@ -1,13 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './containers/App';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import transactions from './reducers';
 import registerServiceWorker from './registerServiceWorker';
 
-let store = createStore(transactions);
+import './index.css';
+import App from './containers/App';
+
+import configureStore from './store/configureStore';
+
+const store = configureStore({
+    transactions: [],
+    trsIsLoading: false,
+    trsHasErrored: false,
+})
 
 ReactDOM.render(
     <Provider store={ store }>
