@@ -30,3 +30,12 @@ export function trsHasErrored (state = false, action) {
             return state;
     }
 }
+
+export function trsFecthDataSuccess(state = [], action) {
+    switch(action.type) {
+        case TRS_FETCH_DATA_SUCCESS:
+            return action.payload;
+        default:
+            return state;
+    }
+}

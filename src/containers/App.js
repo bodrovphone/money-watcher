@@ -8,7 +8,6 @@ import TransactionForm from '../components/TransactionForm';
 
 class App extends Component {
   render() {
-    console.log('this.props: ',this.props)
     return (
       <div className="App">
           <Header />
@@ -20,9 +19,7 @@ class App extends Component {
 }
 
 function mapStateToProps(state) {
-    return {
-        transactions: state
-    }
+    return state;
 }
 
 

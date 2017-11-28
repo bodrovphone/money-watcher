@@ -85,9 +85,7 @@ class TransactionForm extends Component {
 
 
 function mapStateToProps(state) {
-    return {
-        transactions: state
-    }
+    return state;
 }
 
 function mapDispatchToProps(dispatch) {

@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux'
+
 import {List, ListItem} from 'material-ui/List';
 import AccountBalanceWallet from 'material-ui/svg-icons/action/account-balance-wallet';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux'
-
 import { trsFecthDataSuccess } from '../actions';
-
 import firebase from '../containers/firebase';
 
 
@@ -29,12 +28,14 @@ class TransactionsDisplay extends Component {
                         note: items[item].note
                     });
                 }
-                return newState;
+                console.log(newState);
+                this.props.trsFecthDataSuccess(newState);
             });
         };
-        this.props.trsFecthDataSuccess([{sum: '50', note: 'It\'s syncronous call, with no await'}]);
+        fetchTrs();
     }
     componentDidMount() {
+        console.log('TransactionsDisplay just mounted');
         this.trsFecthData();
     }
     render() {
