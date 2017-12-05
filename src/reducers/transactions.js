@@ -13,7 +13,7 @@ export function transactions( state = [] , action ) {
     }
 };
 
-export function trsIsLoading (state = false, action) {
+export function trsIsLoading (state = [], action) {
     switch(action.type) {
         case TRS_IS_LOADING:
             return action.payload;

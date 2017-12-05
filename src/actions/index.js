@@ -1,4 +1,5 @@
 import { ADD_TRS, TRS_IS_LOADING, TRS_HAS_ERRORED, TRS_FETCH_DATA_SUCCESS } from '../constants/constants';
+import firebase from '../containers/firebase';
 
 export const addTransaction = (newTrs) => {
     const action = {
@@ -31,3 +32,27 @@ export const trsFecthDataSuccess = (transactions) => {
     }
     return action;
 }
+
+//the below action creators is async function that is executed with the use of to redux-thunk lib
+export function trsFecthData() {
+        return dispatch => {
+            dispatch(trsIsLoading(true));
+            const TrsRef = firebase.database().ref('transactions');
+            return TrsRef.once('value', snapshot => {
+                let items = snapshot.val();
+                let newState = [];
+                for (let item in items) {
+                    newState.push({
+                        sum: items[item].sum,
+                        note: items[item].note
+                    });
+                }
+                dispatch(trsIsLoading(false));
+                dispatch(trsFecthDataSuccess(newState));
+            })
+            .catch((error) => {
+                console.log(error , 'I am an error');
+                dispatch(trsHasErrored(error));
+            })
+        };
+    }
