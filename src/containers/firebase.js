@@ -1,5 +1,7 @@
+// +core+
 import firebase from 'firebase';
-  // Initialize Firebase
+
+// firebase credentials
   const config = {
     apiKey: "AIzaSyA1b-TTzTxVmsxUd33exagZqrEVwHR6fKU",
     authDomain: "money-watcher-79150.firebaseapp.com",
@@ -8,5 +10,12 @@ import firebase from 'firebase';
     storageBucket: "money-watcher-79150.appspot.com",
     messagingSenderId: "850257782783"
   };
-  firebase.initializeApp(config);
-  export default firebase;
+
+// initializing firebase
+firebase.initializeApp(config);
+
+// creating DB reference to transactions
+export const trsRef = firebase.database().ref("transactions");
+
+// export
+export default firebase;
