@@ -51,7 +51,6 @@ class TransactionsDisplay extends Component {
 }
 
 
-
 function mapDispatchToProps(dispatch) {
   return {
     trsFecthData: bindActionCreators(trsFecthData, dispatch)

@@ -4,6 +4,9 @@ import React, { Component } from 'react';
 // ~structural~
 import { connect } from 'react-redux';
 
+// =Dev helpers=
+import PropTypes from 'prop-types';
+
 // &-components-&
 import Header from '../components/Header'
 import TransactionsDisplay from '../components/TransactionsDisplay';
@@ -22,6 +25,13 @@ class App extends Component {
           </div>
       );
   }
+}
+
+
+App.propTypes = {
+    transactions: PropTypes.array.isRequired,
+    trsHasErrored: PropTypes.bool.isRequired,
+    trsIsLoading: PropTypes.bool.isRequired
 }
 
 function mapStateToProps(state) {
