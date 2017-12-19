@@ -51,7 +51,8 @@ export function trsFecthData() {
                 for (let item in items) {
                     newStore.push({
                         sum: items[item].sum,
-                        note: items[item].note
+                        note: items[item].note,
+                        date: items[item].date
                     });
                 }
 

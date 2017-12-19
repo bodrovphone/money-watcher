@@ -9,6 +9,9 @@ import { trsRef } from '../containers/firebase';
 // *actions*
 import { addTransaction } from '../actions';
 
+// =Dev helpers=
+import dateFormat from 'dateformat';
+
 // @markup
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextField from 'material-ui/TextField';
@@ -23,19 +26,25 @@ class TransactionForm extends Component {
         this.handleEnterPress = this.handleEnterPress.bind(this);
         this.state = {
           sum: "",
-          note: ""
+          note: "",
+          date: null
         };
     }
 
     registerTransaction() {
+        // generating the default date token for data node name in fb
+        const now = new Date();
+        const dateToken = dateFormat(now, "isoDateTime");
+
         // copying state
         const currentTrs = {
             sum: this.state.sum,
-            note: this.state.note
+            note: this.state.note,
+            date: dateToken
         };
 
         // adding new tranaction to firebase
-        trsRef.push(currentTrs);
+        trsRef.child(dateToken).set(currentTrs);
 
         // dispatching action
         this.props.addTransaction(currentTrs);
@@ -47,7 +56,8 @@ class TransactionForm extends Component {
         // clearing locale state
         this.setState({
           sum: "",
-          note: ""
+          note: "",
+          date: null
         });
     }
 
