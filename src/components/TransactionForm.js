@@ -17,6 +17,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextField from 'material-ui/TextField';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
+import DatePicker from 'material-ui/DatePicker';
 
 class TransactionForm extends Component {
 
@@ -24,17 +25,17 @@ class TransactionForm extends Component {
         super(props);
         this.registerTransaction = this.registerTransaction.bind(this);
         this.handleEnterPress = this.handleEnterPress.bind(this);
+        
         this.state = {
           sum: "",
           note: "",
-          date: null
+          date: new Date()
         };
     }
 
     registerTransaction() {
-        // generating the default date token for data node name in fb
-        const now = new Date();
-        const dateToken = dateFormat(now, "isoDateTime");
+        // modifying the default date token for data node naming in fb
+        const dateToken = dateFormat(this.state.date, "isoDateTime");
 
         // copying state
         const currentTrs = {
@@ -57,7 +58,7 @@ class TransactionForm extends Component {
         this.setState({
           sum: "",
           note: "",
-          date: null
+          date: new Date()
         });
     }
 
@@ -68,7 +69,19 @@ class TransactionForm extends Component {
           }
     }
 
+    dateFixer(date) {
+      // caclulating delta to fix 00:00:00 issue with DatePicker(re fb issue)
+      const t = new Date(),
+            ml = t.getMilliseconds(),
+            sec = t.getSeconds(),
+            min = t.getMinutes(),
+            delta = ml + (sec*1000) + (min * 60 * 1000);
+
+      return new Date(date.setTime(date.getTime() + delta));
+    }
+
     render() {
+
         return (
             <MuiThemeProvider>
                 <div>
@@ -78,7 +91,7 @@ class TransactionForm extends Component {
                       value={ this.state.sum }
                       id="sum-input"
                       ref={el => this.inputSum = el}
-                      onChange={event => this.setState({sum: event.target.value })}
+                      onChange={event => this.setState({ sum: event.target.value })}
                       onKeyPress={(e) => this.handleEnterPress(e)}
                     />
                     <br/>
@@ -90,6 +103,13 @@ class TransactionForm extends Component {
                       ref={el => this.inputNote = el}
                       onChange={ event => this.setState({note: event.target.value })}
                       onKeyPress={(e) => this.handleEnterPress(e)}
+                    />
+                    <br/>
+                    <DatePicker
+                      hintText="Controlled Date Input"
+                      value={this.state.date}
+                      onChange={(e,d) => this.setState({ date: this.dateFixer(d) })}
+                      autoOk={true}
                     />
                     <div>
                         <FloatingActionButton 
