@@ -34,6 +34,9 @@ class TransactionForm extends Component {
     }
 
     registerTransaction() {
+        // when adding trs with button - checking if sum's is not null
+        if (!this.state.sum) return false;
+
         // modifying the default date token for data node naming in fb
         const dateToken = dateFormat(this.state.date, "isoDateTime");
 
