@@ -8,6 +8,9 @@ import { bindActionCreators } from 'redux'
 // *actions*
 import { trsFecthData } from '../actions';
 
+// =Dev helpers=
+import dateFormat from 'dateformat';
+
 // @markup
 import {List, ListItem} from 'material-ui/List';
 import AccountBalanceWallet from 'material-ui/svg-icons/action/account-balance-wallet';
@@ -36,6 +39,7 @@ class TransactionsDisplay extends Component {
                                     return  <ListItem 
                                                 key={index} 
                                                 primaryText={item.sum} 
+                                                secondaryText={dateFormat(item.date, "dddd, mmmm dS, yyyy")}
                                                 rightIcon={<AccountBalanceWallet  />}
                                             /> 
                                 }
