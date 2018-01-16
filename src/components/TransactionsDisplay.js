@@ -33,8 +33,8 @@ class TransactionsDisplay extends Component {
                 <MuiThemeProvider>
                     <List>
                         {
-                        // iterating through all transactions
-                            this.props.transactions.map(
+                        // iterating through all transactions preliminary reversing it
+                            this.props.transactions.reverse().map(
                                 (item, index) => {
                                     return  <ListItem 
                                                 key={index} 
