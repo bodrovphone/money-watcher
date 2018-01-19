@@ -5,6 +5,7 @@
   "dependencies": {
     "dateformat": "^3.0.2",
     "firebase": "^4.6.2",
+    "group-array": "^0.3.3",
     "material-ui": "^0.19.4",
     "prop-types": "^15.6.0",
     "react": "^16.0.0",

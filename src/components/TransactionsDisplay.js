@@ -10,6 +10,7 @@ import { trsFecthData } from '../actions';
 
 // =Dev helpers=
 import dateFormat from 'dateformat';
+import groupArray from 'group-array';
 
 // @markup
 import {List, ListItem} from 'material-ui/List';
@@ -24,7 +25,12 @@ class TransactionsDisplay extends Component {
         this.props.trsFecthData();
     }
 
+    groupTransactionsByDay() {
+        return groupArray(this.props.transactions, "date");
+    }
+
     render() {
+        console.log("groupTransactionsByDay() = ", this.groupTransactionsByDay());
         return (
             // conditional rendering
             this.props.transactions.length ? 

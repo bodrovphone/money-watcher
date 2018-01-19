@@ -2,7 +2,7 @@
 import { ADD_TRS, TRS_IS_LOADING, TRS_HAS_ERRORED, TRS_FETCH_DATA_SUCCESS } from '../constants/constants';
 
 // [containers]
-import { trsRef } from '../containers/firebase';
+import { trsColl } from '../containers/firebase';
 
 export const addTransaction = (newTrs) => {
     const action = {
@@ -43,7 +43,7 @@ export function trsFecthData() {
             dispatch(trsIsLoading(true));
 
             // fetching data using `once` event listener(firebase event)
-            return trsRef.once('value', snapshot => {
+            return trsColl.once('value', snapshot => {
                 let items = snapshot.val();
                 let newStore = [];
 

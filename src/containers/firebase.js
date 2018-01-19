@@ -15,7 +15,8 @@ import firebase from 'firebase';
 firebase.initializeApp(config);
 
 // creating DB reference to transactions
-export const trsRef = firebase.database().ref("transactions").orderByKey();
+export const trsRef = firebase.database().ref("transactions");
+export const trsColl = trsRef.orderByKey();
 
 // export
 export default firebase;

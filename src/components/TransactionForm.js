@@ -39,6 +39,7 @@ class TransactionForm extends Component {
 
         // modifying the default date token for data node naming in fb
         const dateToken = dateFormat(this.state.date, "isoDateTime");
+        // const day = dateFormat(this.state.date, "fullDate");
 
         // copying state
         const currentTrs = {
