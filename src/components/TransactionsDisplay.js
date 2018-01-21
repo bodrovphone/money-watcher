@@ -13,9 +13,15 @@ import dateFormat from 'dateformat';
 import groupArray from 'group-array';
 
 // @markup
-import {List, ListItem} from 'material-ui/List';
+import {List, ListItem } from 'material-ui/List';
+import Subheader from 'material-ui/Subheader';
+import Divider from 'material-ui/Divider';
 import AccountBalanceWallet from 'material-ui/svg-icons/action/account-balance-wallet';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
+
+
+
 
 
 class TransactionsDisplay extends Component {
@@ -25,33 +31,58 @@ class TransactionsDisplay extends Component {
         this.props.trsFecthData();
     }
 
+
     groupTransactionsByDay() {
-        return groupArray(this.props.transactions, "date");
-    }
+        // created array of days
+        const groupedTrs = groupArray(this.props.transactions, "date");
+
+        return Object.keys(groupedTrs).reverse().map((key, index) => {
+          const myItem = groupedTrs[key];
+          return (
+                <div key={index}>
+                <List>
+                    <Subheader>{key}</Subheader>
+                    {myItem.map((nKey, nIdex) => (
+                        <ListItem 
+                                    key={nIdex} 
+                                    primaryText={nKey.sum} 
+                                    rightIcon={<AccountBalanceWallet  />}
+                                />
+                    ))}
+                </List>
+                <Divider/>
+                </div>)
+        })
+
+     }
 
     render() {
-        console.log("groupTransactionsByDay() = ", this.groupTransactionsByDay());
         return (
             // conditional rendering
             this.props.transactions.length ? 
 
                 // conditinal rendering if `true`
                 <MuiThemeProvider>
-                    <List>
-                        {
-                        // iterating through all transactions preliminary reversing it
-                            this.props.transactions.reverse().map(
-                                (item, index) => {
-                                    return  <ListItem 
-                                                key={index} 
-                                                primaryText={item.sum} 
-                                                secondaryText={dateFormat(item.date, "dddd, mmmm dS, yyyy")}
-                                                rightIcon={<AccountBalanceWallet  />}
-                                            /> 
-                                }
-                            )
-                        }
-                    </List>
+                    <div>
+                    {
+                        this.groupTransactionsByDay()
+                    // <List>
+                    //     {
+                    //     // iterating through all transactions preliminary reversing it
+                    //         this.props.transactions.reverse().map(
+                    //             (item, index) => {
+                    //                 return  <ListItem 
+                    //                             key={index} 
+                    //                             primaryText={item.sum} 
+                    //                             secondaryText={dateFormat(item.date, "dddd, mmmm dS, yyyy")}
+                    //                             rightIcon={<AccountBalanceWallet  />}
+                    //                         /> 
+                    //             }
+                    //         )
+                    //     }
+                    // </List>
+                    }
+                    </div>}
                 </MuiThemeProvider>
 
             // conditional rendering if `false`
