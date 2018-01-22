@@ -39,13 +39,13 @@ class TransactionForm extends Component {
 
         // modifying the default date token for data node naming in fb
         const dateToken = dateFormat(this.state.date, "isoDateTime");
-        // const day = dateFormat(this.state.date, "fullDate");
+        const day = dateFormat(this.state.date, "isoDate");
 
         // copying state
         const currentTrs = {
             sum: this.state.sum,
             note: this.state.note,
-            date: dateToken
+            date: day
         };
 
         // adding new tranaction to firebase
