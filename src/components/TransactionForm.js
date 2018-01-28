@@ -4,13 +4,13 @@ import React, { Component } from 'react';
 // ~structural~
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
-import { trsRef } from '../containers/firebase';
 
 // *actions*
 import { addTransaction } from '../actions';
 
 // =Dev helpers=
 import dateFormat from 'dateformat';
+import dateFixer from './helpers/dateFixer';
 
 // @markup
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -23,9 +23,6 @@ class TransactionForm extends Component {
 
     constructor(props) {
         super(props);
-        this.registerTransaction = this.registerTransaction.bind(this);
-        this.handleEnterPress = this.handleEnterPress.bind(this);
-        
         this.state = {
           sum: "",
           note: "",
@@ -45,20 +42,17 @@ class TransactionForm extends Component {
         const currentTrs = {
             sum: this.state.sum,
             note: this.state.note,
-            date: day
+            date: day,
+            dateToken: dateToken
         };
-
-        // adding new tranaction to firebase
-        trsRef.child(dateToken).set(currentTrs);
 
         // dispatching action
         this.props.addTransaction(currentTrs);
         
-        // clearing inputs using refs
-        this.inputSum.value = "";
-        this.inputNote.value = "";
-        
-        // clearing locale state
+    }
+
+    clearState() {
+      // clearing local state
         this.setState({
           sum: "",
           note: "",
@@ -70,18 +64,8 @@ class TransactionForm extends Component {
         // checing if `Enter` button has been clicked
         if (e.key === 'Enter' && this.state.sum) {
             this.registerTransaction();
+            this.clearState();
           }
-    }
-
-    dateFixer(date) {
-      // caclulating delta to fix 00:00:00 issue with DatePicker(re fb issue)
-      const t = new Date(),
-            ml = t.getMilliseconds(),
-            sec = t.getSeconds(),
-            min = t.getMinutes(),
-            delta = ml + (sec*1000) + (min * 60 * 1000);
-
-      return new Date(date.setTime(date.getTime() + delta));
     }
 
     render() {
@@ -89,12 +73,11 @@ class TransactionForm extends Component {
         return (
             <MuiThemeProvider>
                 <div>
-                    <TextField
+                     <TextField
                       type="number"
                       hintText="$ How much?"
                       value={ this.state.sum }
                       id="sum-input"
-                      ref={el => this.inputSum = el}
                       onChange={event => this.setState({ sum: event.target.value })}
                       onKeyPress={(e) => this.handleEnterPress(e)}
                     />
@@ -104,7 +87,6 @@ class TransactionForm extends Component {
                       floatingLabelText="Add a note"
                       value={ this.state.note }
                       id="sum-note"
-                      ref={el => this.inputNote = el}
                       onChange={ event => this.setState({note: event.target.value })}
                       onKeyPress={(e) => this.handleEnterPress(e)}
                     />
@@ -112,12 +94,15 @@ class TransactionForm extends Component {
                     <DatePicker
                       hintText="Controlled Date Input"
                       value={this.state.date}
-                      onChange={(e,d) => this.setState({ date: this.dateFixer(d) })}
+                      onChange={(e,d) => this.setState({ date: dateFixer(d) })}
                       autoOk={true}
                     />
                     <div>
                         <FloatingActionButton 
-                          onClick={ ()=> this.registerTransaction() }
+                          onClick={ () => {
+                                            this.registerTransaction();
+                                            this.clearState();
+                                          }}
                         >
                             <ContentAdd />
                         </FloatingActionButton>

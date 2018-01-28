@@ -1,10 +1,25 @@
+// ~structural~
+import { trsRef } from '../containers/firebase';
+
+// #constants
 import { ADD_TRS, TRS_IS_LOADING, TRS_HAS_ERRORED, TRS_FETCH_DATA_SUCCESS } from '../constants/constants';
+
+
+// local helpers
+
+function updateFirebse({payload}) {
+    trsRef.child(payload.dateToken).set(payload);
+}
 
 export function transactions( state = [] , action ) {
     let transactions = null;
     switch(action.type) {
         case ADD_TRS:
-            transactions = [...state, {sum: action.payload.sum, note: action.payload.note, date: action.payload.date}];
+        // copying store and adding new trs to it
+            transactions = [...state, action.payload];
+        // updating Firebase
+            updateFirebse(action);
+        // returning sorted store
             return transactions.sort((a, b) => new Date(a.date) - new Date(b.date));
         case TRS_FETCH_DATA_SUCCESS:
             return action.payload;

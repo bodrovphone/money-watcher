@@ -18,7 +18,8 @@ function groupTrsByDay(transactions) {
         // iterating through each day in the object
         return Object.keys(groupedTrs).reverse().map((key, index) => {
           const myItem = groupedTrs[key];
-          return (
+          
+            return (
                 <Fragment key={index}>
                     <List>
                         <Subheader>{dateFormat(key, "dddd, mmmm dS, yyyy")}</Subheader>
@@ -34,8 +35,8 @@ function groupTrsByDay(transactions) {
                             }
                     </List>
                     <Divider/>
-                </Fragment>)
-        })
+                </Fragment>
+                )})
     }
 
 export default groupTrsByDay;
