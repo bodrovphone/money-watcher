@@ -2,7 +2,7 @@
 import { ADD_TRS, TRS_IS_LOADING, TRS_HAS_ERRORED, TRS_FETCH_DATA_SUCCESS } from '../constants/constants';
 
 // [containers]
-import { trsColl } from '../containers/firebase';
+import { trsColl, connectedRef } from '../containers/firebase';
 
 export const addTransaction = (newTrs) => {
     const action = {
@@ -43,7 +43,7 @@ export function trsFecthData() {
             dispatch(trsIsLoading(true));
 
             // fetching data using `once` event listener(firebase event)
-            return trsColl.once('value', snapshot => {
+            return  trsColl.once('value', snapshot => {
                 let items = snapshot.val();
                 let newStore = [];
 
@@ -56,6 +56,15 @@ export function trsFecthData() {
                     });
                 }
 
+                // This event listener define if connection's been broken
+                    connectedRef.on("value", function(snap) {
+                      if (snap.val() === true) {
+                        console.log("connected");
+                      } else {
+                        console.log("not connected");
+                      }
+                    })
+
                 // dispatching action
                 dispatch(trsIsLoading(false));
                 
@@ -63,10 +72,12 @@ export function trsFecthData() {
                 dispatch(trsFecthDataSuccess(newStore));
             })
 
-            // fallback function on fetching data
+            // fallback function on fetching data in fact this will only be fired on fb auth issues
             .catch((error) => {
                 // dispatching action
-                dispatch(trsHasErrored(error));
+                dispatch(trsIsLoading(false));
+                // dispatching action
+                dispatch(trsHasErrored(true));
             })
         };
     }

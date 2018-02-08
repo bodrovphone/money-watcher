@@ -97,16 +97,14 @@ class TransactionForm extends Component {
                       onChange={(e,d) => this.setState({ date: dateFixer(d) })}
                       autoOk={true}
                     />
-                    <div>
-                        <FloatingActionButton 
-                          onClick={ () => {
-                                            this.registerTransaction();
-                                            this.clearState();
-                                          }}
-                        >
-                            <ContentAdd />
-                        </FloatingActionButton>
-                    </div>
+                    <FloatingActionButton 
+                      onClick={ () => {
+                                        this.registerTransaction();
+                                        this.clearState();
+                                      }}
+                    >
+                        <ContentAdd />
+                    </FloatingActionButton>
                 </div>
             </MuiThemeProvider>
             );

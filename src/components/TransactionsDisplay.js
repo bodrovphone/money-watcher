@@ -18,8 +18,8 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 class TransactionsDisplay extends Component {
 
     componentDidMount() {
-        // dispatching action
-        this.props.trsFecthData();
+        // dispatching action only when the client is online
+        navigator.onLine && this.props.trsFecthData();
     }
 
     render() {
@@ -37,7 +37,7 @@ class TransactionsDisplay extends Component {
                 </MuiThemeProvider>
 
             // conditional rendering if `false`
-            : <br />
+            : <div>Fallback block goes here (no internet or transactions)</div>
             )
         }
 }
