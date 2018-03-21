@@ -19,6 +19,15 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import DatePicker from 'material-ui/DatePicker';
 import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
+import IconButton from 'material-ui/IconButton';
+import ActionHome from 'material-ui/svg-icons/action/home';
+import {Tabs, Tab} from 'material-ui/Tabs';
+import FontIcon from 'material-ui/FontIcon';
+import MapsPersonPin from 'material-ui/svg-icons/maps/person-pin';
+
+
 
 class TransactionForm extends Component {
 
@@ -30,6 +39,8 @@ class TransactionForm extends Component {
           date: new Date(),
           isCatPickerOpen: false
         };
+        this.handleOpen = this.handleOpen.bind(this);
+        this.handleClose = this.handleClose.bind(this);
     }
 
     registerTransaction() {
@@ -53,6 +64,14 @@ class TransactionForm extends Component {
         
     }
 
+    handleOpen() {
+      this.setState({isCatPickerOpen: true});
+    }
+
+    handleClose() {
+      this.setState({isCatPickerOpen: false});
+    }
+
     clearState() {
       // clearing local state
         this.setState({
@@ -71,6 +90,22 @@ class TransactionForm extends Component {
     }
 
     render() {
+      const categories = [
+      <FlatButton
+        label="Cancel"
+        primary={true}
+        onClick={this.handleClose}
+      />,
+      <FlatButton
+        label="Submit"
+        primary={true}
+        keyboardFocused={true}
+        onClick={this.handleClose}
+      />,
+      <IconButton>
+      <ActionHome />
+    </IconButton>
+    ];
 
         return (
             <MuiThemeProvider>
@@ -84,16 +119,51 @@ class TransactionForm extends Component {
                       onKeyPress={(e) => this.handleEnterPress(e)}
                     />
                     <br/>
-
+                    <br/>
 {/*buildign category picker here (should be a separate module eventually)*/}
+
+                    <RaisedButton label="Dialog" onClick={this.handleOpen} />
+                    <br/>
+                    <br/>
                     <Dialog
                       title="Dialog With Actions"
-                      actions={null}
+                      actions={categories}
                       modal={false}
-                      open={this.state.open}
+                      open={this.state.isCatPickerOpen}
                       onRequestClose={this.handleClose}
+                      autoScrollBodyContent={true}
                     >
-                      The actions in this window were passed in as an array of React objects.
+                        <Tabs>
+                            <Tab
+                              icon={<FontIcon className="material-icons">phone</FontIcon>}
+                              label="RECENTS"
+                              >
+                              <FlatButton
+                                label="Submit"
+                                primary={true}
+                                keyboardFocused={true}
+                                onClick={this.handleClose}
+                              />
+                            </Tab>
+                            <Tab
+                              icon={<FontIcon className="material-icons">favorite</FontIcon>}
+                              label="FAVORITES"
+                            >
+                              <FlatButton
+                                label="Cancel"
+                                primary={true}
+                                onClick={this.handleClose}
+                              />
+                            </Tab>
+                            <Tab
+                              icon={<MapsPersonPin />}
+                              label="NEARBY"
+                            >
+                                <IconButton>
+                                  <ActionHome />
+                                </IconButton>
+                            </Tab>
+                        </Tabs>
                     </Dialog>
 
                     <TextField
