@@ -22,7 +22,16 @@ export function transactions( state = [] , action ) {
         // returning sorted store
             return transactions.sort((a, b) => new Date(a.date) - new Date(b.date));
         case TRS_FETCH_DATA_SUCCESS:
-            return action.payload;
+            return action.payload.transactions;
+        default:
+            return state;
+    }
+};
+
+export function category_meta(state = [], action) {
+    switch(action.type) {
+        case TRS_FETCH_DATA_SUCCESS:
+            return action.payload.category_meta;
         default:
             return state;
     }

@@ -2,7 +2,7 @@
 import { ADD_TRS, TRS_IS_LOADING, TRS_HAS_ERRORED, TRS_FETCH_DATA_SUCCESS } from '../constants/constants';
 
 // [containers]
-import { trsColl, connectedRef } from '../containers/firebase';
+import { trsColl, connectedRef, catLabels } from '../containers/firebase';
 
 export const addTransaction = (newTrs) => {
     const action = {
@@ -42,19 +42,43 @@ export function trsFecthData() {
             // dispatching action
             dispatch(trsIsLoading(true));
 
-            // fetching data using `once` event listener(firebase event)
-            return  trsColl.once('value', snapshot => {
+                let newStore = {};
+                newStore.transactions = [];
+                newStore.category_meta = [];
+
+/*
+======
+Making requests to Firbase nodes separately
+======
+*/
+            // fetching main transactions thread using `once` event listener(firebase event)
+            trsColl.once('value', snapshot => {
                 let items = snapshot.val();
-                let newStore = [];
 
                 // filling array with transactions from firebase
                 for (let item in items) {
-                    newStore.push({
+                    newStore.transactions.push({
                         sum: items[item].sum,
                         note: items[item].note,
                         date: items[item].date
                     });
                 }
+
+            // fetching default set of categories
+            catLabels.once('value', snapshot => {
+                let items = snapshot.val();
+
+                // filling array with transactions from firebase
+                for (let item in items) {
+                    newStore.category_meta.push(item);
+                }
+                    });
+/*
+======
+End making requests to Firbase nodes separately
+======
+*/
+
 
                 // This event listener define if connection's been broken
                     connectedRef.on("value", function(snap) {
@@ -78,6 +102,10 @@ export function trsFecthData() {
                 dispatch(trsIsLoading(false));
                 // dispatching action
                 dispatch(trsHasErrored(true));
-            })
-        };
+            });
+
+            
+
+
+        }
     }

@@ -18,6 +18,7 @@ import './index.css';
 // creating App store with customized function
 const store = configureStore({
     transactions: [],
+    category_meta: [],
     trsIsLoading: false,
     trsHasErrored: false,
 })

@@ -1,0 +1,178 @@
+warning: LF will be replaced by CRLF in package-lock.json.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in package.json.
+The file will have its original line endings in your working directory.
+[1mdiff --git a/package-lock.json b/package-lock.json[m
+[1mindex 3ee4427..2c36d72 100644[m
+[1m--- a/package-lock.json[m
+[1m+++ b/package-lock.json[m
+[36m@@ -9477,15 +9477,6 @@[m
+       "integrity": "sha1-J5siXfHVgrH1TmWt3UNS4Y+qBxM=",[m
+       "dev": true[m
+     },[m
+[31m-    "string_decoder": {[m
+[31m-      "version": "1.0.3",[m
+[31m-      "resolved": "https://registry.npmjs.org/string_decoder/-/string_decoder-1.0.3.tgz",[m
+[31m-      "integrity": "sha512-4AH6Z5fzNNBcH+6XDMfA/BTt87skxqJlO0lAh3Dker5zThcAxG6mKz+iGu308UKoPPQ8Dcqx/4JhujzltRa+hQ==",[m
+[31m-      "dev": true,[m
+[31m-      "requires": {[m
+[31m-        "safe-buffer": "5.1.1"[m
+[31m-      }[m
+[31m-    },[m
+     "string-length": {[m
+       "version": "1.0.1",[m
+       "resolved": "https://registry.npmjs.org/string-length/-/string-length-1.0.1.tgz",[m
+[36m@@ -9522,6 +9513,15 @@[m
+         }[m
+       }[m
+     },[m
+[32m+[m[32m    "string_decoder": {[m
+[32m+[m[32m      "version": "1.0.3",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/string_decoder/-/string_decoder-1.0.3.tgz",[m
+[32m+[m[32m      "integrity": "sha512-4AH6Z5fzNNBcH+6XDMfA/BTt87skxqJlO0lAh3Dker5zThcAxG6mKz+iGu308UKoPPQ8Dcqx/4JhujzltRa+hQ==",[m
+[32m+[m[32m      "dev": true,[m
+[32m+[m[32m      "requires": {[m
+[32m+[m[32m        "safe-buffer": "5.1.1"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "stringstream": {[m
+       "version": "0.0.5",[m
+       "resolved": "https://registry.npmjs.org/stringstream/-/stringstream-0.0.5.tgz",[m
+[1mdiff --git a/src/App.css b/src/App.css[m
+[1mindex 5f63900..ca5a049 100644[m
+[1m--- a/src/App.css[m
+[1m+++ b/src/App.css[m
+[36m@@ -3,7 +3,7 @@[m
+ }[m
+ [m
+ .App-header {[m
+[31m-  background-color: #222;[m
+[32m+[m[32m  background-color: #40423c;[m
+   height: 150px;[m
+   padding: 20px;[m
+   color: white;[m
+[1mdiff --git a/src/actions/index.js b/src/actions/index.js[m
+[1mindex 216b37a..c554f79 100644[m
+[1m--- a/src/actions/index.js[m
+[1m+++ b/src/actions/index.js[m
+[36m@@ -2,7 +2,7 @@[m
+ import { ADD_TRS, TRS_IS_LOADING, TRS_HAS_ERRORED, TRS_FETCH_DATA_SUCCESS } from '../constants/constants';[m
+ [m
+ // [containers][m
+[31m-import { trsColl, connectedRef } from '../containers/firebase';[m
+[32m+[m[32mimport { trsColl, connectedRef, catLabels } from '../containers/firebase';[m
+ [m
+ export const addTransaction = (newTrs) => {[m
+     const action = {[m
+[36m@@ -42,14 +42,17 @@[m [mexport function trsFecthData() {[m
+             // dispatching action[m
+             dispatch(trsIsLoading(true));[m
+ [m
+[32m+[m[32m                let newStore = {};[m
+[32m+[m[32m                newStore.transactions = [];[m
+[32m+[m[32m                newStore.category_meta = [];[m
+[32m+[m
+             // fetching data using `once` event listener(firebase event)[m
+[31m-            return  trsColl.once('value', snapshot => {[m
+[32m+[m[32m            trsColl.once('value', snapshot => {[m
+                 let items = snapshot.val();[m
+[31m-                let newStore = [];[m
+ [m
+                 // filling array with transactions from firebase[m
+                 for (let item in items) {[m
+[31m-                    newStore.push({[m
+[32m+[m[32m                    newStore.transactions.push({[m
+                         sum: items[item].sum,[m
+                         note: items[item].note,[m
+                         date: items[item].date[m
+[36m@@ -78,6 +81,23 @@[m [mexport function trsFecthData() {[m
+                 dispatch(trsIsLoading(false));[m
+                 // dispatching action[m
+                 dispatch(trsHasErrored(true));[m
+[32m+[m[32m            });[m
+[32m+[m
+[32m+[m[32m            catLabels.once('value', snapshot => {[m
+[32m+[m[32m                let items = snapshot.val();[m
+[32m+[m
+[32m+[m[32m                // filling array with transactions from firebase[m
+[32m+[m[32m                for (let item in items) {[m
+[32m+[m[32m                    newStore.category_meta.push(item);[m
+[32m+[m[32m                }[m
+[32m+[m
+[32m+[m[32m                // dispatching action[m
+[32m+[m[32m                dispatch(trsIsLoading(false));[m
+[32m+[m[41m                [m
+[32m+[m[32m                // dispatching action - updating main App store[m
+[32m+[m[32m                dispatch(trsFecthDataSuccess(newStore));[m
+             })[m
+[31m-        };[m
+[32m+[m
+[32m+[m
+[32m+[m[32m        }[m
+     }[m
+\ No newline at end of file[m
+[1mdiff --git a/src/containers/firebase.js b/src/containers/firebase.js[m
+[1mindex a8309de..3b02d0d 100644[m
+[1m--- a/src/containers/firebase.js[m
+[1m+++ b/src/containers/firebase.js[m
+[36m@@ -16,6 +16,7 @@[m [mfirebase.initializeApp(config);[m
+ [m
+ // creating DB reference to transactions[m
+ export const trsRef = firebase.database().ref("transactions");[m
+[32m+[m[32mexport const catLabels = firebase.database().ref("category_meta");[m
+ export const trsColl = trsRef.orderByKey();[m
+ export const connectedRef = firebase.database().ref(".info/connected");[m
+ [m
+[1mdiff --git a/src/index.js b/src/index.js[m
+[1mindex eb2df79..748c5b1 100644[m
+[1m--- a/src/index.js[m
+[1m+++ b/src/index.js[m
+[36m@@ -18,6 +18,7 @@[m [mimport './index.css';[m
+ // creating App store with customized function[m
+ const store = configureStore({[m
+     transactions: [],[m
+[32m+[m[32m    category_meta: [],[m
+     trsIsLoading: false,[m
+     trsHasErrored: false,[m
+ })[m
+[1mdiff --git a/src/reducers/index.js b/src/reducers/index.js[m
+[1mindex 5543c11..e9339b9 100644[m
+[1m--- a/src/reducers/index.js[m
+[1m+++ b/src/reducers/index.js[m
+[36m@@ -2,11 +2,12 @@[m
+ import { combineReducers } from 'redux';[m
+ [m
+ // ^^reducers^^[m
+[31m-import { transactions, trsIsLoading, trsHasErrored } from './transactions';[m
+[32m+[m[32mimport { transactions, trsIsLoading, trsHasErrored, category_meta } from './transactions';[m
+ [m
+ // combine reducers[m
+ export default combineReducers({[m
+     transactions,[m
+[32m+[m[32m    category_meta,[m
+     trsIsLoading,[m
+     trsHasErrored[m
+ });[m
+\ No newline at end of file[m
+[1mdiff --git a/src/reducers/transactions.js b/src/reducers/transactions.js[m
+[1mindex b05b2ab..6f5561e 100644[m
+[1m--- a/src/reducers/transactions.js[m
+[1m+++ b/src/reducers/transactions.js[m
+[36m@@ -22,7 +22,16 @@[m [mexport function transactions( state = [] , action ) {[m
+         // returning sorted store[m
+             return transactions.sort((a, b) => new Date(a.date) - new Date(b.date));[m
+         case TRS_FETCH_DATA_SUCCESS:[m
+[31m-            return action.payload;[m
+[32m+[m[32m            return action.payload.transactions;[m
+[32m+[m[32m        default:[m
+[32m+[m[32m            return state;[m
+[32m+[m[32m    }[m
+[32m+[m[32m};[m
+[32m+[m
+[32m+[m[32mexport function category_meta(state = [], action) {[m
+[32m+[m[32m    switch(action.type) {[m
+[32m+[m[32m        case TRS_FETCH_DATA_SUCCESS:[m
+[32m+[m[32m            return action.payload.category_meta;[m
+         default:[m
+             return state;[m
+     }[m

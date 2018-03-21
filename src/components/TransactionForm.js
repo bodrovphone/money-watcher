@@ -18,6 +18,7 @@ import TextField from 'material-ui/TextField';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import DatePicker from 'material-ui/DatePicker';
+import Dialog from 'material-ui/Dialog';
 
 class TransactionForm extends Component {
 
@@ -26,7 +27,8 @@ class TransactionForm extends Component {
         this.state = {
           sum: "",
           note: "",
-          date: new Date()
+          date: new Date(),
+          isCatPickerOpen: false
         };
     }
 
@@ -82,6 +84,18 @@ class TransactionForm extends Component {
                       onKeyPress={(e) => this.handleEnterPress(e)}
                     />
                     <br/>
+
+{/*buildign category picker here (should be a separate module eventually)*/}
+                    <Dialog
+                      title="Dialog With Actions"
+                      actions={null}
+                      modal={false}
+                      open={this.state.open}
+                      onRequestClose={this.handleClose}
+                    >
+                      The actions in this window were passed in as an array of React objects.
+                    </Dialog>
+
                     <TextField
                       type="text"
                       floatingLabelText="Add a note"
