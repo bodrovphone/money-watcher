@@ -12,21 +12,15 @@ import { addTransaction } from '../actions';
 import dateFormat from 'dateformat';
 import dateFixer from './helpers/dateFixer';
 
+// &-components-&
+import CategoryPicker from './CategoryPicker';
+
 // @markup
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextField from 'material-ui/TextField';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import DatePicker from 'material-ui/DatePicker';
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
-import IconButton from 'material-ui/IconButton';
-import ActionHome from 'material-ui/svg-icons/action/home';
-import {Tabs, Tab} from 'material-ui/Tabs';
-import FontIcon from 'material-ui/FontIcon';
-import MapsPersonPin from 'material-ui/svg-icons/maps/person-pin';
-
 
 
 class TransactionForm extends Component {
@@ -90,27 +84,10 @@ class TransactionForm extends Component {
     }
 
     render() {
-      const categories = [
-      <FlatButton
-        label="Cancel"
-        primary={true}
-        onClick={this.handleClose}
-      />,
-      <FlatButton
-        label="Submit"
-        primary={true}
-        keyboardFocused={true}
-        onClick={this.handleClose}
-      />,
-      <IconButton>
-      <ActionHome />
-    </IconButton>
-    ];
-
         return (
             <MuiThemeProvider>
                 <div>
-                     <TextField
+                    <TextField
                       type="number"
                       hintText="$ How much?"
                       value={ this.state.sum }
@@ -119,53 +96,6 @@ class TransactionForm extends Component {
                       onKeyPress={(e) => this.handleEnterPress(e)}
                     />
                     <br/>
-                    <br/>
-{/*buildign category picker here (should be a separate module eventually)*/}
-
-                    <RaisedButton label="Dialog" onClick={this.handleOpen} />
-                    <br/>
-                    <br/>
-                    <Dialog
-                      title="Dialog With Actions"
-                      actions={categories}
-                      modal={false}
-                      open={this.state.isCatPickerOpen}
-                      onRequestClose={this.handleClose}
-                      autoScrollBodyContent={true}
-                    >
-                        <Tabs>
-                            <Tab
-                              icon={<FontIcon className="material-icons">phone</FontIcon>}
-                              label="RECENTS"
-                              >
-                              <FlatButton
-                                label="Submit"
-                                primary={true}
-                                keyboardFocused={true}
-                                onClick={this.handleClose}
-                              />
-                            </Tab>
-                            <Tab
-                              icon={<FontIcon className="material-icons">favorite</FontIcon>}
-                              label="FAVORITES"
-                            >
-                              <FlatButton
-                                label="Cancel"
-                                primary={true}
-                                onClick={this.handleClose}
-                              />
-                            </Tab>
-                            <Tab
-                              icon={<MapsPersonPin />}
-                              label="NEARBY"
-                            >
-                                <IconButton>
-                                  <ActionHome />
-                                </IconButton>
-                            </Tab>
-                        </Tabs>
-                    </Dialog>
-
                     <TextField
                       type="text"
                       floatingLabelText="Add a note"
@@ -181,6 +111,11 @@ class TransactionForm extends Component {
                       onChange={(e,d) => this.setState({ date: dateFixer(d) })}
                       autoOk={true}
                     />
+
+                    {
+                        CategoryPicker(this.state, this.handleClose, this.handleOpen)
+                    }
+
                     <FloatingActionButton 
                       onClick={ () => {
                                         this.registerTransaction();
