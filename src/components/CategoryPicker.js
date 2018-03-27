@@ -13,15 +13,15 @@ import MapsPersonPin from 'material-ui/svg-icons/maps/person-pin';
 
 
 
-function CategoryPicker(state, handleClose, handleOpen) {
+function CategoryPicker(state, handleClose, handleOpen, defaultCategories) {
     const categories = [
       <FlatButton
-        label="Cancel"
+        label={defaultCategories[0]}
         primary={ true }
         onClick={ handleClose }
       />,
       <FlatButton
-        label="Submit"
+        label={defaultCategories[1]}
         primary={ true }
         keyboardFocused={ true }
         onClick={ handleClose }

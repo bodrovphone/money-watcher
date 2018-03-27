@@ -113,7 +113,8 @@ class TransactionForm extends Component {
                     />
 
                     {
-                        CategoryPicker(this.state, this.handleClose, this.handleOpen)
+                        // maybe there is a better way to pass such many arguments?
+                        CategoryPicker(this.state, this.handleClose, this.handleOpen, this.props.category_meta)
                     }
 
                     <FloatingActionButton 
