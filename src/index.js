@@ -18,9 +18,9 @@ import './index.css';
 // creating App store with customized function
 const store = configureStore({
     transactions: [],
-    category_meta: [],
-    trsIsLoading: false,
-    trsHasErrored: false,
+    categories: [],
+    dataIsLoading: false,
+    dataFetchErrored: false,
 })
 
 // passing store downstream with react-redux Provider

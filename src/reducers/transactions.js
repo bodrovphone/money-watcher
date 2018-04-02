@@ -2,7 +2,7 @@
 import { trsRef } from '../containers/firebase';
 
 // #constants
-import { ADD_TRS, TRS_IS_LOADING, TRS_HAS_ERRORED, TRS_FETCH_DATA_SUCCESS } from '../constants/constants';
+import { ADD_TRS, DATA_IS_LOADING, DATA_FETCH_ERROR, FETCH_TRS_SUCCESS, FETCH_CAT_SUCCESS } from '../constants/constants';
 
 
 // local helpers
@@ -10,6 +10,35 @@ import { ADD_TRS, TRS_IS_LOADING, TRS_HAS_ERRORED, TRS_FETCH_DATA_SUCCESS } from
 function updateFirebse({payload}) {
     trsRef.child(payload.dateToken).set(payload);
 }
+
+export function dataIsLoading (state = [], action) {
+    switch(action.type) {
+        case DATA_IS_LOADING:
+            return action.payload;
+        default:
+            return state;
+    }
+};
+
+export function dataFetchErrored (state = false, action) {
+    switch(action.type) {
+        case DATA_FETCH_ERROR:
+            return action.payload;
+        default:
+            return state;
+    }
+}
+
+
+export function categories(state = [], action) {
+    switch(action.type) {
+        case FETCH_CAT_SUCCESS:
+            return action.payload;
+        default:
+            return state;
+    }
+};
+
 
 export function transactions( state = [] , action ) {
     let transactions = null;
@@ -21,45 +50,9 @@ export function transactions( state = [] , action ) {
             updateFirebse(action);
         // returning sorted store
             return transactions.sort((a, b) => new Date(a.date) - new Date(b.date));
-        case TRS_FETCH_DATA_SUCCESS:
-            return action.payload.transactions;
-        default:
-            return state;
-    }
-};
-
-export function category_meta(state = [], action) {
-    switch(action.type) {
-        case TRS_FETCH_DATA_SUCCESS:
-            return action.payload.category_meta;
-        default:
-            return state;
-    }
-};
-
-export function trsIsLoading (state = [], action) {
-    switch(action.type) {
-        case TRS_IS_LOADING:
+        case FETCH_TRS_SUCCESS:
             return action.payload;
         default:
             return state;
     }
 };
-
-export function trsHasErrored (state = false, action) {
-    switch(action.type) {
-        case TRS_HAS_ERRORED:
-            return action.payload;
-        default:
-            return state;
-    }
-}
-
-export function trsFecthDataSuccess(state = [], action) {
-    switch(action.type) {
-        case TRS_FETCH_DATA_SUCCESS:
-            return action.payload;
-        default:
-            return state;
-    }
-}

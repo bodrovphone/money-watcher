@@ -30,8 +30,8 @@ class App extends Component {
 
 App.propTypes = {
     transactions: PropTypes.array.isRequired,
-    trsHasErrored: PropTypes.bool.isRequired,
-    trsIsLoading: PropTypes.bool.isRequired
+    dataFetchErrored: PropTypes.bool.isRequired,
+    dataIsLoading: PropTypes.bool.isRequired
 }
 
 function mapStateToProps(state) {

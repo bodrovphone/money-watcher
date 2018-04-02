@@ -19,7 +19,7 @@ class TransactionsDisplay extends Component {
 
     componentDidMount() {
         // dispatching action only when the client is online
-        navigator.onLine && this.props.trsFecthData();
+        navigator.onLine &&  this.props.trsFecthData();
     }
 
     render() {

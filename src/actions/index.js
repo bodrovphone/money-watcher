@@ -1,5 +1,5 @@
 // #constants
-import { ADD_TRS, TRS_IS_LOADING, TRS_HAS_ERRORED, TRS_FETCH_DATA_SUCCESS } from '../constants/constants';
+import { ADD_TRS, DATA_IS_LOADING, DATA_FETCH_ERROR, FETCH_TRS_SUCCESS, FETCH_CAT_SUCCESS  } from '../constants/constants';
 
 // [containers]
 import { trsColl, connectedRef, catLabels } from '../containers/firebase';
@@ -12,9 +12,9 @@ export const addTransaction = (newTrs) => {
     return action;
 }
 
-export const trsIsLoading = (bool) => {
+export const dataIsLoading = (bool) => {
     const action = {
-        type: TRS_IS_LOADING,
+        type: DATA_IS_LOADING,
         payload: bool
     }
     return action;
@@ -22,7 +22,7 @@ export const trsIsLoading = (bool) => {
 
 export const trsHasErrored = (bool) => {
     const action = {
-        type: TRS_HAS_ERRORED,
+        type: DATA_FETCH_ERROR,
         payload: bool
     }
     return action;
@@ -30,8 +30,16 @@ export const trsHasErrored = (bool) => {
 
 export const trsFecthDataSuccess = (transactions) => {
     const action = {
-        type: TRS_FETCH_DATA_SUCCESS,
+        type: FETCH_TRS_SUCCESS,
         payload: transactions
+    }
+    return action;
+}
+
+export const catFecthDataSuccess = (categories) => {
+    const action = {
+        type: FETCH_CAT_SUCCESS,
+        payload: categories
     }
     return action;
 }
@@ -40,45 +48,22 @@ export const trsFecthDataSuccess = (transactions) => {
 export function trsFecthData() {
         return dispatch => {
             // dispatching action
-            dispatch(trsIsLoading(true));
+            dispatch(dataIsLoading(true));
 
-                let newStore = {};
-                newStore.transactions = [];
-                newStore.category_meta = [];
+                const transactions = [];
 
-/*
-======
-Making requests to Firbase nodes separately
-======
-*/
             // fetching main transactions thread using `once` event listener(firebase event)
             trsColl.once('value', snapshot => {
                 let items = snapshot.val();
 
                 // filling array with transactions from firebase
                 for (let item in items) {
-                    newStore.transactions.push({
+                    transactions.push({
                         sum: items[item].sum,
                         note: items[item].note,
                         date: items[item].date
                     });
                 }
-
-            // fetching default set of categories
-            catLabels.once('value', snapshot => {
-                let items = snapshot.val();
-
-                // filling array with transactions from firebase
-                for (let item in items) {
-                    newStore.category_meta.push(item);
-                }
-                    });
-/*
-======
-End making requests to Firbase nodes separately
-======
-*/
-
 
                 // This event listener define if connection's been broken
                     connectedRef.on("value", function(snap) {
@@ -90,16 +75,63 @@ End making requests to Firbase nodes separately
                     })
 
                 // dispatching action
-                dispatch(trsIsLoading(false));
+                dispatch(dataIsLoading(false));
                 
                 // dispatching action - updating main App store
-                dispatch(trsFecthDataSuccess(newStore));
+                dispatch(trsFecthDataSuccess(transactions));
             })
 
             // fallback function on fetching data in fact this will only be fired on fb auth issues
             .catch((error) => {
                 // dispatching action
-                dispatch(trsIsLoading(false));
+                dispatch(dataIsLoading(false));
+                // dispatching action
+                dispatch(trsHasErrored(true));
+            });
+
+            
+
+
+        }
+    }
+
+
+
+
+
+export function catFecthData() {
+        return dispatch => {
+            // dispatching action
+            dispatch(dataIsLoading(true));
+
+                const categories = [];
+
+/*
+======
+Making requests to Firbase nodes separately
+======
+*/
+            // fetching default set of categories
+            catLabels.once('value', snapshot => {
+                let items = snapshot.val();
+
+                // filling array with transactions from firebase
+                for (let item in items) {
+                    categories.push(item);
+                }
+
+                // dispatching action
+                dispatch(dataIsLoading(false));
+                
+                // dispatching action - updating main App store
+                dispatch(catFecthDataSuccess(categories));
+
+                    })
+
+            // fallback function on fetching data in fact this will only be fired on fb auth issues
+            .catch((error) => {
+                // dispatching action
+                dispatch(dataIsLoading(false));
                 // dispatching action
                 dispatch(trsHasErrored(true));
             });

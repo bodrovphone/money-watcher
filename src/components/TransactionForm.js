@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 
 // *actions*
-import { addTransaction } from '../actions';
+import { addTransaction, catFecthData } from '../actions';
 
 // =Dev helpers=
 import dateFormat from 'dateformat';
@@ -35,6 +35,10 @@ class TransactionForm extends Component {
         };
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
+    }
+
+    componentWillMount() {
+        this.props.catFecthData();
     }
 
     registerTransaction() {
@@ -84,6 +88,7 @@ class TransactionForm extends Component {
     }
 
     render() {
+        console.log(this.props.categories.length);
         return (
             <MuiThemeProvider>
                 <div>
@@ -113,8 +118,8 @@ class TransactionForm extends Component {
                     />
 
                     {
-                        // maybe there is a better way to pass such many arguments?
-                        CategoryPicker(this.state, this.handleClose, this.handleOpen, this.props.category_meta)
+                        // maybe there is a better way to pass such many arguments? Yes through App props :) But I should re-build it
+                        this.props.categories.length ? CategoryPicker(this.state, this.handleClose, this.handleOpen, this.props.categories) : null
                     }
 
                     <FloatingActionButton 
@@ -138,7 +143,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    addTransaction: bindActionCreators(addTransaction, dispatch)
+    addTransaction: bindActionCreators(addTransaction, dispatch),
+    catFecthData: bindActionCreators(catFecthData, dispatch)
   }
 }
 
