@@ -88,7 +88,6 @@ class TransactionForm extends Component {
     }
 
     render() {
-        console.log(this.props.categories.length);
         return (
             <MuiThemeProvider>
                 <div>
@@ -117,10 +116,12 @@ class TransactionForm extends Component {
                       autoOk={true}
                     />
 
-                    {
-                        // maybe there is a better way to pass such many arguments? Yes through App props :) But I should re-build it
-                        this.props.categories.length ? CategoryPicker(this.state, this.handleClose, this.handleOpen, this.props.categories) : null
-                    }
+                    <CategoryPicker 
+                        isCatPickerOpen = {this.state.isCatPickerOpen}
+                        handleClose = {this.handleClose}
+                        handleOpen = {this.handleOpen}
+                        categories = {this.props.categories}
+                    />
 
                     <FloatingActionButton 
                       onClick={ () => {
