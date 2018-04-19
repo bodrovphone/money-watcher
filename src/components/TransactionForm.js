@@ -30,6 +30,7 @@ class TransactionForm extends Component {
         this.state = {
           sum: "",
           note: "",
+          category: null,
           date: new Date(),
           isCatPickerOpen: false
         };
@@ -37,13 +38,13 @@ class TransactionForm extends Component {
         this.handleClose = this.handleClose.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.props.catFecthData();
     }
 
     registerTransaction() {
-        // when adding trs with button - checking if sum's is not null
-        if (!this.state.sum) return false;
+        // when adding trs with button - checking if sum or category isn't not null
+        if (!this.state.sum && this.state.category) return false;
 
         // modifying the default date token for data node naming in fb
         const dateToken = dateFormat(this.state.date, "isoDateTime");
@@ -53,6 +54,7 @@ class TransactionForm extends Component {
         const currentTrs = {
             sum: this.state.sum,
             note: this.state.note,
+            category: this.state.category,
             date: day,
             dateToken: dateToken
         };
@@ -66,8 +68,8 @@ class TransactionForm extends Component {
       this.setState({isCatPickerOpen: true});
     }
 
-    handleClose() {
-      this.setState({isCatPickerOpen: false});
+    handleClose(cat) {
+      this.setState({isCatPickerOpen: false, category: cat});
     }
 
     clearState() {
@@ -75,13 +77,14 @@ class TransactionForm extends Component {
         this.setState({
           sum: "",
           note: "",
+          category: null,
           date: new Date()
         });
     }
 
     handleEnterPress(e) {
         // checing if `Enter` button has been clicked
-        if (e.key === 'Enter' && this.state.sum) {
+        if (e.key === 'Enter' && this.state.sum && this.state.category) {
             this.registerTransaction();
             this.clearState();
           }
@@ -121,6 +124,7 @@ class TransactionForm extends Component {
                         handleClose = {this.handleClose}
                         handleOpen = {this.handleOpen}
                         categories = {this.props.categories}
+                        chosenCategory = {this.state.category}
                     />
 
                     <FloatingActionButton 

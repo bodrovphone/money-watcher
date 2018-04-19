@@ -61,6 +61,7 @@ export function trsFecthData() {
                     transactions.push({
                         sum: items[item].sum,
                         note: items[item].note,
+                        category: items[item].category,
                         date: items[item].date
                     });
                 }
@@ -104,29 +105,16 @@ export function catFecthData() {
             // dispatching action
             dispatch(dataIsLoading(true));
 
-                const categories = [];
-
-/*
-======
-Making requests to Firbase nodes separately
-======
-*/
             // fetching default set of categories
             catLabels.once('value', snapshot => {
-                let items = snapshot.val();
-
-                // filling array with transactions from firebase
-                for (let item in items) {
-                    categories.push(item);
-                }
 
                 // dispatching action
                 dispatch(dataIsLoading(false));
-                
-                // dispatching action - updating main App store
-                dispatch(catFecthDataSuccess(categories));
 
-                    })
+                // dispatching action - updating main App store
+                dispatch(catFecthDataSuccess(snapshot.val()));
+
+            })
 
             // fallback function on fetching data in fact this will only be fired on fb auth issues
             .catch((error) => {

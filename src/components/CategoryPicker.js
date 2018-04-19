@@ -5,45 +5,57 @@ import React, { Component, Fragment } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import IconButton from 'material-ui/IconButton';
-import ActionHome from 'material-ui/svg-icons/action/home';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import FontIcon from 'material-ui/FontIcon';
 import ActionAndroid from 'material-ui/svg-icons/action/android';
-import MapsPersonPin from 'material-ui/svg-icons/maps/person-pin';
+
+// creating buttons with labels of expenses categories
+class Categories extends Component {
+  
+  ListCateglories() {
+    // copying categories from props
+    const categories = this.props.categories;
+    const catLabels = [];
+    // fulfilling english labels(for now)
+    for (let item in categories) {
+        catLabels.push(categories[item].en);
+    }
+    // creating list of Buttons with labels (TBD : add handleClose events to update parent state - add transaction to it)
+    const list = catLabels.map((cat, index) => (
+            <FlatButton
+              key={index}
+              label={cat}
+              primary={ true }
+              keyboardFocused={ true }
+              onClick={ () => this.props.handleClose(cat) }
+              icon={<ActionAndroid />}
+            />           
+            ));
+
+    return list;
+  }
 
 
+  render() {
+    return(
+      <div>
+        { 
+          this.ListCateglories()
+        }
+        </div>
+      )
+  }
+}
 
 export default class CategoryPicker extends Component {
-
-    render() {
-      const categories = [
-          <FlatButton
-            label={this.props.categories[0]}
-            primary={ true }
-            onClick={ this.props.handleClose }
-            icon={<ActionAndroid />}
-          />,
-          <FlatButton
-            label={this.props.categories[1]}
-            primary={ true }
-            keyboardFocused={ true }
-            onClick={ this.props.handleClose }
-            icon={<ActionAndroid />}
-          />,
-          <IconButton>
-          <ActionHome />
-        </IconButton>
-        ];
-
+  render() {
     return (
       <Fragment>
           <br/>
-        <RaisedButton label="Dialog" onClick={ this.props.handleOpen } />
+          <RaisedButton label={this.props.chosenCategory || 'pick a category'} onClick={ this.props.handleOpen } />
           <br/>
             <Dialog
-              title="Dialog With Actions"
-              actions={ categories }
+              title="choose category"
               modal={ false }
               open={ this.props.isCatPickerOpen }
               onRequestClose={ this.props.handleClose }
@@ -51,37 +63,19 @@ export default class CategoryPicker extends Component {
             >
               <Tabs>
                   <Tab
-                    icon={<FontIcon className="material-icons">phone</FontIcon>}
+                    icon={<FontIcon className="material-icons">Expense</FontIcon>}
                     label="RECENTS"
                     >
-                    <FlatButton
-                      label="Submit"
-                      primary={ true }
-                      keyboardFocused={ true }
-                      onClick={ this.props.handleClose }
-                    />
+                    <Categories {...this.props} categories={this.props.categories.expense} />
                   </Tab>
                   <Tab
-                    icon={<FontIcon className="material-icons">favorite</FontIcon>}
+                    icon={<FontIcon className="material-icons">Income</FontIcon>}
                     label="FAVORITES"
                   >
-                    <FlatButton
-                      label="Cancel"
-                      primary={ true }
-                      onClick={ this.props.handleClose }
-                    />
-                  </Tab>
-                  <Tab
-                    icon={<MapsPersonPin />}
-                    label="NEARBY"
-                  >
-                      <IconButton>
-                        <ActionHome />
-                      </IconButton>
+                    <Categories {...this.props} categories={this.props.categories.income} />
                   </Tab>
               </Tabs>
             </Dialog>
       </Fragment>
-
       )}
   }
