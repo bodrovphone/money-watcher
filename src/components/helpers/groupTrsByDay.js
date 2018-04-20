@@ -29,9 +29,11 @@ function groupTrsByDay(transactions) {
                                     <ListItem 
                                         key={nIdex} 
                                         primaryText={nKey.sum} 
+                                        secondaryText={nKey.category}
                                         rightIcon={<AccountBalanceWallet  />}
                                     />
                                 ))
+                                .reverse()
                             }
                     </List>
                     <Divider/>
