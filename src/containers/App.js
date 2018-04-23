@@ -17,10 +17,13 @@ import '../App.css';
 
 class App extends Component {
     render() {
+        // set last picked category as a default one
+        const [lastTrs] = this.props.transactions.slice(-1);
+        const defaultCategory = lastTrs ? lastTrs.category : null;
       return (
           <div className="App">
               <Header />
-              <TransactionForm {...this.props} />
+              <TransactionForm {...this.props} defaultCategory={defaultCategory} />
               <TransactionsDisplay transactions={this.props.transactions}/>
           </div>
       );

@@ -40,6 +40,14 @@ class TransactionForm extends Component {
 
     componentDidMount() {
         this.props.catFecthData();
+        console.log(this.props.defaultCategory)
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.defaultCategory !== prevState.category) {
+            return {category: nextProps.defaultCategory}
+        }
+        return null;
     }
 
     registerTransaction() {
