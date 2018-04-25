@@ -6,11 +6,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 
 // *actions*
-import { addTransaction, catFecthData } from '../actions';
+import { addTransaction, catFecthData } from '../../actions';
 
 // =Dev helpers=
 import dateFormat from 'dateformat';
-import dateFixer from './helpers/dateFixer';
+import dateFixer from './dateFixer';
 
 // &-components-&
 import CategoryPicker from './CategoryPicker';
@@ -19,8 +19,11 @@ import CategoryPicker from './CategoryPicker';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextField from 'material-ui/TextField';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ContentAdd from 'material-ui/svg-icons/content/add';
+import AttachMoney from 'material-ui-icons/AttachMoney';
 import DatePicker from 'material-ui/DatePicker';
+
+// :design assets:
+import './Form.css';
 
 
 class TransactionForm extends Component {
@@ -52,24 +55,27 @@ class TransactionForm extends Component {
 
     registerTransaction() {
         // when adding trs with button - checking if sum or category isn't not null
-        if (!this.state.sum && this.state.category) return false;
+        if (this.state.sum && this.state.category) { 
+             // modifying the default date token for data node naming in fb
+            const dateToken = dateFormat(this.state.date, "isoDateTime");
+            const day = dateFormat(this.state.date, "isoDate");
 
-        // modifying the default date token for data node naming in fb
-        const dateToken = dateFormat(this.state.date, "isoDateTime");
-        const day = dateFormat(this.state.date, "isoDate");
+            // copying state
+            const currentTrs = {
+                sum: this.state.sum,
+                note: this.state.note,
+                category: this.state.category,
+                date: day,
+                dateToken: dateToken
+            };
 
-        // copying state
-        const currentTrs = {
-            sum: this.state.sum,
-            note: this.state.note,
-            category: this.state.category,
-            date: day,
-            dateToken: dateToken
-        };
-
-        // dispatching action
-        this.props.addTransaction(currentTrs);
-        
+            // dispatching action
+            this.props.addTransaction(currentTrs);
+            this.clearState();
+            } else {
+                // will display here an error message that the data isn't full
+                return false;
+        }
     }
 
     handleOpen() {
@@ -101,7 +107,7 @@ class TransactionForm extends Component {
     render() {
         return (
             <MuiThemeProvider>
-                <div>
+                <div className="TransactionForm">
                     <TextField
                       type="number"
                       hintText="$ How much?"
@@ -136,12 +142,13 @@ class TransactionForm extends Component {
                     />
 
                     <FloatingActionButton 
-                      onClick={ () => {
-                                        this.registerTransaction();
-                                        this.clearState();
-                                      }}
+                      className="addTransactionButton"
+                      backgroundColor="#556223"
+                      iconStyle={{fill: "rgba(208,185,61,1)"}}
+                      disabled={!this.state.sum}
+                      onClick={ () => this.registerTransaction() }
                     >
-                        <ContentAdd />
+                        <AttachMoney />
                     </FloatingActionButton>
                 </div>
             </MuiThemeProvider>

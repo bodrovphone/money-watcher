@@ -1,0 +1,9 @@
+.TransactionForm {
+    position: relative;
+}
+
+.addTransactionButton {
+    position: absolute;
+    top: -27px;
+    right: 25%;
+}
