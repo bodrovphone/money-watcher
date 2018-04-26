@@ -17,9 +17,11 @@ import CategoryPicker from './CategoryPicker';
 
 // @markup
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import TextField from 'material-ui/TextField';
+import TextFieldIcon from 'material-ui-textfield-icon';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
-import AttachMoney from 'material-ui-icons/AttachMoney';
+import AttachMoney from 'material-ui/svg-icons/editor/attach-money';
+import ModeEditor from 'material-ui/svg-icons/editor/mode-edit';
+import Add from 'material-ui/svg-icons/content/add';
 import DatePicker from 'material-ui/DatePicker';
 
 // :design assets:
@@ -108,19 +110,25 @@ class TransactionForm extends Component {
         return (
             <MuiThemeProvider>
                 <div className="TransactionForm">
-                    <TextField
+                    <TextFieldIcon
                       type="number"
-                      hintText="$ How much?"
+                      hintText="How much?"
                       value={ this.state.sum }
+                      icon={<AttachMoney tabindex="-1" />}
+                      iconPosition="before"
+                      tabindex="1"
                       id="sum-input"
                       onChange={event => this.setState({ sum: event.target.value })}
                       onKeyPress={(e) => this.handleEnterPress(e)}
                     />
                     <br/>
-                    <TextField
+                    <TextFieldIcon
                       type="text"
-                      floatingLabelText="Add a note"
+                      hintText="Add a short note"
+                      tabindex="2"
                       value={ this.state.note }
+                      icon={<ModeEditor tabindex="-2" />}
+                      iconPosition="before"
                       id="sum-note"
                       onChange={ event => this.setState({note: event.target.value })}
                       onKeyPress={(e) => this.handleEnterPress(e)}
@@ -148,7 +156,7 @@ class TransactionForm extends Component {
                       disabled={!this.state.sum}
                       onClick={ () => this.registerTransaction() }
                     >
-                        <AttachMoney />
+                        <Add />
                     </FloatingActionButton>
                 </div>
             </MuiThemeProvider>
