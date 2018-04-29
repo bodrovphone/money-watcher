@@ -19,9 +19,9 @@ import CategoryPicker from './CategoryPicker';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextFieldIcon from 'material-ui-textfield-icon';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
-import AttachMoney from 'material-ui/svg-icons/editor/attach-money';
-import ModeEditor from 'material-ui/svg-icons/editor/mode-edit';
-import Add from 'material-ui/svg-icons/content/add';
+import AttachMoneyIcon from 'material-ui/svg-icons/editor/attach-money';
+import ModeEditorIcon from 'material-ui/svg-icons/editor/mode-edit';
+import AddIcon from 'material-ui/svg-icons/content/add';
 import DatePicker from 'material-ui/DatePicker';
 
 // :design assets:
@@ -46,6 +46,10 @@ class TransactionForm extends Component {
     componentDidMount() {
         this.props.catFecthData();
         console.log(this.props.defaultCategory)
+    }
+
+    formatDate(date){
+      return dateFormat(date, "dddd dS mmmm");
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -111,34 +115,36 @@ class TransactionForm extends Component {
             <MuiThemeProvider>
                 <div className="TransactionForm">
                     <TextFieldIcon
-                      type="number"
-                      hintText="How much?"
                       value={ this.state.sum }
-                      icon={<AttachMoney tabindex="-1" />}
-                      iconPosition="before"
-                      tabindex="1"
-                      id="sum-input"
                       onChange={event => this.setState({ sum: event.target.value })}
                       onKeyPress={(e) => this.handleEnterPress(e)}
+                      type="number"
+                      hintText="How much?"
+                      icon={<AttachMoneyIcon color="rgba(208,185,61,1)" tabIndex="-1" />}
+                      iconPosition="before"
+                      tabIndex="1"
+                      underlineFocusStyle={{borderColor: "#556223"}}
                     />
                     <br/>
                     <TextFieldIcon
-                      type="text"
-                      hintText="Add a short note"
-                      tabindex="2"
                       value={ this.state.note }
-                      icon={<ModeEditor tabindex="-2" />}
-                      iconPosition="before"
-                      id="sum-note"
                       onChange={ event => this.setState({note: event.target.value })}
                       onKeyPress={(e) => this.handleEnterPress(e)}
+                      type="text"
+                      hintText="Add a short note"
+                      tabIndex="2"
+                      icon={<ModeEditorIcon color="rgba(208,185,61,1)" tabIndex="-2" />}
+                      iconPosition="before"
+                      underlineFocusStyle={{borderColor: "#556223"}}
                     />
                     <br/>
                     <DatePicker
-                      hintText="Controlled Date Input"
+                      hintText="Choose a date"
                       value={this.state.date}
+                      inputStyle={{textAlign: "center", border: "none"}}
                       onChange={(e,d) => this.setState({ date: dateFixer(d) })}
                       autoOk={true}
+                      formatDate={this.formatDate}
                     />
 
                     <CategoryPicker 
@@ -156,7 +162,7 @@ class TransactionForm extends Component {
                       disabled={!this.state.sum}
                       onClick={ () => this.registerTransaction() }
                     >
-                        <Add />
+                        <AddIcon />
                     </FloatingActionButton>
                 </div>
             </MuiThemeProvider>
