@@ -49,7 +49,7 @@ class TransactionForm extends Component {
     }
 
     formatDate(date){
-      return dateFormat(date, "dddd dS mmmm");
+      return dateFormat(date, ">> dddd dS mmmm <<");
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -123,7 +123,7 @@ class TransactionForm extends Component {
                       icon={<AttachMoneyIcon color="rgba(208,185,61,1)" tabIndex="-1" />}
                       iconPosition="before"
                       tabIndex="1"
-                      underlineFocusStyle={{borderColor: "#556223"}}
+                      underlineFocusStyle={{borderColor: "rgb(158, 168, 124)"}}
                     />
                     <br/>
                     <TextFieldIcon
@@ -135,24 +135,26 @@ class TransactionForm extends Component {
                       tabIndex="2"
                       icon={<ModeEditorIcon color="rgba(208,185,61,1)" tabIndex="-2" />}
                       iconPosition="before"
-                      underlineFocusStyle={{borderColor: "#556223"}}
+                      underlineFocusStyle={{borderColor: "rgb(158, 168, 124)"}}
                     />
-                    <br/>
-                    <DatePicker
-                      hintText="Choose a date"
-                      value={this.state.date}
-                      inputStyle={{textAlign: "center", border: "none"}}
-                      onChange={(e,d) => this.setState({ date: dateFixer(d) })}
-                      autoOk={true}
-                      formatDate={this.formatDate}
-                    />
-
+                    
                     <CategoryPicker 
                         isCatPickerOpen = {this.state.isCatPickerOpen}
                         handleClose = {this.handleClose}
                         handleOpen = {this.handleOpen}
                         categories = {this.props.categories}
                         chosenCategory = {this.state.category}
+                    />
+
+                    <br/>
+                    <DatePicker
+                      className="datePicker"
+                      hintText="Choose a date"
+                      value={this.state.date}
+                      inputStyle={{textAlign: "center", color: "rgb(85, 98, 35)"}}
+                      onChange={(e,d) => this.setState({ date: dateFixer(d) })}
+                      autoOk={true}
+                      formatDate={this.formatDate}
                     />
 
                     <FloatingActionButton 

@@ -52,7 +52,9 @@ export default class CategoryPicker extends Component {
     return (
       <Fragment>
           <br/>
-          <RaisedButton label={this.props.chosenCategory || 'pick a category'} onClick={ this.props.handleOpen } />
+          <RaisedButton label={this.props.chosenCategory || 'pick a category'} onClick={ this.props.handleOpen } 
+            fullWidth={true}
+          />
           <br/>
             <Dialog
               title="choose category"
