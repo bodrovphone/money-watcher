@@ -1,7 +1,7 @@
 .TransactionForm {
     position: relative;
     width: 256px;
-    margin: 0 auto;
+    margin: 0 auto 50px auto;
 }
 
 .TransactionForm input {
@@ -23,7 +23,7 @@
     display: none;
 }
 
-.datePicker input:hover {
+.datePicker input:hover, .categoryPicker:hover {
   animation: shake 0.62s cubic-bezier(.36,.07,.19,.97) both;
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;

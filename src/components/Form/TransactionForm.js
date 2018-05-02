@@ -17,6 +17,7 @@ import CategoryPicker from './CategoryPicker';
 
 // @markup
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import TextFieldIcon from 'material-ui-textfield-icon';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import AttachMoneyIcon from 'material-ui/svg-icons/editor/attach-money';
@@ -26,6 +27,15 @@ import DatePicker from 'material-ui/DatePicker';
 
 // :design assets:
 import './Form.css';
+const muiTheme = getMuiTheme({
+  palette: {
+    pickerHeaderColor: "#008000",
+    clockCircleColor: "#008000",
+    primary1Color: "#008000",
+    primary2Color: "#008000"
+  }
+});
+
 
 
 class TransactionForm extends Component {
@@ -49,7 +59,7 @@ class TransactionForm extends Component {
     }
 
     formatDate(date){
-      return dateFormat(date, ">> dddd dS mmmm <<");
+      return dateFormat(date, "🕣 dddd dS mmmm");
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -112,7 +122,7 @@ class TransactionForm extends Component {
 
     render() {
         return (
-            <MuiThemeProvider>
+            <MuiThemeProvider muiTheme={muiTheme}>
                 <div className="TransactionForm">
                     <TextFieldIcon
                       value={ this.state.sum }
@@ -151,10 +161,11 @@ class TransactionForm extends Component {
                       className="datePicker"
                       hintText="Choose a date"
                       value={this.state.date}
-                      inputStyle={{textAlign: "center", color: "rgb(85, 98, 35)"}}
+                      inputStyle={{textAlign: "center", backgroundColor: "rgb(164, 198, 57)", }}
                       onChange={(e,d) => this.setState({ date: dateFixer(d) })}
                       autoOk={true}
                       formatDate={this.formatDate}
+                      disableYearSelection={true}
                     />
 
                     <FloatingActionButton 

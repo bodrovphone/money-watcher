@@ -7,6 +7,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import FontIcon from 'material-ui/FontIcon';
+import Tune from 'material-ui/svg-icons/image/tune';
 import ActionAndroid from 'material-ui/svg-icons/action/android';
 
 // creating buttons with labels of expenses categories
@@ -52,8 +53,14 @@ export default class CategoryPicker extends Component {
     return (
       <Fragment>
           <br/>
-          <RaisedButton label={this.props.chosenCategory || 'pick a category'} onClick={ this.props.handleOpen } 
+          <RaisedButton
+            className="categoryPicker"
+            label={this.props.chosenCategory || 'pick a category'} 
+            labelPosition="after"
+            icon={<Tune />}
+            onClick={ this.props.handleOpen } 
             fullWidth={true}
+            backgroundColor="#a4c639"
           />
           <br/>
             <Dialog
