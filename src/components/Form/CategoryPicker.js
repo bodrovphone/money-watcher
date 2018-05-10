@@ -39,7 +39,7 @@ class Categories extends Component {
 
   render() {
     return(
-      <div>
+      <div className="categoryPicker-dialog">
         { 
           this.ListCateglories()
         }
@@ -60,27 +60,20 @@ export default class CategoryPicker extends Component {
             icon={<Tune />}
             onClick={ this.props.handleOpen } 
             fullWidth={true}
-            backgroundColor="#a4c639"
+            backgroundColor="rgb(163, 188, 79)"
           />
           <br/>
             <Dialog
-              title="choose category"
               modal={ false }
               open={ this.props.isCatPickerOpen }
               onRequestClose={ this.props.handleClose }
               autoScrollBodyContent={ true }
             >
               <Tabs>
-                  <Tab
-                    icon={<FontIcon className="material-icons">Expense</FontIcon>}
-                    label="RECENTS"
-                    >
+                  <Tab icon={<FontIcon className="material-icons">Expense</FontIcon>} >
                     <Categories {...this.props} categories={this.props.categories.expense} />
                   </Tab>
-                  <Tab
-                    icon={<FontIcon className="material-icons">Income</FontIcon>}
-                    label="FAVORITES"
-                  >
+                  <Tab icon={<FontIcon className="material-icons">Income</FontIcon>} >
                     <Categories {...this.props} categories={this.props.categories.income} />
                   </Tab>
               </Tabs>

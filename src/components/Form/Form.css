@@ -47,3 +47,7 @@
     transform: translate3d(4px, 0, 0);
   }
 }
+
+.categoryPicker-dialog button {
+    margin: 10px !important:;
+}

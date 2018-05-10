@@ -29,10 +29,11 @@ import DatePicker from 'material-ui/DatePicker';
 import './Form.css';
 const muiTheme = getMuiTheme({
   palette: {
-    pickerHeaderColor: "#008000",
+    pickerHeaderColor: "rgb(164, 198, 57)",
     clockCircleColor: "#008000",
     primary1Color: "#008000",
-    primary2Color: "#008000"
+    primary2Color: "#008000",
+    accent1Color: "#ff5722"
   }
 });
 
@@ -161,7 +162,7 @@ class TransactionForm extends Component {
                       className="datePicker"
                       hintText="Choose a date"
                       value={this.state.date}
-                      inputStyle={{textAlign: "center", backgroundColor: "rgb(164, 198, 57)", }}
+                      inputStyle={{textAlign: "center", backgroundColor: "rgb(223, 217, 91)", }}
                       onChange={(e,d) => this.setState({ date: dateFixer(d) })}
                       autoOk={true}
                       formatDate={this.formatDate}
