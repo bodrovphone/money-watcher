@@ -14,24 +14,28 @@ import ActionAndroid from 'material-ui/svg-icons/action/android';
 class Categories extends Component {
   
   ListCateglories() {
-    // copying categories from props
-    const categories = this.props.categories;
-    const catLabels = [];
-    // fulfilling english labels(for now)
-    for (let item in categories) {
-        catLabels.push(categories[item].en);
+    // transforming data from obj to array
+    const categories = [];
+    for (let item in this.props.categories) {
+        categories.push(this.props.categories[item]);
     }
+    // creating a list of icon names
+    var myIcon = {};
+    var myString = "ActionAndroid"
+    myIcon.Tune = <Tune />
+    myIcon.ActionAndroid = <ActionAndroid />
+
     // creating list of Buttons with labels (TBD : add handleClose events to update parent state - add transaction to it)
-    const list = catLabels.map((cat, index) => (
+    const list = categories.map((cat, index) => (
             <FlatButton
               key={index}
-              label={cat}
+              label={cat.en}
               primary={ true }
               keyboardFocused={ true }
-              onClick={ () => this.props.handleClose(cat) }
-              icon={<ActionAndroid />}
-            />           
-            ));
+              onClick={ () => this.props.handleClose(cat.en) }
+              icon={myIcon[cat.icon] || myIcon[myString]}
+            />)           
+            );
 
     return list;
   }
