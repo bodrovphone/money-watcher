@@ -26,7 +26,7 @@ class Categories extends Component {
               primary={ true }
               keyboardFocused={ true }
               onClick={ () => this.props.handleClose(cat.en) }
-              icon={defaultSetOfIcons(cat.icon) || <ActionAndroid />}
+              icon={defaultSetOfIcons(cat.en) || <ActionAndroid />}
             />)           
             );
 
@@ -54,7 +54,7 @@ export default class CategoryPicker extends Component {
             className="categoryPicker"
             label={this.props.chosenCategory || 'pick a category'} 
             labelPosition="after"
-            icon={defaultSetOfIcons("BeachAccess")}
+            icon={defaultSetOfIcons(this.props.chosenCategory)}
             onClick={ this.props.handleOpen } 
             fullWidth={true}
             backgroundColor="rgb(163, 188, 79)"
