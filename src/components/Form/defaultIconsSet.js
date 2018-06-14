@@ -7,7 +7,7 @@ import Expense from 'material-ui/svg-icons/action/thumb-down';
 import BeachAccess from 'material-ui/svg-icons/places/beach-access';
 import Clothes from 'material-ui/svg-icons/maps/store-mall-directory';
 import Credit from 'material-ui/svg-icons/action/credit-card';
-import Food from 'material-ui/svg-icons/maps/restaurant';
+import Food from 'material-ui/svg-icons/places/kitchen';
 import Health from 'material-ui/svg-icons/maps/local-hospital';
 import Bills from 'material-ui/svg-icons/action/home';
 import Other from 'material-ui/svg-icons/notification/more';

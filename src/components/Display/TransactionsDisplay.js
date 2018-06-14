@@ -6,13 +6,16 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 
 // *actions*
-import { trsFecthData } from '../actions';
+import { trsFecthData } from '../../actions';
 
 // =Dev helpers=
-import groupTrsByDay from './helpers/groupTrsByDay';
+import groupTrsByDay from './groupTrsByDay';
 
 // @markup
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
+// :design assets:
+import './Display.css';
 
 
 class TransactionsDisplay extends Component {
@@ -29,7 +32,7 @@ class TransactionsDisplay extends Component {
 
                 // conditinal rendering if `true`
                 <MuiThemeProvider>
-                    <div>
+                    <div className="DisplayWrapper">
                     {
                         groupTrsByDay(this.props.transactions)
                     }

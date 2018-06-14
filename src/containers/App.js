@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 
 // &-components-&
 import Header from '../components/Header'
-import TransactionsDisplay from '../components/TransactionsDisplay';
+import TransactionsDisplay from '../components/Display/TransactionsDisplay';
 import TransactionForm from '../components/Form/TransactionForm';
 
 // :design assets:
