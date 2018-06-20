@@ -6,6 +6,7 @@ import groupArray from 'group-array';
 
 // @markup
 import Day from './Day';
+import SingleTransaction from './SingleTransaction';
 
 function groupTrsByDay(transactions) {
         // re-grouping object of arrays using helper
@@ -17,14 +18,11 @@ function groupTrsByDay(transactions) {
           
             return (
                 <Fragment key={index}>
-                    <Day header={day} index={index}>
+                    <Day header={day} index={index} key={day}>
                             {
                                 // iterating through each transaction in a day
-                                myItem.map((date, nIdex) => (
-                                    <div key={date}>
-                                        {date.sum} <br/>
-                                        {date.category}
-                                    </div>
+                                myItem.map((item, nIdex) => (
+                                    <SingleTransaction key={nIdex} item={item} index={nIdex} />
                                 ))
                                 .reverse()
                             }

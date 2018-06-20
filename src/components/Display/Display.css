@@ -3,6 +3,78 @@
     margin: 0 auto;
 }
 
-.DayHeader h2 {
-
+.Day {
+    background-color: #fff;
+    box-shadow: 5px 5px #ccc;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    position: relative;
 }
+
+.DayInlineWrapper {
+    height: 75px;
+}
+
+.Day hr {
+    width: 90%;
+    margin: 0 auto 15px auto !important;
+}
+
+.clear {
+    clear: both;
+}
+
+.DayHeader {
+    font-size: 1.4em;
+    float: left;
+    width: 50%;
+    text-align: right;
+    color: rgb(146, 165, 146);
+}
+
+.DayDateWrapper {
+    float: right;
+    width: 50%;
+    padding-left: 5px;
+    box-sizing: border-box;
+    text-align: left;
+    position: relative;
+    top: 42%;
+}
+
+.DayOfTheWeek {
+    display: block;
+    color: #515151;
+}
+
+.DayMonth {
+    color: #83a0a6;
+    font-size: 0.8em;
+}
+
+/* SingleTransaction style*/
+
+.SingleTransaction {
+    min-height: 50px;
+    padding: 5px 30%;
+}
+.STicon {
+    float: left;
+}
+
+.STcategory {
+    float: left;
+    padding-left: 4px;
+    color: #a4a4a4;
+}
+
+.STsum {
+    float: right;
+    color: #ff0909;
+}
+
+.STnote {
+    clear: both;
+    color: rgb(163, 188, 79);
+}
+
