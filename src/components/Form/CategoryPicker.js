@@ -6,7 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import {Tabs, Tab} from 'material-ui/Tabs';
-import defaultSetOfIcons from './defaultIconsSet';
+import defaultSetOfIcons from '../constants/defaultIconsSet';
 import ActionAndroid from 'material-ui/svg-icons/action/android';
 
 // creating buttons with labels of expenses categories

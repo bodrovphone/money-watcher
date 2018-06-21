@@ -2,7 +2,7 @@
 import React from 'react';
 
 // @markup
-import defaultSetOfIcons from '../Form/defaultIconsSet';
+import defaultSetOfIcons from '../constants/defaultIconsSet';
 
 export default props => (
         <div className="SingleTransaction">
