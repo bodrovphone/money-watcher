@@ -18,7 +18,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import './Display.css';
 
 
-class TransactionsDisplay extends Component {
+class Display extends Component {
 
     componentDidMount() {
         // dispatching action only when the client is online
@@ -52,4 +52,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 // export
-export default connect( null , mapDispatchToProps )(TransactionsDisplay);
+export default connect( null , mapDispatchToProps )(Display);

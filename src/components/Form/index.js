@@ -39,7 +39,7 @@ const muiTheme = getMuiTheme({
 
 
 
-class TransactionForm extends Component {
+class Form extends Component {
 
     constructor(props) {
         super(props);
@@ -197,4 +197,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 // export
-export default connect( mapStateToProps, mapDispatchToProps )(TransactionForm);
+export default connect( mapStateToProps, mapDispatchToProps )(Form);

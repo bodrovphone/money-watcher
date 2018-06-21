@@ -9,8 +9,8 @@ import PropTypes from 'prop-types';
 
 // &-components-&
 import Header from '../components/Header'
-import TransactionsDisplay from '../components/Display/TransactionsDisplay';
-import TransactionForm from '../components/Form/TransactionForm';
+import Display from '../components/Display';
+import Form from '../components/Form';
 
 // :design assets:
 import '../App.css';
@@ -23,8 +23,8 @@ class App extends Component {
       return (
           <div className="App">
               <Header />
-              <TransactionForm {...this.props} defaultCategory={defaultCategory} />
-              <TransactionsDisplay transactions={this.props.transactions}/>
+              <Form {...this.props} defaultCategory={defaultCategory} />
+              <Display transactions={this.props.transactions}/>
           </div>
       );
   }
