@@ -12,7 +12,7 @@ import ActionAndroid from 'material-ui/svg-icons/action/android';
 // creating buttons with labels of expenses categories
 class Categories extends Component {
   
-  ListCateglories() {
+  ListCategories() {
     // transforming data from obj to array
     const categories = [];
     for (let item in this.props.categories) {
@@ -38,7 +38,7 @@ class Categories extends Component {
     return(
       <div className="categoryPicker-dialog">
         { 
-          this.ListCateglories()
+          this.ListCategories()
         }
         </div>
       )
