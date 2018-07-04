@@ -20,9 +20,18 @@ import './Display.css';
 
 class Display extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            startPoint: "2018-05-",
+            endPoint: "2018-06-"
+        }
+    }
+
     componentDidMount() {
+        const {startPoint, endPoint} = this.state;
         // dispatching action only when the client is online
-        navigator.onLine &&  this.props.trsFecthData();
+        navigator.onLine &&  this.props.trsFecthData(startPoint, endPoint);
     }
 
     render() {

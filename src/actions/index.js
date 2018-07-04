@@ -45,7 +45,7 @@ export const catFecthDataSuccess = (categories) => {
 }
 
 //the below action creators is async function that is executed with redux-thunk lib
-export function trsFecthData() {
+export function trsFecthData(startPoint, endPoint) {
         return dispatch => {
             // dispatching action
             dispatch(dataIsLoading(true));
@@ -53,7 +53,8 @@ export function trsFecthData() {
                 const transactions = [];
 
             // fetching main transactions thread using `once` event listener(firebase event)
-            trsColl.once('value', snapshot => {
+            // plus filtering the data on the fly, based on the choosen month. (the current on by default)
+            trsColl.startAt(startPoint).endAt(endPoint).once('value', snapshot => {
                 let items = snapshot.val();
 
                 // filling array with transactions from firebase
