@@ -1,0 +1,30 @@
+.App-header {
+  background-color: #40423c;
+  height: 150px;
+  padding: 20px;
+  color: white;
+  position: relative;
+}
+
+.dashboardMonth {
+  position: absolute;
+  width: 66%;
+  left: 16%;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.dashboardMonth button {
+    width: 30%;
+    margin-left:3.5%;
+    border: none;
+    background: #576321;
+    background: linear-gradient(135deg, #576321 0%,#dfd95b 100%);
+    color: #fff;
+    font-size: 0.8em;
+}
+
+.dashboardMonth button:hover {
+    cursor: pointer;
+}
