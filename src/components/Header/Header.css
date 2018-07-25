@@ -5,26 +5,43 @@
   color: white;
   position: relative;
 }
-
-.dashboardMonth {
+.dashboardMonthHidden {
   position: absolute;
   width: 66%;
   left: 16%;
-  bottom: 0;
+  bottom: 15px;
+  overflow: hidden;
+}
+.dashboardMonth {
   display: flex;
   justify-content: center;
+  width: 166%;
+  margin-left: -36%;
+  transition: margin-left 2s;
+}
+
+.dashboardMonth.backward {
+  margin-left: 0;
+}
+
+.dashboardMonth.forward {
+  margin-left: -68%;
 }
 
 .dashboardMonth button {
     width: 30%;
+    height: 24px;
     margin-left:3.5%;
     border: none;
-    background: #576321;
-    background: linear-gradient(135deg, #576321 0%,#dfd95b 100%);
-    color: #fff;
-    font-size: 0.8em;
+    font-weight: bold;
+    color: #e7d67c;
+    font-size: 0.9em;
+    background: #926d00;
+    background: linear-gradient(to bottom, #40423c 20%,#926d00 50%,#926d00 50%,#926d00 58%,#40423c 100%);
+    border-radius: 20px 10px;
 }
 
 .dashboardMonth button:hover {
     cursor: pointer;
 }
+

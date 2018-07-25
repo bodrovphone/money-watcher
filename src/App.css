@@ -1,6 +1,7 @@
 .App {
   text-align: center;
   background: #eeeeef;
+  min-height: 100%;
 }
 
 .App-title {

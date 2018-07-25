@@ -11,7 +11,6 @@ import { trsFecthData } from '../../actions';
 // =Dev helpers=
 import groupTrsByDay from './groupTrsByDay';
 import {startPoint, endPoint} from './currentMonth';
-import dateFormat from 'dateformat';
 
 // @markup
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
