@@ -10,5 +10,13 @@ const createListOfMonth = (t) => {
     return months;
 }
 
-const ListOfMonth = createListOfMonth(5);
-export default ListOfMonth; 
+export const filterByMonth = (num) => {
+        var d = new Date();
+        var delta = [-2, -1, 0, 1, 2];
+        var item = delta[num]
+        var startPoint = dateFormat(new Date().setMonth(d.getMonth() + item), "yyyy-mm-");
+        var endPoint = dateFormat(new Date().setMonth(d.getMonth() + item + 1), "yyyy-mm-");
+        return {startPoint, endPoint};
+}
+
+export const ListOfMonth = createListOfMonth(5);

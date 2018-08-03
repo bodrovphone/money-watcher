@@ -1,28 +1,36 @@
 // +core+
 import React, { Component } from 'react';
+
+// ~structural~
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux'
+
+// *actions*
+import { trsFecthData } from '../../actions';
+
+// =Dev helpers=
+import { ListOfMonth, filterByMonth } from './monthHelper';
 import dateFormat from 'dateformat';
 
-import ListOfMonth from './monthHelper';
-
-export default class DashboardMonth extends Component {
+class DashboardMonth extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            animation: null,
             active: 2
         }
         this.HandleClick = this.HandleClick.bind(this);
     }
     HandleClick(e) {
         if (e.target.dataset.number == this.state.active) return;
-        const animation = e.target.dataset.number > this.state.active ? "forward" : "backward";
-        this.setState({animation: animation, active: e.target.dataset.number});
+        this.setState({active: e.target.dataset.number});
+        var { startPoint, endPoint } = filterByMonth(e.target.dataset.number);
+        this.props.trsFecthData(startPoint, endPoint);
     }
     render() {
         console.log(this.state)
         return (
             <div className="dashboardMonthHidden">
-                <div className={`dashboardMonth ${this.state.animation}`}>
+                <div className={`dashboardMonth active-${this.state.active}`}>
                     {
                         ListOfMonth.map((item, index) => 
                             <button className={item} onClick={this.HandleClick} key={item} data-number={index}>{item}</button>
@@ -32,3 +40,12 @@ export default class DashboardMonth extends Component {
             </div>
         )}
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    trsFecthData: bindActionCreators(trsFecthData, dispatch)
+  }
+}
+
+// export
+export default connect( null , mapDispatchToProps )(DashboardMonth);

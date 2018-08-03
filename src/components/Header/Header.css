@@ -16,16 +16,24 @@
   display: flex;
   justify-content: center;
   width: 166%;
-  margin-left: -36%;
+  margin-left: -33.2%;
   transition: margin-left 2s;
 }
 
-.dashboardMonth.backward {
+.dashboardMonth.active-0 {
+  margin-left: 33.2%;
+}
+.dashboardMonth.active-1 {
   margin-left: 0;
 }
-
-.dashboardMonth.forward {
-  margin-left: -68%;
+.dashboardMonth.active-2 {
+  margin-left: -33.2%;
+}
+.dashboardMonth.active-3 {
+  margin-left: -66.4%;
+}
+.dashboardMonth.active-4 {
+  margin-left: -99.6%;
 }
 
 .dashboardMonth button {
@@ -45,3 +53,4 @@
     cursor: pointer;
 }
 
+button:focus {outline:0;}
