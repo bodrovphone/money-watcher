@@ -10,15 +10,13 @@ import Divider from 'material-ui/Divider';
 // dateFormat(this.props.header, "dddd, mmmm dS, yyyy"
 export default class Day extends Component {
     render() {
-        // this.props.transactions.reduce((sum, current) => Number(sum) + Number(current.sum))
-        console.log(this.props.transactions)
         return (
             <Fragment key={this.props.index}>
                 <div key={this.props.index} className="Day">
                     <div className="DayInlineWrapper">
                         <div className="DayHeader">
                             <h2>{dateFormat(this.props.header, "dd")}</h2>
-                            <div className="DaySum">{this.props.transactions.reduce((sum, current) => Number(sum.sum) + Number(current.sum))}</div>
+                            <div className="DaySum">{this.props.transactions.reduce((sum, current) => Number(sum) + Number(current.sum), 0)}</div>
                         </div>
                         <div className="DayDateWrapper">
                             <span className="DayOfTheWeek">{dateFormat(this.props.header, "dddd")}</span>

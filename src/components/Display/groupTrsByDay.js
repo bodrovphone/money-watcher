@@ -14,13 +14,12 @@ function groupTrsByDay(transactions) {
 
         // iterating through each day in the object
         return Object.keys(groupedTrs).reverse().map((day, index) => {
-          const myItem = groupedTrs[day];
             return (
                 <Fragment key={index}>
-                    <Day header={day} index={index} key={day} transactions={transactions}>
+                    <Day header={day} index={index} key={day} transactions={groupedTrs[day]}>
                             {
                                 // iterating through each transaction in a day
-                                myItem.map((item, nIdex) => (
+                                groupedTrs[day].map((item, nIdex) => (
                                     <SingleTransaction key={nIdex} item={item} index={nIdex} />
                                 ))
                                 .reverse()
