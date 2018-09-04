@@ -79,7 +79,7 @@ class Form extends Component {
 
             // copying state
             const currentTrs = {
-                sum: this.state.sum,
+                sum: Math.abs(this.state.sum),
                 note: this.state.note,
                 category: this.state.category,
                 date: day,
