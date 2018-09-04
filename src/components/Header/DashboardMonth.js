@@ -27,7 +27,6 @@ class DashboardMonth extends Component {
         this.props.trsFecthData(startPoint, endPoint);
     }
     render() {
-        console.log(this.state)
         return (
             <div className="dashboardMonthHidden">
                 <div className={`dashboardMonth active-${this.state.active}`}>

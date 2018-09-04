@@ -52,6 +52,14 @@
     font-size: 0.8em;
 }
 
+.DaySum {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    font-size: 0.8em;
+    color: #8b0000;
+}
+
 /* SingleTransaction style*/
 
 .SingleTransaction {
