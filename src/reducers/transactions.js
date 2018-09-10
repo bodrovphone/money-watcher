@@ -44,8 +44,12 @@ export function transactions( state = [] , action ) {
     let transactions = null;
     switch(action.type) {
         case ADD_TRS:
-        // copying store and adding new trs to it
+        // copying store and adding new trs to it (but only in case it's been submitted with the chosen month)
+        if(state[0] && (state[0].date.substring(0, 7) === action.payload.date.substring(0, 7))) {
             transactions = [...state, action.payload];
+        } else {
+            transactions = [...state];
+        }
         // updating Firebase
             updateFirebse(action);
         // returning sorted store

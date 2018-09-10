@@ -93,7 +93,6 @@ class Form extends Component {
             this.clearState();
             } else if (!this.state.sum) {
                 // will display here an error message that the data isn't full
-                console.log("You must provide the sum");
                 this.setState({noSumAlert: true})
                 return false;
             } else if (!this.state.category) {
