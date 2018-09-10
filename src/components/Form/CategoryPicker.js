@@ -51,7 +51,7 @@ export default class CategoryPicker extends Component {
       <Fragment>
           <br/>
           <RaisedButton
-            className="categoryPicker"
+            className={this.props.noCategoryAlert ? "categoryPicker noCategoryAlert" :"categoryPicker"}
             label={this.props.chosenCategory || 'pick a category'} 
             labelPosition="after"
             icon={defaultSetOfIcons(this.props.chosenCategory)}

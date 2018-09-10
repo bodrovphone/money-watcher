@@ -48,7 +48,9 @@ class Form extends Component {
           note: "",
           category: null,
           date: new Date(),
-          isCatPickerOpen: false
+          isCatPickerOpen: false,
+          noCategoryAlert: false,
+          noSumAlert: false
         };
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
@@ -89,10 +91,16 @@ class Form extends Component {
             // dispatching action
             this.props.addTransaction(currentTrs);
             this.clearState();
-            } else {
+            } else if (!this.state.sum) {
                 // will display here an error message that the data isn't full
+                console.log("You must provide the sum");
+                this.setState({noSumAlert: true})
                 return false;
-        }
+            } else if (!this.state.category) {
+               console.log("You must pick the category");
+                this.setState({noCategoryAlert: true})
+                return false;
+            }
     }
 
     handleOpen() {
@@ -100,7 +108,7 @@ class Form extends Component {
     }
 
     handleClose(cat) {
-      this.setState({isCatPickerOpen: false, category: cat});
+      this.setState({isCatPickerOpen: false, category: cat, noCategoryAlert: false});
     }
 
     clearState() {
@@ -115,9 +123,8 @@ class Form extends Component {
 
     handleEnterPress(e) {
         // checing if `Enter` button has been clicked
-        if (e.key === 'Enter' && this.state.sum && this.state.category) {
+        if (e.key === 'Enter') {
             this.registerTransaction();
-            this.clearState();
           }
     }
 
@@ -127,14 +134,15 @@ class Form extends Component {
                 <div className="TransactionForm">
                     <TextFieldIcon
                       value={ this.state.sum }
-                      onChange={event => this.setState({ sum: event.target.value })}
+                      onChange={event => this.setState({ sum: event.target.value, noSumAlert: false })}
                       onKeyPress={(e) => this.handleEnterPress(e)}
                       type="number"
-                      hintText="How much?"
+                      hintText={this.state.noSumAlert ? "can't be blank" : "How much?"}
                       icon={<AttachMoneyIcon color="rgba(208,185,61,1)" tabIndex="-1" />}
                       iconPosition="before"
                       tabIndex="1"
                       underlineFocusStyle={{borderColor: "rgb(158, 168, 124)"}}
+                      className={this.state.noSumAlert ? "noSumAlert" : ""}
                     />
                     <br/>
                     <TextFieldIcon
@@ -155,6 +163,7 @@ class Form extends Component {
                         handleOpen = {this.handleOpen}
                         categories = {this.props.categories}
                         chosenCategory = {this.state.category}
+                        noCategoryAlert = {this.state.noCategoryAlert}
                     />
 
                     <br/>
@@ -173,7 +182,7 @@ class Form extends Component {
                       className="addTransactionButton"
                       backgroundColor="#556223"
                       iconStyle={{fill: "rgba(208,185,61,1)"}}
-                      disabled={!this.state.sum}
+                      disabled={!this.state.sum || !this.state.category}
                       onClick={ () => this.registerTransaction() }
                     >
                         <AddIcon />

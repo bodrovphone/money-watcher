@@ -23,11 +23,19 @@
     display: none;
 }
 
-.datePicker input:hover, .categoryPicker:hover {
+.datePicker input:hover, .categoryPicker:hover, .noSumAlert, .noCategoryAlert {
   animation: shake 0.62s cubic-bezier(.36,.07,.19,.97) both;
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
   perspective: 1000px;
+}
+
+.noSumAlert hr {
+  border-bottom: 2px #e48d8d solid !important;
+}
+
+.noCategoryAlert button {
+  background-color: rgb(224, 224, 224) !important;
 }
 
 @keyframes shake {
