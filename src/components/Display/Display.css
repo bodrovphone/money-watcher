@@ -1,11 +1,30 @@
+:root {
+    /*background colors*/
+    --bg-color-white: rgb(255, 255, 255);
+    /*dates color*/
+    --date-color-DayHeader: rgb(146, 165, 146);
+    --date-color-DayOfWeek: rgb(81, 81, 81);
+    --date-color-DayOfMonth: rgb(131, 160, 166);
+    /*numbers color*/
+    --num-color-DaySum: rgb(139, 0, 0);
+    --num-color-TrsSum: rgb(255, 9, 9);
+    /*colors for categories' labels*/
+    --cat-color-STcategory: rgb(164, 164, 164);
+    /*colors for single transactions*/
+    --trs-color-STnote: rgb(163, 188, 79);
+    /*other colors*/
+    --shadow-color-1: rgba(0,0,0,0.19);
+    --shadow-color-2: rgba(0,0,0,0.23);
+}
+
 .DisplayWrapper {
     max-width: 40%;
     margin: 0 auto;
 }
 
 .Day {
-    background-color: #fff;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    background-color: var(--bg-color-white);
+    box-shadow: 0 10px 20px var(--shadow-color-1), 0 6px 6px var(--shadow-color-2);
     border-radius: 10px;
     margin-bottom: 20px;
     position: relative;
@@ -25,7 +44,7 @@
     float: left;
     width: 50%;
     text-align: right;
-    color: rgb(146, 165, 146);
+    color: var(--date-color-DayHeader);;
 }
 
 .DayDateWrapper {
@@ -40,11 +59,11 @@
 
 .DayOfWeek {
     display: block;
-    color: #515151;
+    color: var(--date-color-DayOfWeek);
 }
 
 .DayOfMonth {
-    color: #83a0a6;
+    color: var(--date-color-DayOfMonth);
     font-size: 0.8em;
 }
 
@@ -53,7 +72,7 @@
     right: 5px;
     top: 5px;
     font-size: 0.8em;
-    color: #8b0000;
+    color: var(--num-color-DaySum);
 }
 
 /* SingleTransaction style*/
@@ -69,16 +88,16 @@
 .STcategory {
     float: left;
     padding-left: 4px;
-    color: #a4a4a4;
+    color: var(--cat-color-STcategory);
 }
 
 .STsum {
     float: right;
-    color: #ff0909;
+    color: var(--num-color-TrsSum);
 }
 
 .STnote {
     clear: both;
-    color: rgb(163, 188, 79);
+    color: var(--trs-color-STnote);
 }
 

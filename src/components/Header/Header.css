@@ -1,5 +1,14 @@
+:root {
+    /*background colors*/
+    --bg-color-AppHeader: rgb(64, 66, 60);
+    --bg-color-dashboardMonth: rgb(146, 109, 0);
+    --bg-color-dashboardMonthGradient: linear-gradient(to bottom, #40423c 20%,#926d00 50%,#926d00 50%,#926d00 58%,#40423c 100%);
+    /*dates color*/
+    --date-color-dashboardMonth: rgb(231, 214, 124);
+}
+
 .AppHeader {
-  background-color: #40423c;
+  background-color: var(--bg-color-AppHeader);
   height: 150px;
   padding: 20px;
   color: white;
@@ -42,10 +51,10 @@
     margin-left:3.5%;
     border: none;
     font-weight: bold;
-    color: #e7d67c;
+    color: var(--date-color-dashboardMonth);
     font-size: 0.9em;
-    background: #926d00;
-    background: linear-gradient(to bottom, #40423c 20%,#926d00 50%,#926d00 50%,#926d00 58%,#40423c 100%);
+    background: var(--bg-color-dashboardMonth);
+    background: var(--bg-color-dashboardMonthGradient);
     border-radius: 20px 10px;
 }
 

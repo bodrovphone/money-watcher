@@ -1,3 +1,10 @@
+:root {
+    /*background colors*/
+    --bg-color-noCategoryAlert: rgb(224, 224, 224);
+    /*other colors*/
+    --border-color-noSumAlert: rgb(228, 141, 141);
+}
+
 .TransactionForm {
     position: relative;
     width: 256px;
@@ -31,11 +38,11 @@
 }
 
 .noSumAlert hr {
-  border-bottom: 2px #e48d8d solid !important;
+  border-bottom: 2px var(--border-color-noSumAlert) solid !important;
 }
 
 .noCategoryAlert button {
-  background-color: rgb(224, 224, 224) !important;
+  background-color: var(--bg-color-noCategoryAlert) !important;
 }
 
 @keyframes shake {
