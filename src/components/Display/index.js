@@ -31,8 +31,8 @@ class Display extends Component {
 
     componentDidMount() {
         const {startPoint, endPoint} = this.state;
-        // dispatching action only when the client is online
-        navigator.onLine &&  this.props.trsFecthData(startPoint, endPoint);
+        // dispatching action only when the client is online + after I'll create a fallback with localstore
+        navigator.onLine && this.props.trsFecthData(startPoint, endPoint);
     }
 
     render() {
@@ -40,7 +40,6 @@ class Display extends Component {
             // conditional rendering
             this.props.transactions.length ? 
 
-                // conditinal rendering if `true`
                 <MuiThemeProvider>
                     <div className="DisplayWrapper">
                     {
@@ -51,8 +50,8 @@ class Display extends Component {
 
             // conditional rendering if `false`
             : <div>Fallback block goes here (no internet or transactions)</div>
-            )
-        }
+        )
+    }
 }
 
 function mapDispatchToProps(dispatch) {

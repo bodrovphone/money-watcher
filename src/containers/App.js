@@ -16,20 +16,22 @@ import Form from '../components/Form';
 import '../App.css';
 
 class App extends Component {
+    
     render() {
         // set last picked category as a default one
         const [lastTrs] = this.props.transactions.slice(-1);
         const defaultCategory = lastTrs ? lastTrs.category : null;
-      return (
-          <div className="App">
-              <Header />
-              <Form {...this.props} defaultCategory={defaultCategory} />
-              <Display transactions={this.props.transactions}/>
-          </div>
-      );
-  }
-}
 
+        return (
+            <div className="App">
+                <Header />
+                <Form {...this.props} defaultCategory={ defaultCategory } />
+                <Display transactions={ this.props.transactions }/>
+            </div>
+        );
+  }
+
+}
 
 App.propTypes = {
     transactions: PropTypes.array.isRequired,

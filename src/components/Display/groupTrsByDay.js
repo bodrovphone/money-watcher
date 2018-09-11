@@ -1,5 +1,5 @@
 // +core+
-import React, { Fragment } from 'react';
+import React from 'react';
 
 // =Dev helpers=
 import groupArray from 'group-array';
@@ -13,20 +13,22 @@ function groupTrsByDay(transactions) {
         const groupedTrs = groupArray(transactions, "date");
 
         // iterating through each day in the object
-        return Object.keys(groupedTrs).reverse().map((day, index) => {
-            return (
-                <Fragment key={index}>
-                    <Day header={day} index={index} key={day} transactions={groupedTrs[day]}>
+        return (Object.keys(groupedTrs)
+                .reverse()
+                .map((day, index) => {
+                    return (
+                        <Day header={day} index={index} key={day} transactions={groupedTrs[day]}>
                             {
                                 // iterating through each transaction in a day
-                                groupedTrs[day].map((item, nIdex) => (
-                                    <SingleTransaction key={nIdex} item={item} index={nIdex} />
+                                groupedTrs[day].map((item, index) => (
+                                    <SingleTransaction key={index} item={item} index={index} />
                                 ))
                                 .reverse()
                             }
-                    </Day>
-                </Fragment>
-                )})
-    }
+                        </Day>
+                    )
+                })
+        )
+}
 
 export default groupTrsByDay;

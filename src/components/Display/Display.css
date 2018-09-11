@@ -11,17 +11,13 @@
     position: relative;
 }
 
-.DayInlineWrapper {
+.DayWrapper {
     height: 75px;
 }
 
 .Day hr {
     width: 90%;
     margin: 0 auto 15px auto !important;
-}
-
-.clear {
-    clear: both;
 }
 
 .DayHeader {
@@ -42,12 +38,12 @@
     top: 42%;
 }
 
-.DayOfTheWeek {
+.DayOfWeek {
     display: block;
     color: #515151;
 }
 
-.DayMonth {
+.DayOfMonth {
     color: #83a0a6;
     font-size: 0.8em;
 }

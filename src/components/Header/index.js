@@ -5,13 +5,13 @@ import React from 'react';
 import DashboardMonth from './DashboardMonth'
 
 // :design assets:
-import logo from '../../money-watcher_transparent_bg.png';
+import logo from '../../money-watcher_logo.png';
 import './Header.css';
 
 
 const Header = () => {
     return (
-        <header className="App-header">
+        <header className="AppHeader">
             <img src={ logo } className="" alt="logo" />
             <DashboardMonth />
         </header>

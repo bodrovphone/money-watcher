@@ -1,6 +1,7 @@
 // +core+
 import dateFormat from 'dateformat';
 
+// two functions are intended to create startPoint and endPoint to make the approrpiate request to firebase 
 const createListOfMonth = (t) => {
     const months = [];
     while (t) {

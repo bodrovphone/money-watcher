@@ -44,13 +44,13 @@ export const catFecthDataSuccess = (categories) => {
     return action;
 }
 
-//the below action creators is async function that is executed with redux-thunk lib
+//the below action creators is async function that is executed with redux-thunk lib (retrieving transactions from firebase and putting them to redux store)
 export function trsFecthData(startPoint, endPoint) {
         return dispatch => {
             // dispatching action
             dispatch(dataIsLoading(true));
 
-                const transactions = [];
+            const transactions = [];
 
             // fetching main transactions thread using `once` event listener(firebase event)
             // plus filtering the data on the fly, based on the choosen month. (the current on by default)
@@ -91,16 +91,11 @@ export function trsFecthData(startPoint, endPoint) {
                 dispatch(trsHasErrored(true));
             });
 
-            
-
-
         }
-    }
+}
 
 
-
-
-
+//fetching categories to update category picker with the default set of categories
 export function catFecthData() {
         return dispatch => {
             // dispatching action
@@ -124,9 +119,5 @@ export function catFecthData() {
                 // dispatching action
                 dispatch(trsHasErrored(true));
             });
-
-            
-
-
         }
     }

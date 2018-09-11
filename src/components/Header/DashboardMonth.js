@@ -10,29 +10,39 @@ import { trsFecthData } from '../../actions';
 
 // =Dev helpers=
 import { ListOfMonth, filterByMonth } from './monthHelper';
-import dateFormat from 'dateformat';
 
 class DashboardMonth extends Component {
+
     constructor(props) {
         super(props);
+        
         this.state = {
             active: 2
         }
+
         this.HandleClick = this.HandleClick.bind(this);
     }
+
     HandleClick(e) {
-        if (e.target.dataset.number == this.state.active) return;
+        // determine if user clicks on the month and it is already active
+        if (e.target.dataset.number === this.state.active) return;
+        // chaning local state
         this.setState({active: e.target.dataset.number});
+        // creating filters for fetching selected data
         var { startPoint, endPoint } = filterByMonth(e.target.dataset.number);
+        // dispathcing an action
         this.props.trsFecthData(startPoint, endPoint);
     }
+
     render() {
         return (
             <div className="dashboardMonthHidden">
-                <div className={`dashboardMonth active-${this.state.active}`}>
+                <div className={ `dashboardMonth active-${this.state.active}` }>
                     {
                         ListOfMonth.map((item, index) => 
-                            <button className={item} onClick={this.HandleClick} key={item} data-number={index}>{item}</button>
+                            <button className={ item } onClick={ this.HandleClick } key={ item } data-number={ index }>
+                                {item}
+                            </button>
                             )
                     }
                 </div>

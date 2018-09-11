@@ -37,8 +37,6 @@ const muiTheme = getMuiTheme({
   }
 });
 
-
-
 class Form extends Component {
 
     constructor(props) {
@@ -58,7 +56,6 @@ class Form extends Component {
 
     componentDidMount() {
         this.props.catFecthData();
-        console.log(this.props.defaultCategory)
     }
 
     formatDate(date){
@@ -73,7 +70,7 @@ class Form extends Component {
     }
 
     registerTransaction() {
-        // when adding trs with button - checking if sum or category isn't not null
+        // when adding trs with button - checking if sum or category isn't null
         if (this.state.sum && this.state.category) { 
              // modifying the default date token for data node naming in fb
             const dateToken = dateFormat(this.state.date, "isoDateTime");
@@ -92,11 +89,11 @@ class Form extends Component {
             this.props.addTransaction(currentTrs);
             this.clearState();
             } else if (!this.state.sum) {
-                // will display here an error message that the data isn't full
+                // let the user know he must add a sum
                 this.setState({noSumAlert: true})
                 return false;
             } else if (!this.state.category) {
-               console.log("You must pick the category");
+                // let the user know he must pick a categroy
                 this.setState({noCategoryAlert: true})
                 return false;
             }
@@ -121,7 +118,6 @@ class Form extends Component {
     }
 
     handleEnterPress(e) {
-        // checing if `Enter` button has been clicked
         if (e.key === 'Enter') {
             this.registerTransaction();
           }
@@ -129,63 +125,66 @@ class Form extends Component {
 
     render() {
         return (
-            <MuiThemeProvider muiTheme={muiTheme}>
+            <MuiThemeProvider muiTheme={ muiTheme }>
                 <div className="TransactionForm">
+
                     <TextFieldIcon
                       value={ this.state.sum }
-                      onChange={event => this.setState({ sum: event.target.value, noSumAlert: false })}
-                      onKeyPress={(e) => this.handleEnterPress(e)}
+                      onChange={ event => this.setState({ sum: event.target.value, noSumAlert: false }) }
+                      onKeyPress={ e => this.handleEnterPress(e) }
                       type="number"
-                      hintText={this.state.noSumAlert ? "can't be blank" : "How much?"}
-                      icon={<AttachMoneyIcon color="rgba(208,185,61,1)" tabIndex="-1" />}
+                      hintText={ this.state.noSumAlert ? "can't be blank" : "How much?" }
+                      icon={ <AttachMoneyIcon color="rgba(208,185,61,1)" tabIndex="-1" /> }
                       iconPosition="before"
                       tabIndex="1"
-                      underlineFocusStyle={{borderColor: "rgb(158, 168, 124)"}}
-                      className={this.state.noSumAlert ? "noSumAlert" : ""}
+                      underlineFocusStyle={ {borderColor: "rgb(158, 168, 124)"} }
+                      className={ this.state.noSumAlert ? "noSumAlert" : "" }
                     />
+
                     <br/>
                     <TextFieldIcon
                       value={ this.state.note }
-                      onChange={ event => this.setState({note: event.target.value })}
-                      onKeyPress={(e) => this.handleEnterPress(e)}
+                      onChange={ event => this.setState({note: event.target.value }) }
+                      onKeyPress={ (e) => this.handleEnterPress(e) }
                       type="text"
                       hintText="Add a short note"
                       tabIndex="2"
-                      icon={<ModeEditorIcon color="rgba(208,185,61,1)" tabIndex="-2" />}
+                      icon={ <ModeEditorIcon color="rgba(208,185,61,1)" tabIndex="-2" /> }
                       iconPosition="before"
-                      underlineFocusStyle={{borderColor: "rgb(158, 168, 124)"}}
+                      underlineFocusStyle={ {borderColor: "rgb(158, 168, 124)"} }
                     />
                     
                     <CategoryPicker 
-                        isCatPickerOpen = {this.state.isCatPickerOpen}
-                        handleClose = {this.handleClose}
-                        handleOpen = {this.handleOpen}
-                        categories = {this.props.categories}
-                        chosenCategory = {this.state.category}
-                        noCategoryAlert = {this.state.noCategoryAlert}
+                        isCatPickerOpen = { this.state.isCatPickerOpen }
+                        handleClose = { this.handleClose }
+                        handleOpen = { this.handleOpen }
+                        categories = { this.props.categories }
+                        chosenCategory = { this.state.category }
+                        noCategoryAlert = { this.state.noCategoryAlert }
                     />
 
                     <br/>
                     <DatePicker
                       className="datePicker"
                       hintText="Choose a date"
-                      value={this.state.date}
-                      inputStyle={{textAlign: "center", backgroundColor: "rgb(223, 217, 91)", }}
-                      onChange={(e,d) => this.setState({ date: dateFixer(d) })}
-                      autoOk={true}
-                      formatDate={this.formatDate}
-                      disableYearSelection={true}
+                      value={ this.state.date }
+                      inputStyle={ {textAlign: "center", backgroundColor: "rgb(223, 217, 91)", } }
+                      onChange={ (e,d) => this.setState({ date: dateFixer(d) }) }
+                      autoOk={ true }
+                      formatDate={ this.formatDate }
+                      disableYearSelection={ true }
                     />
 
                     <FloatingActionButton 
                       className="addTransactionButton"
                       backgroundColor="#556223"
-                      iconStyle={{fill: "rgba(208,185,61,1)"}}
-                      disabled={!this.state.sum || !this.state.category}
+                      iconStyle={ {fill: "rgba(208,185,61,1)"} }
+                      disabled={ !this.state.sum || !this.state.category }
                       onClick={ () => this.registerTransaction() }
                     >
-                        <AddIcon />
+                    <AddIcon />
                     </FloatingActionButton>
+                    
                 </div>
             </MuiThemeProvider>
             );
