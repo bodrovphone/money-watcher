@@ -27,6 +27,7 @@
   width: 166%;
   margin-left: -33.2%;
   transition: margin-left 2s;
+  font-size: 1.4rem;
 }
 
 .dashboardMonth.active-0 {

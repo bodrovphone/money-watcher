@@ -13,6 +13,16 @@
 
 .TransactionForm input {
     cursor: pointer !important;
+    /*font-size: 1.4rem;*/
+}
+.TransactionForm button+div>div {
+    font-size: 1.4rem;
+}
+.TransactionForm input, .TransactionForm span {
+  font-size: 1.2rem !important;
+} 
+.cPickerDialog span {
+  font-size: 1.2rem !important;
 }
 
 .addTransactionButton {
@@ -21,13 +31,12 @@
     right: -62px;
 }
 
-.datePicker {
-    font-family: "Times New Roman", Times, serif;
-}
-
-
 .datePicker hr {
     display: none;
+}
+
+div[direction] {
+  font-size: 1.2rem !important;
 }
 
 .datePicker input:hover, .categoryPicker:hover, .noSumAlert, .noCategoryAlert {
