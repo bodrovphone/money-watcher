@@ -24,6 +24,7 @@ import AttachMoneyIcon from 'material-ui/svg-icons/editor/attach-money';
 import ModeEditorIcon from 'material-ui/svg-icons/editor/mode-edit';
 import AddIcon from 'material-ui/svg-icons/content/add';
 import DatePicker from 'material-ui/DatePicker';
+import Snackbar from 'material-ui/Snackbar';
 
 // :design assets:
 import './Form.css';
@@ -48,10 +49,12 @@ class Form extends Component {
           date: new Date(),
           isCatPickerOpen: false,
           noCategoryAlert: false,
-          noSumAlert: false
+          noSumAlert: false,
+          snackbarOpen: false
         };
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
+        this.closeSnackbar = this.closeSnackbar.bind(this);
     }
 
     componentDidMount() {
@@ -87,6 +90,7 @@ class Form extends Component {
 
             // dispatching action
             this.props.addTransaction(currentTrs);
+            this.setState({snackbarOpen: true});
             this.clearState();
             } else if (!this.state.sum) {
                 // let the user know he must add a sum
@@ -121,6 +125,12 @@ class Form extends Component {
         if (e.key === 'Enter') {
             this.registerTransaction();
           }
+    }
+
+    closeSnackbar() {
+      this.setState({
+        snackbarOpen: false
+      })
     }
 
     render() {
@@ -184,7 +194,13 @@ class Form extends Component {
                     >
                     <AddIcon />
                     </FloatingActionButton>
-                    
+                    <Snackbar
+                      open={this.state.snackbarOpen}
+                      message="Transaction's been added"
+                      onRequestClose={this.closeSnackbar}
+                      autoHideDuration={2500}
+                      bodyStyle={{backgroundColor: "rgb(163, 188, 79)"}}
+                    />
                 </div>
             </MuiThemeProvider>
             );
