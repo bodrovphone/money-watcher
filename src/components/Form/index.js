@@ -43,10 +43,10 @@ class Form extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          sum: "",
-          note: "",
-          category: null,
-          date: new Date(),
+          sum: this.props.sum || "",
+          note: this.props.note || "",
+          category: this.props.category || "",
+          date: new Date(dateFormat(this.props.date)) || new Date(),
           isCatPickerOpen: false,
           noCategoryAlert: false,
           noSumAlert: false,
@@ -58,7 +58,9 @@ class Form extends Component {
     }
 
     componentDidMount() {
+      if(!this.props.editing) {
         this.props.catFecthData();
+      } else return;
     }
 
     formatDate(date){
@@ -66,7 +68,7 @@ class Form extends Component {
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.defaultCategory !== prevState.category) {
+        if (!prevState.category) {
             return {category: nextProps.defaultCategory}
         }
         return null;

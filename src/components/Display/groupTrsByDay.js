@@ -21,7 +21,13 @@ function groupTrsByDay(transactions) {
                             {
                                 // iterating through each transaction in a day
                                 groupedTrs[day].map((item, index) => (
-                                    <SingleTransaction key={index} item={item} index={index} />
+                                    <SingleTransaction 
+                                        key={index} 
+                                        sum={item.sum}
+                                        note={item.note}
+                                        date={item.date}
+                                        category={item.category}
+                                        index={index} />
                                 ))
                                 .reverse()
                             }
