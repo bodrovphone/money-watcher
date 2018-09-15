@@ -90,10 +90,15 @@ class Form extends Component {
                 dateToken: dateToken
             };
 
-            // dispatching action
-            this.props.addTransaction(currentTrs);
-            this.setState({snackbarOpen: true});
-            this.clearState();
+            // if this main form(not editor) then dispatching action
+              if (!this.props.editing) {
+                this.props.addTransaction(currentTrs);
+                this.setState({snackbarOpen: true});
+                this.clearState();
+                // else when this editing mode of the form dispatch another action
+              } else {
+                // this.props.updateTransaction(nodeKey, newValue) - don't have this implemented yet
+              }
             } else if (!this.state.sum) {
                 // let the user know he must add a sum
                 this.setState({noSumAlert: true})
