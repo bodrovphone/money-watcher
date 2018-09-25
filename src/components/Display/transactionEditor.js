@@ -15,6 +15,7 @@ export default props => (
                 <Form 
                     {...props}
                     editing={true}
+                    handleClose={props.handleClose}
                  />
             </Dialog>
         )

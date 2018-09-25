@@ -63,7 +63,8 @@ export function trsFecthData(startPoint, endPoint) {
                         sum: items[item].sum,
                         note: items[item].note,
                         category: items[item].category,
-                        date: items[item].date
+                        date: items[item].date,
+                        dateToken: items[item].dateToken
                     });
                 }
 

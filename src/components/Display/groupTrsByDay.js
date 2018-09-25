@@ -27,7 +27,9 @@ function groupTrsByDay(transactions) {
                                         note={item.note}
                                         date={item.date}
                                         category={item.category}
-                                        index={index} />
+                                        index={index}
+                                        dateToken={item.dateToken}
+                                         />
                                 ))
                                 .reverse()
                             }

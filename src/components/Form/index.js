@@ -23,6 +23,7 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import AttachMoneyIcon from 'material-ui/svg-icons/editor/attach-money';
 import ModeEditorIcon from 'material-ui/svg-icons/editor/mode-edit';
 import AddIcon from 'material-ui/svg-icons/content/add';
+import UpdateIcon from 'material-ui/svg-icons/action/update';
 import DatePicker from 'material-ui/DatePicker';
 import Snackbar from 'material-ui/Snackbar';
 
@@ -50,7 +51,8 @@ class Form extends Component {
           isCatPickerOpen: false,
           noCategoryAlert: false,
           noSumAlert: false,
-          snackbarOpen: false
+          snackbarOpen: false,
+          dateToken: this.props.dateToken || null
         };
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
@@ -78,7 +80,7 @@ class Form extends Component {
         // when adding trs with button - checking if sum or category isn't null
         if (this.state.sum && this.state.category) { 
              // modifying the default date token for data node naming in fb
-            const dateToken = dateFormat(this.state.date, "isoDateTime");
+            const isoDateTime = dateFormat(this.state.date, "isoDateTime");
             const day = dateFormat(this.state.date, "isoDate");
 
             // copying state
@@ -87,18 +89,22 @@ class Form extends Component {
                 note: this.state.note,
                 category: this.state.category,
                 date: day,
-                dateToken: dateToken
+                dateToken: isoDateTime
             };
 
-            // if this main form(not editor) then dispatching action
-              if (!this.props.editing) {
+            // this shit below should also be changed
+              if (this.props.editing) {
+                currentTrs.editedNodeKey = this.props.dateToken;
+                currentTrs.editing = this.props.editing;
+              }
+
                 this.props.addTransaction(currentTrs);
                 this.setState({snackbarOpen: true});
                 this.clearState();
-                // else when this editing mode of the form dispatch another action
-              } else {
-                // this.props.updateTransaction(nodeKey, newValue) - don't have this implemented yet
-              }
+
+                // should redo this one below
+                this.props.handleClose ? this.props.handleClose() : '';
+
             } else if (!this.state.sum) {
                 // let the user know he must add a sum
                 this.setState({noSumAlert: true})
@@ -199,7 +205,9 @@ class Form extends Component {
                       disabled={ !this.state.sum || !this.state.category }
                       onClick={ () => this.registerTransaction() }
                     >
-                    <AddIcon />
+                      {
+                       this.props.editing ? <UpdateIcon /> : <AddIcon />
+                      }
                     </FloatingActionButton>
                     <Snackbar
                       open={this.state.snackbarOpen}

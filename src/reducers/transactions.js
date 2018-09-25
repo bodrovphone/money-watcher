@@ -8,7 +8,14 @@ import { ADD_TRS, DATA_IS_LOADING, DATA_FETCH_ERROR, FETCH_TRS_SUCCESS, FETCH_CA
 // local helpers
 
 function updateFirebse({payload}) {
-    trsRef.child(payload.dateToken).set(payload);
+    if (!payload.editing) {
+        trsRef.child(payload.dateToken).set(payload);
+    } else {
+        delete payload.editing;
+        trsRef.child(payload.editedNodeKey).set(null);
+        delete payload.editedNodeKey;
+        trsRef.child(payload.dateToken).set(payload);
+    }
 }
 
 export function dataIsLoading (state = [], action) {
@@ -41,14 +48,16 @@ export function categories(state = [], action) {
 
 
 export function transactions( state = [] , action ) {
-    let transactions = null;
+    let transactions = [...state];
     switch(action.type) {
         case ADD_TRS:
         // copying store and adding new trs to it (but only in case it's been submitted with the chosen month)
         if(state[0] && (state[0].date.substring(0, 7) === action.payload.date.substring(0, 7))) {
             transactions = [...state, action.payload];
-        } else {
-            transactions = [...state];
+        } 
+        
+        if (action.payload.editing) {
+            transactions = transactions.filter( el => el.dateToken !== action.payload.editedNodeKey);
         }
         // updating Firebase
             updateFirebse(action);
