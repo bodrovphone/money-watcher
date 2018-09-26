@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import Header from '../components/Header'
 import Display from '../components/Display';
 import Form from '../components/Form';
+import CurrentBalance from '../components/Report/CurrentBalance';
 
 // :design assets:
 import '../App.css';
@@ -25,6 +26,7 @@ class App extends Component {
         return (
             <div className="App">
                 <Header />
+                <CurrentBalance {...this.props} />
                 <Form {...this.props} defaultCategory={ defaultCategory } />
                 <Display transactions={ this.props.transactions }/>
             </div>

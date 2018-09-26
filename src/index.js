@@ -19,6 +19,7 @@ import './index.css';
 const store = configureStore({
     transactions: [],
     categories: [],
+    currentBalance: {},
     dataIsLoading: false,
     dataFetchErrored: false,
 })

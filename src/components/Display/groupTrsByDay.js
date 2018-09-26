@@ -11,7 +11,6 @@ import SingleTransaction from './SingleTransaction';
 function groupTrsByDay(transactions) {
         // re-grouping object of arrays using helper
         const groupedTrs = groupArray(transactions, "date");
-
         // iterating through each day in the object
         return (Object.keys(groupedTrs)
                 .reverse()

@@ -1,8 +1,8 @@
 // #constants
-import { ADD_TRS, DATA_IS_LOADING, DATA_FETCH_ERROR, FETCH_TRS_SUCCESS, FETCH_CAT_SUCCESS  } from '../constants/constants';
+import { ADD_TRS, DATA_IS_LOADING, DATA_FETCH_ERROR, FETCH_TRS_SUCCESS, FETCH_CAT_SUCCESS, FETCH_BAL_SUCCESS  } from '../constants/constants';
 
 // [containers]
-import { trsColl, connectedRef, catLabels } from '../containers/firebase';
+import { trsColl, connectedRef, catLabels, currentBalanceRef } from '../containers/firebase';
 
 export const addTransaction = (newTrs) => {
     const action = {
@@ -40,6 +40,14 @@ export const catFecthDataSuccess = (categories) => {
     const action = {
         type: FETCH_CAT_SUCCESS,
         payload: categories
+    }
+    return action;
+}
+
+export const currentBalanceFetchSuccess = (balance) => {
+    const action = {
+        type: FETCH_BAL_SUCCESS,
+        payload: balance
     }
     return action;
 }
@@ -98,27 +106,53 @@ export function trsFecthData(startPoint, endPoint) {
 
 //fetching categories to update category picker with the default set of categories
 export function catFecthData() {
-        return dispatch => {
+    return dispatch => {
+        // dispatching action
+        dispatch(dataIsLoading(true));
+
+        // fetching default set of categories
+        catLabels.once('value', snapshot => {
+
             // dispatching action
-            dispatch(dataIsLoading(true));
+            dispatch(dataIsLoading(false));
 
-            // fetching default set of categories
-            catLabels.once('value', snapshot => {
+            // dispatching action - updating main App store
+            dispatch(catFecthDataSuccess(snapshot.val()));
 
-                // dispatching action
-                dispatch(dataIsLoading(false));
+        })
 
-                // dispatching action - updating main App store
-                dispatch(catFecthDataSuccess(snapshot.val()));
-
-            })
-
-            // fallback function on fetching data in fact this will only be fired on fb auth issues
-            .catch((error) => {
-                // dispatching action
-                dispatch(dataIsLoading(false));
-                // dispatching action
-                dispatch(trsHasErrored(true));
-            });
-        }
+        // fallback function on fetching data in fact this will only be fired on fb auth issues
+        .catch((error) => {
+            // dispatching action
+            dispatch(dataIsLoading(false));
+            // dispatching action
+            dispatch(trsHasErrored(true));
+        });
     }
+}
+
+export function currentBalanceFetchData() {
+    return dispatch => {
+        dispatch(dataIsLoading(true));
+
+          // fetching default set of categories
+          currentBalanceRef.once('value', snapshot => {
+
+            // dispatching action
+            dispatch(dataIsLoading(false));
+
+            // dispatching action - updating main App store
+            dispatch(currentBalanceFetchSuccess(snapshot.val()));
+
+        })
+
+        // fallback function on fetching data in fact this will only be fired on fb auth issues
+        .catch((error) => {
+            // dispatching action
+            dispatch(dataIsLoading(false));
+            // dispatching action
+            dispatch(trsHasErrored(true));
+        });
+
+    }
+}

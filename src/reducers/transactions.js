@@ -2,7 +2,7 @@
 import { trsRef } from '../containers/firebase';
 
 // #constants
-import { ADD_TRS, DATA_IS_LOADING, DATA_FETCH_ERROR, FETCH_TRS_SUCCESS, FETCH_CAT_SUCCESS } from '../constants/constants';
+import { ADD_TRS, DATA_IS_LOADING, DATA_FETCH_ERROR, FETCH_TRS_SUCCESS, FETCH_CAT_SUCCESS, FETCH_BAL_SUCCESS } from '../constants/constants';
 
 
 // local helpers
@@ -45,6 +45,15 @@ export function categories(state = [], action) {
             return state;
     }
 };
+
+export function currentBalance(state = [], action) {
+    switch(action.type) {
+        case FETCH_BAL_SUCCESS:
+            return action.payload;
+        default:
+            return state;
+    }
+}
 
 
 export function transactions( state = [] , action ) {
