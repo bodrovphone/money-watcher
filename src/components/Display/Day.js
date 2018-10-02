@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 
 // =Dev helpers=
 import dateFormat from 'dateformat';
+import getSumOfTransactions from '../Report/calculator';
 
 // @markup
 import Divider from 'material-ui/Divider';
@@ -15,7 +16,7 @@ export default class Day extends Component {
                     <div className="DayWrapper">
                         <div className="DayHeader">
                             <h2>{dateFormat(this.props.header, "dd")}</h2>
-                            <div className="DaySum">{this.props.transactions.reduce((sum, current) => Number(sum) + Number(current.sum), 0)}</div>
+                            <div className="DaySum">{getSumOfTransactions(this.props.transactions)}</div>
                         </div>
                         <div className="DayDateWrapper">
                             <span className="DayOfWeek">{dateFormat(this.props.header, "dddd")}</span>

@@ -17,7 +17,7 @@ firebase.initializeApp(config);
 // creating DB reference to transactions
 export const trsRef = firebase.database().ref("transactions");
 export const catLabels = firebase.database().ref("category_meta");
-export const currentBalanceRef = firebase.database().ref("current_balance");
+export const balanceRef = firebase.database().ref("balance_per_month");
 export const trsColl = trsRef.orderByKey();
 export const connectedRef = firebase.database().ref(".info/connected");
 

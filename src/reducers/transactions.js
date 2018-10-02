@@ -1,5 +1,5 @@
 // ~structural~
-import { trsRef } from '../containers/firebase';
+import { trsRef, balanceRef } from '../containers/firebase';
 
 // #constants
 import { ADD_TRS, DATA_IS_LOADING, DATA_FETCH_ERROR, FETCH_TRS_SUCCESS, FETCH_CAT_SUCCESS, FETCH_BAL_SUCCESS } from '../constants/constants';
@@ -10,11 +10,14 @@ import { ADD_TRS, DATA_IS_LOADING, DATA_FETCH_ERROR, FETCH_TRS_SUCCESS, FETCH_CA
 function updateFirebse({payload}) {
     if (!payload.editing) {
         trsRef.child(payload.dateToken).set(payload);
+        balanceRef.child(payload.dateToken.substring(0, 7)).set(payload.currentBalance + payload.sum);
     } else {
         delete payload.editing;
         trsRef.child(payload.editedNodeKey).set(null);
+        balanceRef.child(payload.editedNodeKey.substring(0, 7)).set(payload.currentBalance - payload.sum);
         delete payload.editedNodeKey;
         trsRef.child(payload.dateToken).set(payload);
+        balanceRef.child(payload.dateToken.substring(0, 7)).set(payload.currentBalance + payload.sum);
     }
 }
 

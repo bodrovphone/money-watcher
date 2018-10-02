@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 
 // *actions*
-import { addTransaction, catFecthData } from '../../actions';
+import { addTransaction, catFecthData, currentBalanceFetchData } from '../../actions';
 
 // =Dev helpers=
 import dateFormat from 'dateformat';
@@ -82,14 +82,17 @@ class Form extends Component {
              // modifying the default date token for data node naming in fb
             const isoDateTime = dateFormat(this.state.date, "isoDateTime");
             const day = dateFormat(this.state.date, "isoDate");
-
+            
             // copying state
             const currentTrs = {
-                sum: Math.abs(this.state.sum).toString(),
+                // condition sum sign depending on the category choosen(expense/income)
+                sum: this.props.categories.expense[this.state.category] ? -Math.abs(this.state.sum) : Math.abs(this.state.sum),
                 note: this.state.note,
                 category: this.state.category,
                 date: day,
-                dateToken: isoDateTime
+                dateToken: isoDateTime,
+                // sending current balance for updating it on FB
+                currentBalance: this.props.currentBalance
             };
 
             // this shit below should also be changed
@@ -99,6 +102,7 @@ class Form extends Component {
               }
 
                 this.props.addTransaction(currentTrs);
+                this.props.currentBalanceFetchData(currentTrs.date.substring(0, 7));
                 this.setState({snackbarOpen: true});
                 this.clearState();
 
@@ -230,7 +234,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     addTransaction: bindActionCreators(addTransaction, dispatch),
-    catFecthData: bindActionCreators(catFecthData, dispatch)
+    catFecthData: bindActionCreators(catFecthData, dispatch),
+    currentBalanceFetchData: bindActionCreators(currentBalanceFetchData, dispatch)
   }
 }
 

@@ -1,8 +1,8 @@
 // #constants
 import { ADD_TRS, DATA_IS_LOADING, DATA_FETCH_ERROR, FETCH_TRS_SUCCESS, FETCH_CAT_SUCCESS, FETCH_BAL_SUCCESS  } from '../constants/constants';
-
+import { startPoint } from '../components/Display/currentMonth';
 // [containers]
-import { trsColl, connectedRef, catLabels, currentBalanceRef } from '../containers/firebase';
+import { trsColl, connectedRef, catLabels, balanceRef } from '../containers/firebase';
 
 export const addTransaction = (newTrs) => {
     const action = {
@@ -131,21 +131,20 @@ export function catFecthData() {
     }
 }
 
-export function currentBalanceFetchData() {
+export function currentBalanceFetchData(date = startPoint.substring(0.7)) {
     return dispatch => {
         dispatch(dataIsLoading(true));
 
-          // fetching default set of categories
-          currentBalanceRef.once('value', snapshot => {
+          // fetching current_balance
+          balanceRef.child(date).once('value', snapshot => {
 
             // dispatching action
             dispatch(dataIsLoading(false));
-
             // dispatching action - updating main App store
             dispatch(currentBalanceFetchSuccess(snapshot.val()));
 
         })
-
+        
         // fallback function on fetching data in fact this will only be fired on fb auth issues
         .catch((error) => {
             // dispatching action
