@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 
 // *actions*
-import { trsFecthData } from '../../actions';
+import { trsFecthData, changeMonth, currentBalanceFetchData } from '../../actions';
 
 // =Dev helpers=
 import { ListOfMonth, filterByMonth } from './monthHelper';
@@ -23,6 +23,11 @@ class DashboardMonth extends Component {
         this.HandleClick = this.HandleClick.bind(this);
     }
 
+    
+    componentDidMount() {
+        this.props.currentBalanceFetchData(this.props.activeMonth);
+    }
+
     HandleClick(e) {
         // determine if user clicks on the month and it is already active
         if (e.target.dataset.number === this.state.active) return;
@@ -30,8 +35,12 @@ class DashboardMonth extends Component {
         this.setState({active: e.target.dataset.number});
         // creating filters for fetching selected data
         var { startPoint, endPoint } = filterByMonth(e.target.dataset.number);
-        // dispathcing an action
-        this.props.trsFecthData(startPoint, endPoint);
+        // dispathcing an action => changing activeMonth
+        this.props.changeMonth(startPoint.substring(0,7));
+        // dispathcing an action => trsFecthData with the delay to achieve smooth animation when months are moving
+        setTimeout(() =>  (this.props.trsFecthData(startPoint, endPoint)), 1100);
+        // dispathcing an action => currentBalanceFetchData
+        this.props.currentBalanceFetchData(startPoint.substring(0,7));
     }
 
     render() {
@@ -52,7 +61,9 @@ class DashboardMonth extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    trsFecthData: bindActionCreators(trsFecthData, dispatch)
+    trsFecthData: bindActionCreators(trsFecthData, dispatch),
+    changeMonth: bindActionCreators(changeMonth, dispatch),
+    currentBalanceFetchData: bindActionCreators(currentBalanceFetchData, dispatch),
   }
 }
 

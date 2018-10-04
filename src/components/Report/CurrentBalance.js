@@ -9,35 +9,25 @@ import { currentBalanceFetchData } from '../../actions';
 
 // =Dev helpers=
 import getSumOfTransactions from './calculator';
-import { startPoint } from '../Display/currentMonth';
 
 
 class CurrentBalance extends Component {
-    componentDidMount() {
-        this.props.currentBalanceFetchData(startPoint.substring(0, 7));
-    }
-    // componentDidUpdate(prevProps) {
-    //     if (this.props.transactions[0] && prevProps.transactions[0] && (prevProps.transactions[0].date !== this.props.transactions[0].date)) {
-    //         this.props.currentBalanceFetchData(this.props.transactions[0].date.substring(0, 7));
-    //         console.log('componentDidUpdate', this.props.transactions[0])
-    //     }
-    //   }
+
     conditionalRender(props) {
         const balance = +props.currentBalance;
         const expense = getSumOfTransactions(props.transactions);
         if (!isNaN(balance) && props.transactions) {
             return ( 
                 <div className="CurrentBalance">
-                    <div className="balance">Balance {balance}</div>
-                    <div className="expense">Expense {expense}</div>
+                    <div className="balance"><span className="text">Balance</span> <span className="number">{balance}</span></div>
+                    <div className="expense"><span className="text">Expense</span> <span className="number">{expense}</span></div>
                 </div>
              );
-        }
-        else {
+        } else {
             return ( 
                 <div className="CurrentBalance">
-                    <div className="balance">Balance [fetching data...]</div>
-                    <div className="expense">Expense [fetching data...]</div>
+                    <div className="balance"><span className="text">Balance</span> [fetching data...]</div>
+                    <div className="expense"><span className="text">Expense</span> [fetching data...]</div>
                 </div>
              );
         }

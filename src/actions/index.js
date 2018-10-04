@@ -1,5 +1,5 @@
 // #constants
-import { ADD_TRS, DATA_IS_LOADING, DATA_FETCH_ERROR, FETCH_TRS_SUCCESS, FETCH_CAT_SUCCESS, FETCH_BAL_SUCCESS  } from '../constants/constants';
+import { ADD_TRS, DATA_IS_LOADING, DATA_FETCH_ERROR, FETCH_TRS_SUCCESS, FETCH_CAT_SUCCESS, FETCH_BAL_SUCCESS, ACTIVE_MONTH_CHANGED  } from '../constants/constants';
 import { startPoint } from '../components/Display/currentMonth';
 // [containers]
 import { trsColl, connectedRef, catLabels, balanceRef } from '../containers/firebase';
@@ -48,6 +48,14 @@ export const currentBalanceFetchSuccess = (balance) => {
     const action = {
         type: FETCH_BAL_SUCCESS,
         payload: balance
+    }
+    return action;
+}
+
+export const changeMonth = (month) => {
+    const action = {
+        type: ACTIVE_MONTH_CHANGED,
+        payload: month
     }
     return action;
 }

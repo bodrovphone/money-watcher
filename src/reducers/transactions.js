@@ -2,7 +2,11 @@
 import { trsRef, balanceRef } from '../containers/firebase';
 
 // #constants
-import { ADD_TRS, DATA_IS_LOADING, DATA_FETCH_ERROR, FETCH_TRS_SUCCESS, FETCH_CAT_SUCCESS, FETCH_BAL_SUCCESS } from '../constants/constants';
+import { ADD_TRS, DATA_IS_LOADING, DATA_FETCH_ERROR, FETCH_TRS_SUCCESS, FETCH_CAT_SUCCESS, FETCH_BAL_SUCCESS, ACTIVE_MONTH_CHANGED } from '../constants/constants';
+
+// =Dev helpers=
+import { startPoint as currentMonth } from '../components/Display/currentMonth';
+
 
 
 // local helpers
@@ -49,9 +53,18 @@ export function categories(state = [], action) {
     }
 };
 
-export function currentBalance(state = [], action) {
+export function currentBalance(state = 0, action) {
     switch(action.type) {
         case FETCH_BAL_SUCCESS:
+            return action.payload;
+        default:
+            return state;
+    }
+}
+
+export function activeMonth (state = currentMonth.substring(0, 7), action) {
+    switch(action.type) {
+        case ACTIVE_MONTH_CHANGED:
             return action.payload;
         default:
             return state;

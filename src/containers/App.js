@@ -25,8 +25,8 @@ class App extends Component {
 
         return (
             <div className="App">
-                <Header />
-                <CurrentBalance {...this.props} />
+                <Header {...this.props} />
+                <CurrentBalance {...this.props} />  
                 <Form {...this.props} defaultCategory={ defaultCategory } />
                 <Display transactions={ this.props.transactions }/>
             </div>

@@ -3,13 +3,15 @@
     --bg-color-AppHeader: rgb(64, 66, 60);
     --bg-color-dashboardMonth: rgb(146, 109, 0);
     --bg-color-dashboardMonthGradient: linear-gradient(to bottom, #40423c 20%,#926d00 50%,#926d00 50%,#926d00 58%,#40423c 100%);
+    --bg-color-dashboardBalanceGradient: linear-gradient(to bottom, #a3bc4f 20%,#926d00 50%,#926d00 50%,#926d00 58%,#40423c 100%);
+    --bg-color-dashboardExpenseGradient: linear-gradient(to bottom, #40423c 20%,#926d00 50%,#926d00 50%,#926d00 58%,#40423c 100%);
     /*dates color*/
     --date-color-dashboardMonth: rgb(231, 214, 124);
 }
 
 .AppHeader {
   background-color: var(--bg-color-AppHeader);
-  height: 150px;
+  height: 160px;
   padding: 20px;
   color: white;
   position: relative;
@@ -26,7 +28,7 @@
   justify-content: center;
   width: 166%;
   margin-left: -33.2%;
-  transition: margin-left 2s;
+  transition: margin-left 1.4s;
   font-size: 1.4rem;
 }
 
@@ -64,3 +66,25 @@
 }
 
 button:focus {outline:0;}
+
+.CurrentBalance {
+  max-width: 66%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  padding: 10px 0 40px 0;
+}
+
+.balance, .expense {
+  font-size: 1.4em;
+  width: 50%;
+  text-shadow: 0 10px 20px var(--shadow-color-1), 0 6px 6px var(--shadow-color-2)
+}
+
+.balance .text {
+  color: #667426;
+}
+
+.expense .text {
+  color:rgb(139, 0, 0);
+}
