@@ -201,7 +201,8 @@ export function updateFirebase(transaction, date) {
             function updateBalances(balances) {
                 // but how do I know which balances are future ones?
                 var updatedBalances = {...balances};
-                
+                console.log('transaction.sum', transaction.sum);
+                console.log('transaction.previousSum', transaction.previousSum);                
                 for(let item in balances) {
                     if ((+item.substring(0, 4) >= +transaction.dateToken.substring(0, 4)) && (+item.substring(5, 7) >= +transaction.dateToken.substring(5, 7))) {
                         updatedBalances[item] = balances[item] + transaction.sum;
@@ -220,7 +221,9 @@ export function updateFirebase(transaction, date) {
                 .then(updateBalances)
             // delete transaction.editedNodeKey;
             // delete transaction.previousSum;
-            trsRef.child(transaction.dateToken).set(transaction);
+            // copy transaction without editedNodeKey and previousSum
+              const { editedNodeKey, previousSum, ...cleanTransaction } = transaction;
+            trsRef.child(transaction.dateToken).set(cleanTransaction);
 
             dispatch(addTransaction(transaction));
         }
