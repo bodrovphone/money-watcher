@@ -2,7 +2,7 @@
 import { ADD_TRS, DATA_IS_LOADING, DATA_FETCH_ERROR, FETCH_TRS_SUCCESS, FETCH_CAT_SUCCESS, FETCH_BAL_SUCCESS, ACTIVE_MONTH_CHANGED  } from '../constants/constants';
 import { startPoint } from '../components/Display/currentMonth';
 // [containers]
-import { trsColl, connectedRef, catLabels, balanceRef } from '../containers/firebase';
+import { trsColl, connectedRef, catLabels, trsRef, balanceRef } from '../containers/firebase';
 
 export const addTransaction = (newTrs) => {
     const action = {
@@ -87,9 +87,9 @@ export function trsFecthData(startPoint, endPoint) {
                 // This event listener define if connection's been broken
                     connectedRef.on("value", function(snap) {
                       if (snap.val() === true) {
-                        console.log("connected");
+                        // console.log("connected");
                       } else {
-                        console.log("not connected");
+                        // console.log("not connected");
                       }
                     })
 
@@ -161,5 +161,68 @@ export function currentBalanceFetchData(date = startPoint.substring(0.7)) {
             dispatch(trsHasErrored(true));
         });
 
+    }
+}
+
+
+export function updateFirebase(transaction, date) {
+    return dispatch => {
+        // function-helper to update the current and all future balances
+        function updateBalances(balances) {
+            // but how do I know which balances are future ones?
+            var updatedBalances = {...balances};
+            
+            for(let item in balances) {
+                if ((+item.substring(0, 4) >= +transaction.dateToken.substring(0, 4)) && (+item.substring(5, 7) >= +transaction.dateToken.substring(5, 7))) {
+                    updatedBalances[item] = balances[item] + transaction.sum;
+                }
+            }
+            
+            balanceRef.set(updatedBalances);
+            // dispatching another action to retreive updated balance
+            dispatch(currentBalanceFetchData(date));
+        } 
+        // when it's just new transaction
+        if (!transaction.editing) {
+            // adding transaction to firebase
+            trsRef.child(transaction.dateToken).set(transaction);
+
+            // fetching current set of balances to pass on to the updateBalances function declared above
+            fetch('https://money-watcher-79150.firebaseio.com/balance_per_month.json')
+                .then(response =>  response.json() )
+                .then(updateBalances)
+
+            dispatch(addTransaction(transaction));
+        } else {
+        // when it's editing mode
+            delete transaction.editing;
+            trsRef.child(transaction.editedNodeKey).set(null);
+            // here I update affected balances of edited transaction by removing it
+            function updateBalances(balances) {
+                // but how do I know which balances are future ones?
+                var updatedBalances = {...balances};
+                
+                for(let item in balances) {
+                    if ((+item.substring(0, 4) >= +transaction.dateToken.substring(0, 4)) && (+item.substring(5, 7) >= +transaction.dateToken.substring(5, 7))) {
+                        updatedBalances[item] = balances[item] + transaction.sum;
+                    }
+                    if ((+item.substring(0, 4) >= +transaction.editedNodeKey.substring(0, 4)) && (+item.substring(5, 7) >= +transaction.editedNodeKey.substring(5, 7))) {
+                        updatedBalances[item] = balances[item] - transaction.previousSum;
+                    }
+                }
+                
+                balanceRef.set(updatedBalances);
+                // dispatching another action to retreive updated balance
+                dispatch(currentBalanceFetchData(date));
+            } 
+            fetch('https://money-watcher-79150.firebaseio.com/balance_per_month.json')
+                .then(response =>  response.json() )
+                .then(updateBalances)
+            // delete transaction.editedNodeKey;
+            // delete transaction.previousSum;
+            trsRef.child(transaction.dateToken).set(transaction);
+
+            dispatch(addTransaction(transaction));
+        }
     }
 }
