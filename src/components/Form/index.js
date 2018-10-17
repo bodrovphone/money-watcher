@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 
 // *actions*
-import { addTransaction, catFecthData, currentBalanceFetchData } from '../../actions';
+import { updateFirebase, catFecthData } from '../../actions';
 
 // =Dev helpers=
 import dateFormat from 'dateformat';
@@ -99,15 +99,15 @@ class Form extends Component {
               if (this.props.editing) {
                 currentTrs.editedNodeKey = this.props.dateToken;
                 currentTrs.editing = this.props.editing;
+                currentTrs.previousSum = this.props.sum;
               }
 
-                this.props.addTransaction(currentTrs);
-                this.props.currentBalanceFetchData(currentTrs.date.substring(0, 7));
+                this.props.updateFirebase(currentTrs, this.props.activeMonth);
                 this.setState({snackbarOpen: true});
                 this.clearState();
 
                 // should redo this one below
-                this.props.handleClose ? this.props.handleClose() : '';
+                this.props.handleClose && this.props.handleClose();
 
             } else if (!this.state.sum) {
                 // let the user know he must add a sum
@@ -203,7 +203,7 @@ class Form extends Component {
                     />
 
                     <FloatingActionButton 
-                      className="addTransactionButton"
+                      className="updateFirebaseButton"
                       backgroundColor="#556223"
                       iconStyle={ {fill: "rgba(208,185,61,1)"} }
                       disabled={ !this.state.sum || !this.state.category }
@@ -233,9 +233,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    addTransaction: bindActionCreators(addTransaction, dispatch),
-    catFecthData: bindActionCreators(catFecthData, dispatch),
-    currentBalanceFetchData: bindActionCreators(currentBalanceFetchData, dispatch)
+    updateFirebase: bindActionCreators(updateFirebase, dispatch),
+    catFecthData: bindActionCreators(catFecthData, dispatch)
   }
 }
 

@@ -37,7 +37,8 @@ export default class SingleTransaction extends Component {
                     <TransactionEditor 
                         open={this.state.editing} 
                         handleClose={this.handleClose}
-                        {...this.props} />
+                        {...this.props} 
+                    />
             </div>
         )
     }

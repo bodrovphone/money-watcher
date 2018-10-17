@@ -1,6 +1,3 @@
-// ~structural~
-import { trsRef, balanceRef } from '../containers/firebase';
-
 // #constants
 import { ADD_TRS, DATA_IS_LOADING, DATA_FETCH_ERROR, FETCH_TRS_SUCCESS, FETCH_CAT_SUCCESS, FETCH_BAL_SUCCESS, ACTIVE_MONTH_CHANGED } from '../constants/constants';
 
@@ -10,20 +7,6 @@ import { startPoint as currentMonth } from '../components/Display/currentMonth';
 
 
 // local helpers
-
-function updateFirebse({payload}) {
-    if (!payload.editing) {
-        trsRef.child(payload.dateToken).set(payload);
-        balanceRef.child(payload.dateToken.substring(0, 7)).set(payload.currentBalance + payload.sum);
-    } else {
-        delete payload.editing;
-        trsRef.child(payload.editedNodeKey).set(null);
-        balanceRef.child(payload.editedNodeKey.substring(0, 7)).set(payload.currentBalance - payload.sum);
-        delete payload.editedNodeKey;
-        trsRef.child(payload.dateToken).set(payload);
-        balanceRef.child(payload.dateToken.substring(0, 7)).set(payload.currentBalance + payload.sum);
-    }
-}
 
 export function dataIsLoading (state = [], action) {
     switch(action.type) {
@@ -84,8 +67,6 @@ export function transactions( state = [] , action ) {
         if (action.payload.editing) {
             transactions = transactions.filter( el => el.dateToken !== action.payload.editedNodeKey);
         }
-        // updating Firebase
-            updateFirebse(action);
         // returning sorted store
             return transactions.sort((a, b) => new Date(a.date) - new Date(b.date));
         case FETCH_TRS_SUCCESS:
