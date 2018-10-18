@@ -200,18 +200,17 @@ export function updateFirebase(transaction, date) {
             // here I update affected balances of edited transaction by removing it
             function updateBalances(balances) {
                 // but how do I know which balances are future ones?
-                var updatedBalances = {...balances};
-                console.log('transaction.sum', transaction.sum);
-                console.log('transaction.previousSum', transaction.previousSum);                
+                var updatedBalances = {...balances};          
                 for(let item in balances) {
-                    if ((+item.substring(0, 4) >= +transaction.dateToken.substring(0, 4)) && (+item.substring(5, 7) >= +transaction.dateToken.substring(5, 7))) {
-                        updatedBalances[item] = balances[item] + transaction.sum;
+                    if ((+item.substring(0, 4) >= +transaction.dateToken.substring(0, 4)) && (+item.substring(5, 7) >= +transaction.dateToken.substring(5, 7))) {                        
+                        updatedBalances[item] = updatedBalances[item] + transaction.sum;
                     }
                     if ((+item.substring(0, 4) >= +transaction.editedNodeKey.substring(0, 4)) && (+item.substring(5, 7) >= +transaction.editedNodeKey.substring(5, 7))) {
-                        updatedBalances[item] = balances[item] - transaction.previousSum;
+                        updatedBalances[item] = updatedBalances[item] - transaction.previousSum;
                     }
                 }
-                
+                console.log(transaction.sum, transaction.previousSum);
+                console.log(balances,updatedBalances);
                 balanceRef.set(updatedBalances);
                 // dispatching another action to retreive updated balance
                 dispatch(currentBalanceFetchData(date));
