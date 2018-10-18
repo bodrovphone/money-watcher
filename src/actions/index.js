@@ -195,7 +195,6 @@ export function updateFirebase(transaction, date) {
             dispatch(addTransaction(transaction));
         } else {
         // when it's editing mode
-            delete transaction.editing;
             trsRef.child(transaction.editedNodeKey).set(null);
             // here I update affected balances of edited transaction by removing it
             function updateBalances(balances) {
@@ -218,8 +217,6 @@ export function updateFirebase(transaction, date) {
             fetch('https://money-watcher-79150.firebaseio.com/balance_per_month.json')
                 .then(response =>  response.json() )
                 .then(updateBalances)
-            // delete transaction.editedNodeKey;
-            // delete transaction.previousSum;
             // copy transaction without editedNodeKey and previousSum
               const { editedNodeKey, previousSum, ...cleanTransaction } = transaction;
             trsRef.child(transaction.dateToken).set(cleanTransaction);
