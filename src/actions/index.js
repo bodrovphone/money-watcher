@@ -4,69 +4,48 @@ import { startPoint } from '../components/Display/currentMonth';
 // [containers]
 import { trsColl, connectedRef, catLabels, trsRef, balanceRef } from '../containers/firebase';
 
-export const addTransaction = (newTrs) => {
-    const action = {
+const addTransaction = (newTrs) => ({
         type: ADD_TRS,
         payload: newTrs
-    }
-    return action;
-}
+    });
 
-export const dataIsLoading = (bool) => {
-    const action = {
+const dataIsLoading = (bool) => ({
         type: DATA_IS_LOADING,
         payload: bool
-    }
-    return action;
-}
+    });
 
-export const trsHasErrored = (bool) => {
-    const action = {
+const trsHasErrored = (bool) => ({
         type: DATA_FETCH_ERROR,
         payload: bool
-    }
-    return action;
-}
+    });
 
-export const trsFecthDataSuccess = (transactions) => {
-    const action = {
+const trsFecthDataSuccess = (transactions) => ({
         type: FETCH_TRS_SUCCESS,
         payload: transactions
-    }
-    return action;
-}
+    });
 
-export const catFecthDataSuccess = (categories) => {
-    const action = {
+const catFecthDataSuccess = (categories) => ({
         type: FETCH_CAT_SUCCESS,
         payload: categories
-    }
-    return action;
-}
+    });
 
-export const currentBalanceFetchSuccess = (balance) => {
-    const action = {
+const currentBalanceFetchSuccess = (balance) => ({
         type: FETCH_BAL_SUCCESS,
         payload: balance
-    }
-    return action;
-}
+    });
 
-export const changeMonth = (month) => {
-    const action = {
+const changeMonth = (month) => ({
         type: ACTIVE_MONTH_CHANGED,
         payload: month
-    }
-    return action;
-}
+    });
 
 //the below action creators is async function that is executed with redux-thunk lib (retrieving transactions from firebase and putting them to redux store)
-export function trsFecthData(startPoint, endPoint) {
+function trsFecthData(startPoint, endPoint) {
         return dispatch => {
             // dispatching action
             dispatch(dataIsLoading(true));
 
-            const transactions = [];
+            let transactions = [];
 
             // fetching main transactions thread using `once` event listener(firebase event)
             // plus filtering the data on the fly, based on the choosen month. (the current on by default)
@@ -87,9 +66,9 @@ export function trsFecthData(startPoint, endPoint) {
                 // This event listener define if connection's been broken
                     connectedRef.on("value", function(snap) {
                       if (snap.val() === true) {
-                        // console.log("connected");
+                        console.log("connected");
                       } else {
-                        // console.log("not connected");
+                        console.log("not connected");
                       }
                     })
 
@@ -113,17 +92,11 @@ export function trsFecthData(startPoint, endPoint) {
 
 
 //fetching categories to update category picker with the default set of categories
-export function catFecthData() {
+function catFecthData() {
     return dispatch => {
-        // dispatching action
-        dispatch(dataIsLoading(true));
 
         // fetching default set of categories
         catLabels.once('value', snapshot => {
-
-            // dispatching action
-            dispatch(dataIsLoading(false));
-
             // dispatching action - updating main App store
             dispatch(catFecthDataSuccess(snapshot.val()));
 
@@ -132,22 +105,16 @@ export function catFecthData() {
         // fallback function on fetching data in fact this will only be fired on fb auth issues
         .catch((error) => {
             // dispatching action
-            dispatch(dataIsLoading(false));
-            // dispatching action
             dispatch(trsHasErrored(true));
         });
     }
 }
 
-export function currentBalanceFetchData(date = startPoint.substring(0.7)) {
+function currentBalanceFetchData(date = startPoint.substring(0.7)) {
     return dispatch => {
-        dispatch(dataIsLoading(true));
 
           // fetching current_balance
           balanceRef.child(date).once('value', snapshot => {
-
-            // dispatching action
-            dispatch(dataIsLoading(false));
             // dispatching action - updating main App store
             dispatch(currentBalanceFetchSuccess(snapshot.val()));
 
@@ -156,8 +123,6 @@ export function currentBalanceFetchData(date = startPoint.substring(0.7)) {
         // fallback function on fetching data in fact this will only be fired on fb auth issues
         .catch((error) => {
             // dispatching action
-            dispatch(dataIsLoading(false));
-            // dispatching action
             dispatch(trsHasErrored(true));
         });
 
@@ -165,15 +130,18 @@ export function currentBalanceFetchData(date = startPoint.substring(0.7)) {
 }
 
 
-export function updateFirebase(transaction, date) {
+function updateFirebase(transaction, date) {
     return dispatch => {
+        // year and month strings to know what to update
+        const trsYear = +transaction.dateToken.substring(0, 4);
+        const trsMonth = +transaction.dateToken.substring(5, 7);
         // function-helper to update the current and all future balances
         function updateBalances(balances) {
-            // but how do I know which balances are future ones?
-            var updatedBalances = {...balances};
+            // copy of balances object
+            let updatedBalances = {...balances};            
             
             for(let item in balances) {
-                if ((+item.substring(0, 4) >= +transaction.dateToken.substring(0, 4)) && (+item.substring(5, 7) >= +transaction.dateToken.substring(5, 7))) {
+                if ((+item.substring(0, 4) >= trsYear) && (+item.substring(5, 7) >= trsMonth)) {
                     updatedBalances[item] = balances[item] + transaction.sum;
                 }
             }
@@ -201,15 +169,15 @@ export function updateFirebase(transaction, date) {
                 // but how do I know which balances are future ones?
                 var updatedBalances = {...balances};          
                 for(let item in balances) {
-                    if ((+item.substring(0, 4) >= +transaction.dateToken.substring(0, 4)) && (+item.substring(5, 7) >= +transaction.dateToken.substring(5, 7))) {                        
+                    if ((+item.substring(0, 4) >= trsYear) && (+item.substring(5, 7) >= trsMonth)) {                        
                         updatedBalances[item] = updatedBalances[item] + transaction.sum;
                     }
-                    if ((+item.substring(0, 4) >= +transaction.editedNodeKey.substring(0, 4)) && (+item.substring(5, 7) >= +transaction.editedNodeKey.substring(5, 7))) {
+                    if ((+item.substring(0, 4) >= trsYear) && (+item.substring(5, 7) >= trsMonth)) {
                         updatedBalances[item] = updatedBalances[item] - transaction.previousSum;
                     }
                 }
-                console.log(transaction.sum, transaction.previousSum);
-                console.log(balances,updatedBalances);
+                // console.log(transaction.sum, transaction.previousSum);
+                // console.log(balances,updatedBalances);
                 balanceRef.set(updatedBalances);
                 // dispatching another action to retreive updated balance
                 dispatch(currentBalanceFetchData(date));
@@ -225,3 +193,5 @@ export function updateFirebase(transaction, date) {
         }
     }
 }
+
+export { changeMonth, trsFecthData, catFecthData, currentBalanceFetchData, updateFirebase };
