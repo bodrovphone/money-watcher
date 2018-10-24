@@ -26,14 +26,15 @@ export default class SingleTransaction extends Component {
     }
     
      render() {
+        const { category, sum, note } = this.props;
         return (
             <div className="SingleTransaction" 
                 data-tip data-for='global' 
                 onDoubleClick={this.editTrs}>
-                    <span className="STicon">{defaultSetOfIcons(this.props.category)}</span>
-                    <span className="STcategory">{this.props.category}</span>
-                    <span className={`STsum ${sumClass(this.props.sum)}`}>{sumSign(this.props.sum)}</span>
-                    <div className="STnote">{this.props.note}</div>
+                    <span className="STicon">{defaultSetOfIcons(category)}</span>
+                    <span className="STcategory">{category}</span>
+                    <span className={`STsum ${sumClass(sum)}`}>{sumSign(sum)}</span>
+                    <div className="STnote">{note}</div>
                     <ReactTooltip id='global' place={ "left" }>
                         <span>Double click to edit</span>
                     </ReactTooltip>

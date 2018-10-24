@@ -1,6 +1,6 @@
 // #constants
 import { ADD_TRS, DATA_IS_LOADING, DATA_FETCH_ERROR, FETCH_TRS_SUCCESS, FETCH_CAT_SUCCESS, FETCH_BAL_SUCCESS, ACTIVE_MONTH_CHANGED  } from '../constants/constants';
-import { startPoint } from '../components/Display/currentMonth';
+import { startPoint } from '../components/Display/helpers';
 // [containers]
 import { trsColl, connectedRef, catLabels, trsRef, balanceRef } from '../containers/firebase';
 

@@ -10,7 +10,7 @@ import { trsFecthData } from '../../actions';
 
 // =Dev helpers=
 import groupTrsByDay from './groupTrsByDay';
-import {startPoint, endPoint} from './currentMonth';
+import {startPoint, endPoint} from './helpers';
 
 // @markup
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -36,14 +36,15 @@ class Display extends Component {
     }
 
     render() {
+        const { transactions } = this.props;
         return (
             // conditional rendering
-            this.props.transactions.length ? 
+            transactions.length ? 
 
                 <MuiThemeProvider>
                     <div className="DisplayWrapper">
                     {
-                        groupTrsByDay(this.props.transactions)
+                        groupTrsByDay(transactions)
                     }
                     </div>
                 </MuiThemeProvider>

@@ -2,7 +2,7 @@
 import { ADD_TRS, DATA_IS_LOADING, DATA_FETCH_ERROR, FETCH_TRS_SUCCESS, FETCH_CAT_SUCCESS, FETCH_BAL_SUCCESS, ACTIVE_MONTH_CHANGED } from '../constants/constants';
 
 // =Dev helpers=
-import { startPoint as currentMonth } from '../components/Display/currentMonth';
+import { startPoint as currentMonth } from '../components/Display/helpers';
 
 
 

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 
 // ~structural~
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux'
+import { bindActionCreators } from 'redux';
 
 // *actions*
 import { trsFecthData, changeMonth, currentBalanceFetchData } from '../../actions';
@@ -29,12 +29,13 @@ class DashboardMonth extends Component {
     }
 
     HandleClick(e) {
+        const dataSet = e.target.dataset.number;
         // determine if user clicks on the month and it is already active
-        if (e.target.dataset.number === this.state.active) return;
+        if (dataSet === this.state.active) return;
         // chaning local state
-        this.setState({active: e.target.dataset.number});
+        this.setState({active: dataSet});
         // creating filters for fetching selected data
-        var { startPoint, endPoint } = filterByMonth(e.target.dataset.number);
+        var { startPoint, endPoint } = filterByMonth(dataSet);
         // dispathcing an action => changing activeMonth
         this.props.changeMonth(startPoint.substring(0,7));
         // dispathcing an action => trsFecthData with the delay to achieve smooth animation when months are moving

@@ -10,7 +10,7 @@ import { updateFirebase, catFecthData } from '../../actions';
 
 // =Dev helpers=
 import dateFormat from 'dateformat';
-import dateFixer from './dateFixer';
+import dateFixer from './helpers';
 
 // &-components-&
 import CategoryPicker from './CategoryPicker';
