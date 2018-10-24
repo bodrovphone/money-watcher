@@ -13,10 +13,7 @@ import ActionAndroid from 'material-ui/svg-icons/action/android';
 class Categories extends Component {
     ListCategories() {
       // transforming data from obj to array
-      const categories = [];
-      for (let item in this.props.categories) {
-          categories.push(this.props.categories[item]);
-      }
+      const categories = Object.values(this.props.categories);
       // creating list of Buttons with labels (TBD : add handleClose events to update parent state - add transaction to it)
       const list = categories.map((cat, index) => (
               <FlatButton
@@ -28,7 +25,6 @@ class Categories extends Component {
                 icon={ defaultSetOfIcons(cat.en) || <ActionAndroid /> }
               />)           
               );
-
       return list;
     }
 
@@ -45,31 +41,32 @@ class Categories extends Component {
 
 export default class CategoryPicker extends Component {
     render() {
+        const { noCategoryAlert, chosenCategory, handleOpen, handleClose, isCatPickerOpen, categories } = this.props;
         return (
           <Fragment>
               <br/>
               <RaisedButton
-                className={ this.props.noCategoryAlert ? "categoryPicker noCategoryAlert" :"categoryPicker" }
-                label={ this.props.chosenCategory || 'pick a category' } 
+                className={ noCategoryAlert ? "categoryPicker noCategoryAlert" :"categoryPicker" }
+                label={ chosenCategory || 'pick a category' } 
                 labelPosition="after"
-                icon={ defaultSetOfIcons(this.props.chosenCategory) }
-                onClick={ this.props.handleOpen } 
+                icon={ defaultSetOfIcons(chosenCategory) }
+                onClick={ handleOpen } 
                 fullWidth={ true }
                 backgroundColor="rgb(163, 188, 79)"
               />
               <br/>
                 <Dialog
                   modal={ false }
-                  open={ this.props.isCatPickerOpen }
-                  onRequestClose={ this.props.handleClose }
+                  open={ isCatPickerOpen }
+                  onRequestClose={ handleClose }
                   autoScrollBodyContent={ true }
                 >
                   <Tabs>
                       <Tab icon={ defaultSetOfIcons("Expense") } label="Expense" >
-                        <Categories {...this.props} categories={ this.props.categories.expense } />
+                        <Categories {...this.props} categories={ categories.expense } />
                       </Tab>
                       <Tab icon={ defaultSetOfIcons("Income") } label="Income">
-                        <Categories {...this.props} categories={ this.props.categories.income } />
+                        <Categories {...this.props} categories={ categories.income } />
                       </Tab>
                   </Tabs>
                 </Dialog>

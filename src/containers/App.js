@@ -27,7 +27,7 @@ class App extends Component {
             <div className="App">
                 <Header {...this.props} />
                 <CurrentBalance {...this.props} />  
-                <Form {...this.props} defaultCategory={ defaultCategory } />
+                <Form defaultCategory={ defaultCategory } />
                 <Display transactions={ this.props.transactions }/>
             </div>
         );

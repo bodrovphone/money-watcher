@@ -16,12 +16,15 @@ export default class SingleTransaction extends Component {
         this.handleClose = this.handleClose.bind(this);
         this.editTrs = this.editTrs.bind(this);
     }
+
     handleClose() {
         this.setState({editing: false})
     }
+
     editTrs() {
         this.setState({editing: true})
     }
+    
      render() {
         return (
             <div className="SingleTransaction" 

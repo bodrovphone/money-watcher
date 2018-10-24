@@ -44,15 +44,15 @@ class Form extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          sum: this.props.sum || "",
-          note: this.props.note || "",
-          category: this.props.category || "",
-          date: new Date(dateFormat(this.props.date)) || new Date(),
+          sum: props.sum || "",
+          note: props.note || "",
+          category: props.category || "",
+          date: new Date(dateFormat(props.date)) || new Date(),
           isCatPickerOpen: false,
           noCategoryAlert: false,
           noSumAlert: false,
           snackbarOpen: false,
-          dateToken: this.props.dateToken || null
+          dateToken: props.dateToken || null
         };
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
@@ -70,54 +70,45 @@ class Form extends Component {
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        if (!prevState.category) {
-            return {category: nextProps.defaultCategory}
-        }
-        return null;
+        // it needs for setting default category when I received one from transactions
+        return !prevState.category ? {category: nextProps.defaultCategory} : null;
     }
 
     registerTransaction() {
-        // when adding trs with button - checking if sum or category isn't null
-        if (this.state.sum && this.state.category) { 
-             // modifying the default date token for data node naming in fb
-            const isoDateTime = dateFormat(this.state.date, "isoDateTime");
-            const day = dateFormat(this.state.date, "isoDate");
-            
-            // copying state
-            const currentTrs = {
-                // condition sum sign depending on the category choosen(expense/income)
-                sum: this.props.categories.expense[this.state.category] ? -Math.abs(this.state.sum) : Math.abs(this.state.sum),
-                note: this.state.note,
-                category: this.state.category,
-                date: day,
-                dateToken: isoDateTime,
-                // sending current balance for updating it on FB
-                currentBalance: this.props.currentBalance
-            };
+        // copying state & props
+        const { sum, category, date, note,  } = this.state;
+        const { categories, currentBalance, dateToken = false, editing = false, handleClose, sum: previousSum = false, activeMonth } = this.props;
+        // modifying the default date token for data node naming in fb
+        const isoDateTime = dateFormat(date, "isoDateTime");
+        const day = dateFormat(date, "isoDate");
+        
+        // forming transaction object
+        const currentTrs = {
+            // condition sum sign depending on the category choosen(expense/income)
+            sum: categories.expense[category] ? -Math.abs(sum) : sum,
+            note,
+            category,
+            date: day,
+            dateToken: isoDateTime,
+            // need current balance to calculate new one and send it to FB
+            currentBalance,
+            editedNodeKey: dateToken,
+            editing,
+            previousSum
+        };
 
-            // this shit below should also be changed
-              if (this.props.editing) {
-                currentTrs.editedNodeKey = this.props.dateToken;
-                currentTrs.editing = this.props.editing;
-                currentTrs.previousSum = this.props.sum;
-              }
-
-                this.props.updateFirebase(currentTrs, this.props.activeMonth);
+        // checking if sum or category isn't null
+        if (+sum && category) { 
+           
+                this.props.updateFirebase(currentTrs, activeMonth);
                 this.setState({snackbarOpen: true});
                 this.clearState();
+                this.props.handleClose && handleClose();
 
-                // should redo this one below
-                this.props.handleClose && this.props.handleClose();
-
-            } else if (!this.state.sum) {
-                // let the user know he must add a sum
-                this.setState({noSumAlert: true})
-                return false;
-            } else if (!this.state.category) {
-                // let the user know he must pick a categroy
-                this.setState({noCategoryAlert: true})
-                return false;
-            }
+        } else {
+            // let the user know he must add a sum
+            sum ? this.setState({noCategoryAlert: true}) : this.setState({noSumAlert: true});
+        } 
     }
 
     handleOpen() {
@@ -228,7 +219,7 @@ class Form extends Component {
 
 
 function mapStateToProps(state) {
-    return state;
+    return {...state};
 }
 
 function mapDispatchToProps(dispatch) {

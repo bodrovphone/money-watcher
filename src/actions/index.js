@@ -138,14 +138,14 @@ function updateFirebase(transaction, date) {
         // function-helper to update the current and all future balances
         function updateBalances(balances) {
             // copy of balances object
-            let updatedBalances = {...balances};            
-            
+            let updatedBalances = {...balances};
+
             for(let item in balances) {
                 if ((+item.substring(0, 4) >= trsYear) && (+item.substring(5, 7) >= trsMonth)) {
                     updatedBalances[item] = balances[item] + transaction.sum;
                 }
             }
-            
+
             balanceRef.set(updatedBalances);
             // dispatching another action to retreive updated balance
             dispatch(currentBalanceFetchData(date));
@@ -172,7 +172,7 @@ function updateFirebase(transaction, date) {
                     if ((+item.substring(0, 4) >= trsYear) && (+item.substring(5, 7) >= trsMonth)) {                        
                         updatedBalances[item] = updatedBalances[item] + transaction.sum;
                     }
-                    if ((+item.substring(0, 4) >= trsYear) && (+item.substring(5, 7) >= trsMonth)) {
+                    if ((+item.substring(0, 4) >= +transaction.editedNodeKey.substring(0, 4)) && (+item.substring(5, 7) >= +transaction.editedNodeKey.substring(5, 7))) {
                         updatedBalances[item] = updatedBalances[item] - transaction.previousSum;
                     }
                 }
