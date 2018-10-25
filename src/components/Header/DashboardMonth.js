@@ -9,7 +9,7 @@ import { bindActionCreators } from 'redux';
 import { trsFecthData, changeMonth, currentBalanceFetchData } from '../../actions';
 
 // =Dev helpers=
-import { ListOfMonth, filterByMonth } from './monthHelper';
+import { ListOfMonth, filterByMonth } from './helpers';
 
 class DashboardMonth extends Component {
 
@@ -60,6 +60,13 @@ class DashboardMonth extends Component {
         )}
 }
 
+function mapStateToProps(state) {
+    return {
+        activeMonth: state.activeMonth
+    }
+    
+}
+
 function mapDispatchToProps(dispatch) {
   return {
     trsFecthData: bindActionCreators(trsFecthData, dispatch),
@@ -69,4 +76,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 // export
-export default connect( null , mapDispatchToProps )(DashboardMonth);
+export default connect( mapStateToProps , mapDispatchToProps )(DashboardMonth);

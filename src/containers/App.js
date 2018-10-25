@@ -14,7 +14,7 @@ import Form from '../components/Form';
 import CurrentBalance from '../components/Report/CurrentBalance';
 
 // :design assets:
-import '../App.css';
+import './App.css';
 
 class App extends Component {
     
@@ -25,8 +25,8 @@ class App extends Component {
 
         return (
             <div className="App">
-                <Header {...this.props} />
-                <CurrentBalance {...this.props} />  
+                <Header />
+                <CurrentBalance />  
                 <Form defaultCategory={ defaultCategory } />
                 <Display transactions={ this.props.transactions }/>
             </div>

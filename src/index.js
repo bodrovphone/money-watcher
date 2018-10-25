@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom';
 
 // ~structural~
 import { Provider } from 'react-redux';
-import registerServiceWorker from './registerServiceWorker';
 
 // $store
 import configureStore from './store/configureStore';
@@ -33,5 +32,3 @@ ReactDOM.render(
     ,
     document.getElementById('root')
 );
-
-registerServiceWorker();

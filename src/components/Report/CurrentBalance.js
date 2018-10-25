@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { currentBalanceFetchData } from '../../actions';
 
 // =Dev helpers=
-import getSumOfTransactions from './calculator';
+import getSumOfTransactions from './helpers';
 
 
 class CurrentBalance extends Component {
@@ -36,5 +36,10 @@ class CurrentBalance extends Component {
         return this.conditionalRender(this.props) 
     }
 }
-  
-export default connect(null, { currentBalanceFetchData } )(CurrentBalance);
+function mapStateToProps(state) {
+    return {
+        currentBalance: state.currentBalance,
+        transactions: state.transactions
+    }
+}
+export default connect( mapStateToProps , { currentBalanceFetchData } )(CurrentBalance);

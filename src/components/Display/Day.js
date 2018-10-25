@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 
 // =Dev helpers=
 import dateFormat from 'dateformat';
-import getSumOfTransactions from '../Report/calculator';
+import getSumOfTransactions from '../Report/helpers';
 
 // @markup
 import Divider from 'material-ui/Divider';

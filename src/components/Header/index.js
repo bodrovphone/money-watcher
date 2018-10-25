@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 import DashboardMonth from './DashboardMonth'
 
 // :design assets:
-import logo from '../../money-watcher_logo.png';
+import logo from './money-watcher_logo.png';
 import './Header.css';
 
 
@@ -14,7 +14,7 @@ export default class Header extends Component {
         return (
             <header className="AppHeader">
                 <img src={ logo } className="" alt="logo" />
-                <DashboardMonth {...this.props} />
+                <DashboardMonth />
             </header>
             );
     }
