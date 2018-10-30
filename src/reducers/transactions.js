@@ -68,7 +68,7 @@ export function transactions( state = [] , action ) {
             transactions = transactions.filter( el => el.dateToken !== action.payload.editedNodeKey);
         }
         // returning sorted store
-            return transactions.sort((a, b) => new Date(a.date) - new Date(b.date));
+            return transactions.sort((a, b) => new Date(a.dateToken) - new Date (b.dateToken));
         case FETCH_TRS_SUCCESS:
             return action.payload;
         default:

@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 
 // ~structural~
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 
 // *actions*
 import { trsFecthData, changeMonth, currentBalanceFetchData } from '../../actions';
@@ -67,13 +66,5 @@ function mapStateToProps(state) {
     
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    trsFecthData: bindActionCreators(trsFecthData, dispatch),
-    changeMonth: bindActionCreators(changeMonth, dispatch),
-    currentBalanceFetchData: bindActionCreators(currentBalanceFetchData, dispatch),
-  }
-}
-
 // export
-export default connect( mapStateToProps , mapDispatchToProps )(DashboardMonth);
+export default connect( mapStateToProps , {trsFecthData, changeMonth, currentBalanceFetchData} )(DashboardMonth);

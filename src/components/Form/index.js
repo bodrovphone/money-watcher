@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 
 // ~structural~
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux'
 
 // *actions*
 import { updateFirebase, catFecthData } from '../../actions';
@@ -142,6 +141,8 @@ class Form extends Component {
     }
 
     render() {
+        // console.log('date from state',this.state.date);
+        console.log('props', this.props);
         return (
             <MuiThemeProvider muiTheme={ muiTheme }>
                 <div className="TransactionForm">
@@ -222,12 +223,5 @@ function mapStateToProps(state) {
     return {...state};
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    updateFirebase: bindActionCreators(updateFirebase, dispatch),
-    catFecthData: bindActionCreators(catFecthData, dispatch)
-  }
-}
-
 // export
-export default connect( mapStateToProps, mapDispatchToProps )(Form);
+export default connect( mapStateToProps, { updateFirebase, catFecthData } )(Form);

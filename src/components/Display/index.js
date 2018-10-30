@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 
 // ~structural~
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux'
 
 // *actions*
 import { trsFecthData } from '../../actions';
@@ -55,11 +54,5 @@ class Display extends Component {
     }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    trsFecthData: bindActionCreators(trsFecthData, dispatch)
-  }
-}
-
 // export
-export default connect( null , mapDispatchToProps )(Display);
+export default connect( null , { trsFecthData } )(Display);
