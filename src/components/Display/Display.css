@@ -95,7 +95,6 @@
 
 .STsum {
     float: right;
-    color: var(--num-color-TrsSum);
     font-size: 1.2rem;
 }
 
@@ -104,3 +103,14 @@
     color: var(--trs-color-STnote);
 }
 
+.trsPos {
+    color: var(--trs-color-STnote);
+}
+
+.trsNeg {
+    color: var(--num-color-DaySum);
+}
+
+.STsum.trsNeg {
+    color: var(--num-color-TrsSum);
+}

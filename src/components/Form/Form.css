@@ -25,7 +25,7 @@
   font-size: 1.2rem !important;
 }
 
-.addTransactionButton {
+.updateFirebaseButton {
     position: absolute;
     top: 10px;
     right: -62px;

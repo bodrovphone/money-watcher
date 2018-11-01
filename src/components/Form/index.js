@@ -141,8 +141,6 @@ class Form extends Component {
     }
 
     render() {
-        // console.log('date from state',this.state.date);
-        console.log('props', this.props);
         return (
             <MuiThemeProvider muiTheme={ muiTheme }>
                 <div className="TransactionForm">

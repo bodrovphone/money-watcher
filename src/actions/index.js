@@ -176,8 +176,6 @@ function updateFirebase(transaction, date) {
                         updatedBalances[item] = updatedBalances[item] - transaction.previousSum;
                     }
                 }
-                // console.log(transaction.sum, transaction.previousSum);
-                // console.log(balances,updatedBalances);
                 balanceRef.set(updatedBalances);
                 // dispatching another action to retreive updated balance
                 dispatch(currentBalanceFetchData(date));
