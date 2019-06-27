@@ -84,7 +84,7 @@ class Form extends Component {
         // forming transaction object
         const currentTrs = {
             // condition sum sign depending on the category choosen(expense/income)
-            sum: categories.expense[category] ? -Math.abs(sum) : sum,
+            sum: categories.expense[category] ? -Math.abs(sum) : Math.abs(sum),
             note,
             category,
             date: day,

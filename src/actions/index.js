@@ -110,10 +110,77 @@ function catFecthData() {
     }
 }
 
-function currentBalanceFetchData(date = startPoint.substring(0.7)) {
-    return dispatch => {
+function currentBalanceFetchData(date = startPoint.substring(0,7)) {
+    return async dispatch => {
+        
+        // need to check if this node exists at all. if it doesn't, I should copy it from the last one that exist:
 
-          // fetching current_balance
+        // 1. retreive all nodes and check what we have there
+        let balancesOnFirebase;
+        let arrayOfAvailableBalances;
+        let theLastBalanceValue;
+        let theLastBalanceOnFirebase;
+        await balanceRef.orderByValue().once('value', snapshot => {
+            balancesOnFirebase = snapshot.val();  
+            arrayOfAvailableBalances = Object.keys(balancesOnFirebase); // ['2018-10', '2018-11'] - in the right order
+            theLastBalanceValue = balancesOnFirebase[arrayOfAvailableBalances[arrayOfAvailableBalances.length - 1]] // $500
+            theLastBalanceOnFirebase = arrayOfAvailableBalances[arrayOfAvailableBalances.length - 1] // 2018-10
+            console.log('date', date);
+        });
+
+        // 2. check if we have requested balance at FB
+        const doWeHaveTheNodeOfTheCurrentMonthAtFirebase = balancesOnFirebase.hasOwnProperty(date) ? balancesOnFirebase[date] : false;
+
+        // 3. conditional to create missing balances
+            if (!doWeHaveTheNodeOfTheCurrentMonthAtFirebase) {
+                // 3.1 make an array of all missing months in the feature from the requested(current)
+                var missingBalancesTillTheCurrenOne = [];
+                // 3.2 calculates the number of month between the current one and the last from FB
+                function monthDiff(theOlderDate, theNewerDate) {
+                    var months; // first create an output variable
+                    // next calculate the number of months in years differences 
+                    months = (theNewerDate.getFullYear() - theOlderDate.getFullYear()) * 12; // this would be 0 if this is the same year
+                    // then calculate increment the month differences
+                    months -= theOlderDate.getMonth(); // this would correct the difference of one part
+                    // finally caclulate the delta
+                    months += theNewerDate.getMonth(); // and this would correct the difference of second part
+                    return months <= 0 ? 0 : months; // we finally get the results of old and new date, including the new date month
+                }
+                var missingMonthNumber = monthDiff(
+                    new Date(theLastBalanceOnFirebase),
+                    new Date(date)
+                )
+                // 3.3 create an array in the appropriate format of missing months
+                function fulfillTheGapInMonths(firstMissing, numberOfMonths) {
+                    var myArray = [];
+                    while(numberOfMonths) {
+                        myArray.push(
+                            // OMG
+                            new Date(new Date(firstMissing).getFullYear(), new Date(firstMissing).getMonth() + numberOfMonths + 1).toISOString().substring(0,7)
+                        )
+                        --numberOfMonths;
+                    }
+                    return myArray;
+                }
+                var arrayOfTheMissingMonths = fulfillTheGapInMonths(theLastBalanceOnFirebase, missingMonthNumber).reverse();
+                
+            console.log('arrayOfTheMissingMonths', arrayOfTheMissingMonths)
+                // 3.4 and now we want object to have dates as keys and last balance as value for all of the keys
+                    const ObjectOfNewBalances = {}
+                    for (let i = 0; i < missingMonthNumber; i++) {
+                        ObjectOfNewBalances[arrayOfTheMissingMonths[i]] = theLastBalanceValue
+                    }
+                    console.log('ObjectOfNewBalances', ObjectOfNewBalances);
+                    
+
+                // 3.4 Now when we have everything we need we can create missing nodes on FB and proceed.
+
+                await balanceRef.set(ObjectOfNewBalances)
+
+                // 3.5 A problem here is that we mistakenly deleted a note which existed => theLastBalanceOnFirebase
+            }
+
+          // fetching balance_per_month
           balanceRef.child(date).once('value', snapshot => {
             // dispatching action - updating main App store
             dispatch(currentBalanceFetchSuccess(snapshot.val()));
