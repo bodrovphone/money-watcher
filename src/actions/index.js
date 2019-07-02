@@ -66,9 +66,9 @@ function trsFecthData(startPoint, endPoint) {
                 // This event listener define if connection's been broken
                     connectedRef.on("value", function(snap) {
                       if (snap.val() === true) {
-                        console.log("connected");
+                        // console.log("connected");
                       } else {
-                        console.log("not connected");
+                        // console.log("not connected");
                       }
                     })
 
@@ -125,17 +125,11 @@ function currentBalanceFetchData(date = startPoint.substring(0,7)) {
             arrayOfAvailableBalances = Object.keys(balancesOnFirebase); // ['2018-10', '2018-11'] - in the right order
             theLastBalanceValue = balancesOnFirebase[arrayOfAvailableBalances[arrayOfAvailableBalances.length - 1]] // $500
             theLastBalanceOnFirebase = arrayOfAvailableBalances[arrayOfAvailableBalances.length - 1] // 2018-10
-            console.log('date', date);
         });
 
-        // 2. check if we have requested balance at FB
-        const doWeHaveTheNodeOfTheCurrentMonthAtFirebase = balancesOnFirebase.hasOwnProperty(date) ? balancesOnFirebase[date] : false;
-
-        // 3. conditional to create missing balances
-            if (!doWeHaveTheNodeOfTheCurrentMonthAtFirebase) {
-                // 3.1 make an array of all missing months in the feature from the requested(current)
-                var missingBalancesTillTheCurrenOne = [];
-                // 3.2 calculates the number of month between the current one and the last from FB
+        // 2. check if we have requested balance at FB and if no - create missing ones
+            if (!balancesOnFirebase.hasOwnProperty(date)) {
+                // 2.1 a function calculates the number of month between requested date and the last one available on Firebase
                 function monthDiff(theOlderDate, theNewerDate) {
                     var months; // first create an output variable
                     // next calculate the number of months in years differences 
@@ -146,38 +140,35 @@ function currentBalanceFetchData(date = startPoint.substring(0,7)) {
                     months += theNewerDate.getMonth(); // and this would correct the difference of second part
                     return months <= 0 ? 0 : months; // we finally get the results of old and new date, including the new date month
                 }
+                // 2.2 run monthDiff and save the missingMonth number
                 var missingMonthNumber = monthDiff(
-                    new Date(theLastBalanceOnFirebase),
+                    new Date(theLastBalanceOnFirebase), 
                     new Date(date)
                 )
-                // 3.3 create an array in the appropriate format of missing months
+                // 2.3 create an array in the appropriate format of missing months
                 function fulfillTheGapInMonths(firstMissing, numberOfMonths) {
-                    var myArray = [];
+                    var output = [];
                     while(numberOfMonths) {
-                        myArray.push(
+                        output.push(
                             // OMG
                             new Date(new Date(firstMissing).getFullYear(), new Date(firstMissing).getMonth() + numberOfMonths + 1).toISOString().substring(0,7)
                         )
                         --numberOfMonths;
                     }
-                    return myArray;
+                    return output.reverse(); // I should reverse it because I've started from the very last month (see OMG above)
                 }
-                var arrayOfTheMissingMonths = fulfillTheGapInMonths(theLastBalanceOnFirebase, missingMonthNumber).reverse();
+                // 2.4 run fulfillTheGapInMonths func to actually create an array?
+                var arrayOfTheMissingMonths = fulfillTheGapInMonths(theLastBalanceOnFirebase, missingMonthNumber);
                 
-            console.log('arrayOfTheMissingMonths', arrayOfTheMissingMonths)
-                // 3.4 and now we want object to have dates as keys and last balance as value for all of the keys
-                    const ObjectOfNewBalances = {}
+                // 2.5 and now we want object to have dates as keys and last balance as value for all of the keys
+                    var ObjectOfNewBalances = {...balancesOnFirebase} //just copying what has already been in there
                     for (let i = 0; i < missingMonthNumber; i++) {
                         ObjectOfNewBalances[arrayOfTheMissingMonths[i]] = theLastBalanceValue
-                    }
-                    console.log('ObjectOfNewBalances', ObjectOfNewBalances);
-                    
+                    }                    
 
-                // 3.4 Now when we have everything we need we can create missing nodes on FB and proceed.
+                // 2.6 Finally we just put this sheet on the FireBase
 
-                await balanceRef.set(ObjectOfNewBalances)
-
-                // 3.5 A problem here is that we mistakenly deleted a note which existed => theLastBalanceOnFirebase
+                await balanceRef.set(ObjectOfNewBalances);
             }
 
           // fetching balance_per_month
